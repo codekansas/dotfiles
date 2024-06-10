@@ -1297,12 +1297,14 @@ relink-directories() {
         echo "Directory ${dataset_dir} does not exist"
         return 1
     fi
+    dataset_dir=$(realpath $dataset_dir)
 
     local checkpoints_dir=$2
     if [[ ! -d ${checkpoints_dir} ]]; then
         echo "Directory ${checkpoints_dir} does not exist"
         return 1
     fi
+    checkpoints_dir=$(realpath $checkpoints_dir)
 
     mkdir -p \
         ${dataset_dir}/data \
