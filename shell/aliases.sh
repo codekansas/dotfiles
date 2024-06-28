@@ -967,6 +967,12 @@ export SLURM_CPUNODE_NUM_CPUS=8
 export SLURM_XPUNODE_SHELL=$SHELL
 
 gpunode() {
+    if [[ $# -ne 0 ]] && [[ $# -ne 1 ]]; then
+        echo "Usage: gpunode (<num-gpus>)"
+        return 1
+    fi
+    local num_gpus=${1:-$SLURM_GPUNODE_NUM_GPUS}
+
     # First, queries Slurm to see if there is an active job.
     # If so, attach to that job ID instead of creating a new job.
     # Query is based on the job name "gpunode".
@@ -976,7 +982,7 @@ gpunode() {
         srun \
             --jobid=$job_id \
             --partition=$SLURM_GPUNODE_PARTITION \
-            --gpus=$SLURM_GPUNODE_NUM_GPUS \
+            --gpus=$num_gpus \
             --cpus-per-gpu=$SLURM_GPUNODE_CPUS_PER_GPU \
             --pty $SLURM_XPUNODE_SHELL
         return 0
@@ -985,7 +991,7 @@ gpunode() {
     echo "Creating new job"
     srun \
         --partition=$SLURM_GPUNODE_PARTITION \
-        --gpus=$SLURM_GPUNODE_NUM_GPUS \
+        --gpus=$num_gpus \
         --cpus-per-gpu=$SLURM_GPUNODE_CPUS_PER_GPU \
         --interactive \
         --job-name=gpunode \
