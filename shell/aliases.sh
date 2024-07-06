@@ -243,7 +243,7 @@ sjsons() {
 }
 
 scomments() {
-    sjsons '[.[-1].job_ids[0], .[-1].task_key, .[-1].comment] | @json' $@
+    sjsons '[.[-1].job_id, .[-1].job.task_key, .[-1].comment] | @json' $@
 }
 
 scommentsmediawiki() {
