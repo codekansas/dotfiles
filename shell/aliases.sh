@@ -293,6 +293,19 @@ sl() {
     fi
 }
 
+st() {
+    local log_dir=$(slog $@)
+    if [[ -n $log_dir ]]; then
+        for f in ${log_dir}/slurm/*.slurm; do
+            echo "\n$(basename $f)\n"
+            tail --lines 10 $f | sed 's/^/  /'
+        done
+    else
+        echo "Failed to get log directory for job ID $1"
+        return 1
+    fi
+}
+
 stbd() {
     local job_ids=()
     if [[ $# -eq 0 ]]; then
