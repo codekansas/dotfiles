@@ -306,6 +306,10 @@ st() {
     fi
 }
 
+stl() {
+    st $@ | less
+}
+
 stbd() {
     local job_ids=()
     if [[ $# -eq 0 ]]; then
