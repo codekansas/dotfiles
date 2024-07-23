@@ -286,17 +286,7 @@ scommentsmediawiki() {
 sl() {
     local log_dir=$(slog $@)
     if [[ -n $log_dir ]]; then
-        less +F ${log_dir}/slurm.out
-    else
-        echo "Failed to get log directory for job ID $1"
-        return 1
-    fi
-}
-
-sle() {
-    local log_dir=$(slog $@)
-    if [[ -n $log_dir ]]; then
-        less +F ${log_dir}/slurm.err
+        less +F ${log_dir}/slurm/*.slurm
     else
         echo "Failed to get log directory for job ID $1"
         return 1
