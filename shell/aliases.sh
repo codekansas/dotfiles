@@ -117,6 +117,7 @@ alias reload='exec $SHELL'
 
 # nvidia
 alias smi='nvidia-smi --query-gpu=index,name,utilization.gpu,utilization.memory,memory.total,memory.used --format=csv -l 1'
+alias smiwho="ps -up \$(nvidia-smi -q -x | grep pid | sed -e 's/<pid>//g' -e 's/<\/pid>//g' -e 's/^[[:space:]]*//')"
 
 # time
 alias today='date +"%Y-%m-%d'
