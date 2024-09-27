@@ -64,6 +64,8 @@ export VIRTUAL_ENV_DISABLE_PROMPT=0
 export CASE_SENSITIVE=true
 export DISABLE_UPDATE_PROMPT=true
 export ZSH_DISABLE_COMPFIX=true
+export DISABLE_AUTO_TITLE=true
+export UPDATE_ZSH_DAYS=14
 
 zcomet load zsh-users/zsh-syntax-highlighting
 zcomet load zsh-users/zsh-autosuggestions
