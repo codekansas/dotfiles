@@ -7,7 +7,7 @@
 
 [alias]
     sync = !git pull && git push
-    s = !git status
+    s = status
     l = log --graph --pretty=format:'%C(bold green)%h%Creset %C(bold blue)%an <%ae>%Creset %C(green)%cr%Creset %C(bold magenta)%D%Creset%n          %C(white)%<(80,mtrunc)%s%Creset%n'
     br = checkout -b
     brm = "!f() { \
