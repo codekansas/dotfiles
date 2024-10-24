@@ -58,6 +58,7 @@ def main() -> None:
     email: str = args.email or get_default_email()
     url: str = args.url or get_default_url()
     version: str = args.version
+
     # Checks that the name is a valid Python package name.
     if not re.match(r"^[a-zA-Z_][a-zA-Z0-9_]*$", name):
         raise ValueError(f"Invalid project name: {name}")
