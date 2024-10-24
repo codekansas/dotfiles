@@ -43,6 +43,20 @@ clean:
 .PHONY: clean
 
 # ------------------------ #
+#        PyPI Build        #
+# ------------------------ #
+
+build-for-pypi:
+	@pip install --verbose build wheel twine
+	@python -m build --sdist --wheel --outdir dist/ .
+	@twine upload dist/*
+.PHONY: build-for-pypi
+
+push-to-pypi: build-for-pypi
+	@twine upload dist/*
+.PHONY: push-to-pypi
+
+# ------------------------ #
 #       Static Checks      #
 # ------------------------ #
 
