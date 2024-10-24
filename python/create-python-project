@@ -2,6 +2,7 @@
 """Creates a new project, copying a standard format."""
 
 import argparse
+import re
 from pathlib import Path
 
 
@@ -47,6 +48,7 @@ def main() -> None:
     parser.add_argument("--author", help="Project author; if not provided, defaults to the current user")
     parser.add_argument("--email", help="Project email; if not provided, defaults to <author>@users.noreply.github.com")
     parser.add_argument("--url", help="Project URL; if not provided, defaults to https://github.com/<author>/<name>")
+    parser.add_argument("--version", help="Python; if not provided, defaults to 3.11", default="3.11")
     args = parser.parse_args()
 
     # Gets default values for the project metadata.
@@ -55,13 +57,22 @@ def main() -> None:
     author: str = args.author or get_default_author()
     email: str = args.email or get_default_email()
     url: str = args.url or get_default_url()
+    version: str = args.version
+    # Checks that the name is a valid Python package name.
+    if not re.match(r"^[a-zA-Z_][a-zA-Z0-9_]*$", name):
+        raise ValueError(f"Invalid project name: {name}")
+
+    # Replaces hyphens with underscores in the project name.
+    python_safe_name = name.replace("-", "_")
 
     replacements = {
         "[[PROJECT NAME]]": name,
+        "[[PROJECT PYTHON NAME]]": python_safe_name,
         "[[PROJECT DESCRIPTION]]": description,
         "[[PROJECT AUTHOR]]": author,
         "[[PROJECT EMAIL]]": email,
         "[[PROJECT URL]]": url,
+        "[[PROJECT PYTHON VERSION]]": version,
     }
 
     # Copies the `template` directory to the target directory, replacing placeholders.

@@ -20,7 +20,7 @@ jobs:
 
     # We don't need to run on all platforms since this package is
     # platform-agnostic. The output wheel is something like
-    # "monotonic_attention-<version>-py3-none-any.whl".
+    # "[[PROJECT PYTHON NAME]]-<version>-py3-none-any.whl".
     runs-on: ubuntu-latest
 
     steps:
@@ -30,7 +30,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: "3.10"
+          python-version: "[[PROJECT PYTHON VERSION]]"
 
       - name: Install dependencies
         run: |
@@ -42,6 +42,3 @@ jobs:
 
       - name: Publish package
         uses: pypa/gh-action-pypi-publish@release/v1
-        # with:
-        #   user: __token__
-        #   password: ${{ secrets.PYPI_API_TOKEN }}

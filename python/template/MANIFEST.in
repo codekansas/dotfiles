@@ -1,1 +1,1 @@
-recursive-include [[PROJECT NAME]]/ *.py *.txt py.typed MANIFEST.in
+recursive-include [[PROJECT PYTHON NAME]]/ *.py *.txt py.typed MANIFEST.in
