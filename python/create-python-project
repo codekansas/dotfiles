@@ -49,6 +49,7 @@ def main() -> None:
     parser.add_argument("--email", help="Project email; if not provided, defaults to <author>@users.noreply.github.com")
     parser.add_argument("--url", help="Project URL; if not provided, defaults to https://github.com/<author>/<name>")
     parser.add_argument("--version", help="Python; if not provided, defaults to 3.11", default="3.11")
+    parser.add_argument("--python-name", help="Python package name", default=None)
     args = parser.parse_args()
 
     # Gets default values for the project metadata.
@@ -64,7 +65,9 @@ def main() -> None:
         raise ValueError(f"Invalid project name: {name}")
 
     # Replaces hyphens with underscores in the project name.
-    python_safe_name = name.replace("-", "_")
+    python_safe_name = args.python_name or name.replace("-", "_")
+    if not re.match(r"^[a-zA-Z_][a-zA-Z0-9_]*$", python_safe_name):
+        raise ValueError(f"Invalid Python package name: {python_safe_name}")
 
     replacements = {
         "[[PROJECT NAME]]": name,
