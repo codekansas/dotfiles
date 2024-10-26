@@ -78,7 +78,7 @@ def main() -> None:
 
     # Copies the `template` directory to the target directory, replacing placeholders.
     src_dir = (Path(__file__).resolve().parent / "template").resolve()
-    tgt_dir = (Path.cwd() / name).resolve()
+    tgt_dir = (Path.cwd() / python_safe_name).resolve()
     tgt_dir.mkdir(parents=True, exist_ok=True)
 
     def recursive_copy(src: Path, tgt: Path) -> None:
@@ -100,7 +100,7 @@ def main() -> None:
     recursive_copy(src_dir, tgt_dir)
 
     # Renames the `project` subdirectory to the project name.
-    (tgt_dir / "project").rename(tgt_dir / name)
+    (tgt_dir / "project").rename(tgt_dir / python_safe_name)
 
 
 if __name__ == "__main__":
