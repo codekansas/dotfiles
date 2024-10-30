@@ -32,10 +32,6 @@
     "editor.defaultFormatter": "cheshirekow.cmake-format",
     "editor.formatOnSave": true
   },
-  "[go]": {
-    "editor.defaultFormatter": "golang.go",
-    "editor.formatOnSave": true
-  },
   "[python]": {
     "editor.defaultFormatter": "ms-python.black-formatter",
     "editor.formatOnSave": true,
@@ -108,14 +104,6 @@
     "editor.formatOnSave": true
   },
 
-  /* iOS and Android */
-  "[swift]": {
-    "editor.defaultFormatter": "vknabel.vscode-apple-swift-format",
-    "editor.formatOnSave": true
-  },
-
-  "apple-swift-format.path": ["/opt/homebrew/bin/swift-format"],
-
   /* Configuration languages */
   "[jsonc]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
@@ -134,19 +122,6 @@
     "editor.formatOnSave": true,
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "[starlark]": {
-    "editor.insertSpaces": true,
-    "editor.formatOnSave": true,
-    "editor.defaultFormatter": "BazelBuild.vscode-bazel",
-    "editor.tabSize": 2
-  },
-
-  /* Markdown */
-  "markdown.extension.toc.updateOnSave": true,
-  "markdown.extension.toc.levels": "2..5",
-
-  /* IntelliCode */
-  "vsintellicode.modify.editor.suggestSelection": "disabled",
 
   /* Extensions */
   // "extensions.autoUpdate": false,
@@ -156,30 +131,13 @@
 
   /* Python language features */
   "python.diagnostics.sourceMapsEnabled": true,
-  "python.formatting.provider": "none",
-  "python.formatting.blackArgs": ["--line-length", "119"],
-  "python.linting.enabled": true,
-  "python.linting.lintOnSave": true,
-  "python.linting.mypyEnabled": false,
-  "python.linting.pylintEnabled": false,
-  "python.linting.pylintArgs": ["--max-line-length", "119"],
-  "python.linting.flake8Enabled": false,
-  "python.linting.flake8Args": ["--max-line-length", "119"],
-  "ruff.fixAll": true,
-  "ruff.organizeImports": true,
-  "python.insidersChannel": "off",
-  "python.autoUpdateLanguageServer": true,
   "python.languageServer": "Default",
-  "python.disableInstallationCheck": true,
   "python.analysis.logLevel": "Information",
   "python.analysis.autoSearchPaths": false,
-  "python.analysis.cacheFolderPath": "~/.vscode/cache",
-  "python.analysis.memory.keepLibraryAst": false,
-  "python.analysis.symbolsHierarchyDepthLimit": 1,
-  "python.workspaceSymbols.enabled": false,
-  "python.workspaceSymbols.exclusionPatterns": ["**/site-packages/**"],
-  "python.workspaceSymbols.rebuildOnFileSave": false,
-  "python.workspaceSymbols.rebuildOnStart": false,
+
+  /* Ruff settings */
+  "ruff.fixAll": true,
+  "ruff.organizeImports": true,
 
   /* Prettier */
   // This overrides the per-language configuration, which is bad for YAML.
@@ -192,9 +150,9 @@
   },
 
   /* C++ language features */
-  "C_Cpp.autocomplete": "Default",
+  "C_Cpp.autocomplete": "default",
   "C_Cpp.vcFormat.wrap.preserveBlocks": "allOneLineScopes",
-  "C_Cpp.codeFolding": "Enabled",
+  "C_Cpp.codeFolding": "enabled",
   "C_Cpp.simplifyStructuredComments": true,
   "C_Cpp.formatting": "vcFormat",
   "C_Cpp.vcFormat.indent.braces": false,
@@ -221,9 +179,9 @@
   "C_Cpp.vcFormat.newLine.closeBraceSameLine.emptyType": false,
   "C_Cpp.vcFormat.newLine.scopeBracesOnSeparateLines": false,
   "C_Cpp.vcFormat.newLine.beforeWhileInDoWhile": false,
-  "C_Cpp.enhancedColorization": "Enabled",
+  "C_Cpp.enhancedColorization": "enabled",
   "C_Cpp.commentContinuationPatterns": ["/**"],
-  "C_Cpp.errorSquiggles": "Enabled",
+  "C_Cpp.errorSquiggles": "enabled",
   "cmake.configureOnOpen": false,
 
   /* Editor features */
@@ -380,7 +338,6 @@
   "workbench.editor.revealIfOpen": true,
   "workbench.editor.closeEmptyGroups": false,
   "workbench.editor.closeOnFileDelete": true,
-  "workbench.startupEditor": "welcomePage",
   "workbench.editorAssociations": {
     "*.ipynb": "jupyter-notebook"
   },
@@ -392,9 +349,6 @@
   "git.ignoreLimitWarning": true,
 
   /* GitLens */
-  "gitlens.currentLine.enabled": true,
-  "gitlens.codeLens.recentChange.enabled": true,
-  "gitlens.codeLens.authors.enabled": true,
   "javascript.updateImportsOnFileMove.enabled": "always",
   "editor.inlineSuggest.enabled": true,
   "typescript.updateImportsOnFileMove.enabled": "always",
@@ -408,26 +362,13 @@
     "yaml": true
   },
 
-  /* IDF */
-  "idf.espIdfPath": "/Users/benjaminbolte/Treasure/esp32/third-party/esp-idf",
-  "idf.pythonBinPath": "/Users/benjaminbolte/.espressif/python_env/idf5.1_py3.8_env/bin/python",
-  "idf.toolsPath": "/Users/benjaminbolte/.espressif",
-  "idf.customExtraPaths": "/Users/benjaminbolte/.espressif/tools/xtensa-esp-elf-gdb/11.2_20220823/xtensa-esp-elf-gdb/bin:/Users/benjaminbolte/.espressif/tools/riscv32-esp-elf-gdb/11.2_20220823/riscv32-esp-elf-gdb/bin:/Users/benjaminbolte/.espressif/tools/xtensa-esp32-elf/esp-2022r1-11.2.0/xtensa-esp32-elf/bin:/Users/benjaminbolte/.espressif/tools/xtensa-esp32s2-elf/esp-2022r1-11.2.0/xtensa-esp32s2-elf/bin:/Users/benjaminbolte/.espressif/tools/xtensa-esp32s3-elf/esp-2022r1-11.2.0/xtensa-esp32s3-elf/bin:/Users/benjaminbolte/.espressif/tools/riscv32-esp-elf/esp-2022r1-11.2.0/riscv32-esp-elf/bin:/Users/benjaminbolte/.espressif/tools/esp32ulp-elf/2.35_20220830/esp32ulp-elf/bin:/Users/benjaminbolte/.espressif/tools/cmake/3.24.0/CMake.app/Contents/bin:/Users/benjaminbolte/.espressif/tools/openocd-esp32/v0.11.0-esp32-20220706/openocd-esp32/bin:/Users/benjaminbolte/.espressif/tools/ninja/1.10.2",
-  "idf.customExtraVars": "{\"OPENOCD_SCRIPTS\":\"/Users/benjaminbolte/.espressif/tools/openocd-esp32/v0.11.0-esp32-20220706/openocd-esp32/share/openocd/scripts\"}",
-  "idf.gitPath": "git",
-  "arduino.useArduinoCli": true,
-
   /* Miscellaneous */
   "security.workspace.trust.untrustedFiles": "open",
   "git.openRepositoryInParentFolders": "never",
   "window.zoomLevel": -1,
-
-  /* AI */
-  "ai.completions.enabled": true,
 
   /* Vim */
   "editor.lineNumbers": "relative",
   "cursor.cpp.disabledLanguages": ["scminput"],
   "editor.accessibilitySupport": "off"
 }
-
