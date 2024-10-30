@@ -206,7 +206,7 @@
     }
   ],
   "editor.acceptSuggestionOnEnter": "smart",
-  "editor.suggestSelection": "recentlyUsed",
+  "editor.suggestSelection": "first",
   "editor.minimap.enabled": false,
   "editor.maxTokenizationLineLength": 512,
   "editor.cursorSurroundingLines": 15,
@@ -370,5 +370,6 @@
   /* Vim */
   "editor.lineNumbers": "relative",
   "cursor.cpp.disabledLanguages": ["scminput"],
-  "editor.accessibilitySupport": "off"
+  "editor.accessibilitySupport": "off",
+  "vsintellicode.modify.editor.suggestSelection": "choseToUpdateConfiguration"
 }
