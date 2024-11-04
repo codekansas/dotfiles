@@ -246,7 +246,8 @@
     "stretch": "linux",
     "gregson": "linux",
     "andromeda": "linux",
-    "misaki-nakahara": "linux"
+    "misaki-nakahara": "linux",
+    "stompy-torso": "linux"
   },
 
   /* Speed up search */
