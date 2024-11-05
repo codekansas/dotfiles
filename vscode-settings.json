@@ -54,7 +54,7 @@
     "editor.formatOnSave": true,
     "editor.codeActionsOnSave": {
       "source.organizeImports": "always",
-      "source.removeUnused.ts": "always"
+      "source.removeUnusedImports": "always"
     },
     "editor.formatOnType": false
   },
@@ -64,7 +64,7 @@
     "editor.formatOnSave": true,
     "editor.codeActionsOnSave": {
       "source.organizeImports": "always",
-      "source.removeUnused.ts": "always"
+      "source.removeUnusedImports": "always"
     },
     "editor.formatOnType": false
   },
