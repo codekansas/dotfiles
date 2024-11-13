@@ -19,18 +19,26 @@ fi
 package=$(basename $(pwd))
 echo " ↪ Bumping version for package $package"
 
-# Looks through all __init__.py files which are direct children of directories
-# in the current directory and checks if they contain a line with __version__.
-# If so, it prints the path to the file.
-init_file=$(find . -maxdepth 2 -name __init__.py -exec grep -H __version__ {} \; | cut -d: -f1)
-if [[ -z $init_file ]]; then
-    echo "!!! Could not find __init__.py with __version__ in current directory !!!"
+# Try to find version information in different file formats
+if [[ -f "Cargo.toml" ]]; then
+    init_file="Cargo.toml"
+    version=$(grep '^version = ' Cargo.toml | cut -d'"' -f2)
+    version_pattern="version = \"$version\""
+else
+    # Look for Python __init__.py with __version__
+    init_file=$(find . -maxdepth 2 -name __init__.py -exec grep -H __version__ {} \; | cut -d: -f1)
+    if [[ -n $init_file ]]; then
+        version=$(grep __version__ $init_file | cut -d\" -f2)
+        version_pattern="__version__ = \"$version\""
+    fi
+fi
+
+# Check if we found a version
+if [[ -z $init_file || -z $version ]]; then
+    echo "!!! Could not find version information in supported files !!!"
     exit 1
 fi
-echo " ↪ Found __init__.py with __version__ in $init_file"
-
-# Extract the version number from the file and bumps it.
-version=$(grep __version__ $init_file | cut -d\" -f2)
+echo " ↪ Found version in $init_file"
 echo " ↪ Current version is \033[1;31m$version\033[0m"
 
 # Checks that version number is in the format x.y.z.
@@ -56,10 +64,14 @@ fi
 new_version="$major.$minor.$patch"
 echo " ↪ New version is \033[1;32m$new_version\033[0m"
 
-# Replace the version number in the file.
+# Update the version number based on file type
 tmp_file=$(mktemp)
-awk -v old="$version" -v new="$new_version" '{ sub(old, new) } 1' $init_file > $tmp_file && mv $tmp_file $init_file
-echo " ↪ Updated version number in $init_file"
+if [[ $init_file == "Cargo.toml" ]]; then
+    awk -v old="version = \"$version\"" -v new="version = \"$new_version\"" '{ sub(old, new) } 1' $init_file > $tmp_file
+else
+    awk -v old="$version" -v new="$new_version" '{ sub(old, new) } 1' $init_file > $tmp_file
+fi
+mv $tmp_file $init_file
 
 # Commit file with new version number.
 git add $init_file
