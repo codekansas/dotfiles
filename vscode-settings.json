@@ -247,7 +247,8 @@
     "gregson": "linux",
     "andromeda": "linux",
     "misaki-nakahara": "linux",
-    "stompy-torso": "linux"
+    "stompy-torso": "linux",
+    "garage-rig": "linux"
   },
 
   /* Speed up search */
