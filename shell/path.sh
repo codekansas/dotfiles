@@ -5,6 +5,7 @@ pathadd PATH ${HOME}/.scripts
 pathadd PATH ${HOME}/.scripts-local > /dev/null
 
 # Adds additional scripts.
+pathadd PATH ${HOME}/.local/bin > /dev/null
 pathadd PATH ${HOME}/.third-party/bin
 
 # Golang
