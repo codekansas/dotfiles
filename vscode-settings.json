@@ -248,7 +248,8 @@
     "andromeda": "linux",
     "misaki-nakahara": "linux",
     "stompy-torso": "linux",
-    "garage-rig": "linux"
+    "garage-rig": "linux",
+    "oracle": "linux"
   },
 
   /* Speed up search */
