@@ -1295,7 +1295,9 @@ load-uv() {
         echo "Installing UV"
         curl -LsSf https://astral.sh/uv/install.sh | sh
     fi
-    pathadd PATH ${HOME}/.cargo/bin/
+    if [[ -d ${HOME}/.cargo/bin/ ]]; then
+        pathadd PATH ${HOME}/.cargo/bin/
+    fi
 }
 
 alias uv='load-uv && \uv'
