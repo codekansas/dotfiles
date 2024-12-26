@@ -8,17 +8,6 @@ _conda_complete() {
     compadd ${=opts}
 }
 
-cn-env() {
-    conda activate $@
-}
-
-cn-rm() {
-    if [[ "$CONDA_DEFAULT_ENV" -eq "$1" ]]; then
-        conda deactivate
-    fi
-    conda remove --all --name $1
-}
-
 if [[ -f ~/.conda/environments.txt ]]; then
     compdef _conda_complete cn-env
     compdef _conda_complete cn-rm
@@ -37,19 +26,6 @@ _uv_complete() {
     local opts
     opts=$(ls -1 ${HOME}/.virtualenvs/ | tr '\n' ' ')
     compadd ${=opts}
-}
-
-uv-env() {
-    source ${HOME}/.virtualenvs/$1/bin/activate
-}
-
-uv-rm() {
-    if [[ "$#" -ne "1" ]]; then
-        echo "Usage: uv-rm <name>"
-        return
-    fi
-    rm -rf ${HOME}/.virtualenvs/$1
-    echo "Removed environment '$1'"
 }
 
 if [[ -d ${HOME}/.virtualenvs ]]; then

@@ -937,25 +937,50 @@ cn-new() {
     conda activate $ENV_NAME
 }
 
+cn-env() {
+    load-conda
+    conda activate $@
+}
+
+cn-rm() {
+    load-conda
+    if [[ "$CONDA_DEFAULT_ENV" -eq "$1" ]]; then
+        conda deactivate
+    fi
+    conda remove --all --name $@
+}
+
 # ---------------------------
 # Create a new UV environment
 # ---------------------------
 
-uv-new() {
-    if [[ $# -ne 1 ]] && [[ $# -ne 2 ]]; then
-        echo "Usage: uv-new <env-name> (<version>)"
-        return 1
+uv-env() {
+    local env_path=${HOME}/.virtualenvs/$1
+    if [[ -d ${env_path} ]]; then
+        source ${env_path}/bin/activate
+    else
+        # Create new environment if it doesn't exist
+        load-uv
+        mkdir -p ${HOME}/.virtualenvs
+        if [[ $# -eq 1 ]]; then
+            uv venv ${env_path} --python ${DEFAULT_PYTHON_VERSION}
+        elif [[ $# -eq 2 ]]; then
+            uv venv ${env_path} --python $2
+        else
+            echo "Usage: uv-env <env-name> (<python-version>)"
+            return 1
+        fi
+        source ${env_path}/bin/activate
     fi
-    load-uv
-    mkdir -p ${HOME}/.virtualenvs
-    local ENV_PATH=${HOME}/.virtualenvs/$1
-    if [[ -d ${ENV_PATH} ]]; then
-        echo "Environment already exists: ${ENV_PATH}"
-        return 1
+}
+
+uv-rm() {
+    if [[ "$#" -ne "1" ]]; then
+        echo "Usage: uv-rm <name>"
+        return
     fi
-    local python_version=${2:-$DEFAULT_PYTHON_VERSION}
-    uv venv ${ENV_PATH} --python ${python_version}
-    source ${ENV_PATH}/bin/activate
+    rm -rf ${HOME}/.virtualenvs/$1
+    echo "Removed environment '$1'"
 }
 
 # Use UV instead of regular PIP.

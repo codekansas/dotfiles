@@ -2,19 +2,6 @@
 # conda
 # -----
 
-cn-env() {
-    load-conda
-    conda activate $@
-}
-
-cn-rm() {
-    load-conda
-    if [[ "$CONDA_DEFAULT_ENV" -eq "$1" ]]; then
-        conda deactivate
-    fi
-    conda remove --all --name $@
-}
-
 _conda_complete() {
     local cur opts
     COMPREPLY=()
@@ -42,18 +29,6 @@ complete -F _cn_vars_complete 'cn-vars'
 # --
 # uv
 # --
-
-uv-env() {
-    source ${HOME}/.virtualenvs/$1/bin/activate
-}
-
-uv-rm() {
-    if [[ $# -ne 1 ]]; then
-        echo "Usage: uv-env <name>"
-        return 1
-    fi
-    rm -rf ${HOME}/.virtualenvs/$1
-}
 
 _uv_complete() {
     local cur opts
