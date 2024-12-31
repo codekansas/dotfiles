@@ -66,6 +66,10 @@
     value: /bin/zsh
   - key: RANDOM_DELAY
     value: 10
+  - time: 0 12 * * *
+    command: 'echo "Take 15 minutes out of your day to meditate. Run [meditate 15] to get started." | wall'
+  - time: 0 22 * * *
+    command: 'echo "Time for bed" | wall'
   - time: 0 6 * * *
     command: 'mkdir -p ${HOME}/.cron-local && /usr/bin/env > ${HOME}/.cron-local/cron-env'
   - time: 30 * * * *
