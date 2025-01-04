@@ -50,6 +50,7 @@
     ~/.python/template: python/template
     ~/.python/create-python-project: python/create-python-project
     ~/.config/matplotlib/matplotlibrc: config/matplotlib/matplotlibrc
+    ~/.config/ghostty: config/ghostty
     ~/.ipython/profile_default/ipython_config.py: ipython/profile_default/ipython_config.py
     ~/.jupyter/jupyter_notebook_config.py: jupyter/jupyter_notebook_config.py
     ~/.ssh/config.d/base: ssh/config.d/base
