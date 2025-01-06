@@ -67,7 +67,7 @@
     value: /bin/zsh
   - key: RANDOM_DELAY
     value: 10
-  - time: 0 12 * * *
+  - time: 0 14 * * *
     command: 'echo "Take 15 minutes out of your day to meditate. Run [meditate 15] to get started." | wall'
   - time: 0 22 * * *
     command: 'echo "Time for bed" | wall'
