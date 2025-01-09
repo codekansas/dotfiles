@@ -26,5 +26,11 @@
     "key": "cmd+shift+c",
     "command": "copyRelativeFilePath",
     "when": "editorTextFocus"
+  },
+  // Save without formatting.
+  {
+    "key": "cmd+e",
+    "command": "workbench.action.files.saveWithoutFormatting",
+    "when": "editorTextFocus"
   }
 ]
