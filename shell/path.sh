@@ -8,6 +8,9 @@ pathadd PATH ${HOME}/.scripts-local > /dev/null
 pathadd PATH ${HOME}/.local/bin > /dev/null
 pathadd PATH ${HOME}/.third-party/bin
 
+# Source environment.
+[ -f ${HOME}/.local/bin/env ] && source ${HOME}/.local/bin/env
+
 # Golang
 export GOPATH=${HOME}/.go
 
