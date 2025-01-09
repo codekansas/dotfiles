@@ -1,4 +1,5 @@
 [
+  // Cursor move up.
   {
     "key": "alt+up",
     "command": "cursorMove",
@@ -9,6 +10,7 @@
     },
     "when": "editorTextFocus"
   },
+  // Cursor move down.
   {
     "key": "alt+down",
     "command": "cursorMove",
@@ -17,6 +19,12 @@
       "by": "line",
       "value": 5
     },
+    "when": "editorTextFocus"
+  },
+  // Copy relative file path.
+  {
+    "key": "cmd+shift+c",
+    "command": "copyRelativeFilePath",
     "when": "editorTextFocus"
   }
 ]

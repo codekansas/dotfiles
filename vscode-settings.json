@@ -372,9 +372,8 @@
 
   /* Vim */
   "editor.lineNumbers": "relative",
-  "cursor.cpp.disabledLanguages": [
-    "scminput"
-  ],
+  "cursor.cpp.disabledLanguages": ["scminput"],
   "editor.accessibilitySupport": "off",
-  "vsintellicode.modify.editor.suggestSelection": "choseToUpdateConfiguration"
+  "vsintellicode.modify.editor.suggestSelection": "choseToUpdateConfiguration",
+  "extensions.ignoreRecommendations": true
 }
