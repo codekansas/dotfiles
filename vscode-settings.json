@@ -139,6 +139,9 @@
   "ruff.fixAll": true,
   "ruff.organizeImports": true,
 
+  /* Rust settings */
+  "rust-analyzer.procMacro.enable": true,
+
   /* Prettier */
   // This overrides the per-language configuration, which is bad for YAML.
   // "prettier.tabWidth": 4,
