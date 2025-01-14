@@ -140,7 +140,8 @@
   "ruff.organizeImports": true,
 
   /* Rust settings */
-  "rust-analyzer.procMacro.enable": true,
+  "rust-analyzer.procMacro.enable": false,
+  "rust-analyzer.diagnostics.disabled": ["unresolved-proc-macro"],
 
   /* Prettier */
   // This overrides the per-language configuration, which is bad for YAML.
