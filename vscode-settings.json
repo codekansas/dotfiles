@@ -253,7 +253,8 @@
     "misaki-nakahara": "linux",
     "stompy-torso": "linux",
     "garage-rig": "linux",
-    "oracle": "linux"
+    "oracle": "linux",
+    "kbot": "linux"
   },
 
   /* Speed up search */
