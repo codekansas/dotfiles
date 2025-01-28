@@ -254,7 +254,8 @@
     "stompy-torso": "linux",
     "garage-rig": "linux",
     "oracle": "linux",
-    "kbot": "linux"
+    "kbot": "linux",
+    "yuno-gasai": "linux"
   },
 
   /* Speed up search */
