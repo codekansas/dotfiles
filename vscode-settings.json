@@ -381,5 +381,6 @@
   "cursor.cpp.disabledLanguages": ["scminput"],
   "editor.accessibilitySupport": "off",
   "vsintellicode.modify.editor.suggestSelection": "choseToUpdateConfiguration",
-  "extensions.ignoreRecommendations": true
+  "extensions.ignoreRecommendations": true,
+  "redhat.telemetry.enabled": true
 }
