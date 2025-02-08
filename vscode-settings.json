@@ -255,7 +255,8 @@
     "garage-rig": "linux",
     "oracle": "linux",
     "kbot": "linux",
-    "yuno-gasai": "linux"
+    "yuno-gasai": "linux",
+    "lambda": "linux"
   },
 
   /* Speed up search */
