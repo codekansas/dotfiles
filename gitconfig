@@ -10,11 +10,13 @@
     s = status
     l = log --graph --pretty=format:'%C(bold green)%h%Creset %C(bold blue)%an <%ae>%Creset %C(green)%cr%Creset %C(bold magenta)%D%Creset%n          %C(white)%<(80,mtrunc)%s%Creset%n'
     br = checkout -b
+    # Master branch name
+    mb = "!echo $(git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@')"
     brm = "!f() { \
         if [ $# -ne 1 ]; then \
             echo 'Usage: git brm <name>'; \
         else \
-            git checkout -b $1 master; \
+            git checkout -b $1 $(git mb); \
         fi \
     }; f"
     bd = branch -d
@@ -26,7 +28,7 @@
     cm = commit -m
     amend = commit --amend --no-edit
     co = checkout
-    latest = !git checkout master && git pull
+    latest = "!git checkout $(git mb) && git pull"
     asdf = !git latest && git gone
     d = diff
     di = diff
@@ -38,8 +40,8 @@
     # Checkout master, pull, then checkout original branch.
     pm = "!f() { \
         base_branch=$(git rev-parse --abbrev-ref HEAD); \
-        echo 'Checking out master branch'; \
-        git checkout master; \
+        echo 'Checking out $(git mb) branch'; \
+        git checkout $(git mb); \
         git pull; \
         echo \"Checking out ${base_branch} branch\"; \
         git checkout ${base_branch}; \
@@ -48,7 +50,7 @@
     # Uncommits last commit
     uncommit = reset HEAD~1
     # Rebase onto master, taking all current changes
-    rbm = rebase master -X ours
+    rbm = rebase $(git mb) -X ours
     # Pushes to upstream repo branch with the same name
     po = "!git push --set-upstream origin \"$(git rev-parse --abbrev-ref HEAD)\""
     # Force pulls from origin.
@@ -79,13 +81,13 @@
     }; f"
     mm = "!f() { \
         current_branch=$(git rev-parse --abbrev-ref HEAD); \
-        if [ \"$current_branch\" = \"master\" ]; then \
-            echo 'Error: You are already on the master branch'; \
+        if [ \"$current_branch\" = \"$(git mb)\" ]; then \
+            echo 'Error: You are already on the $(git mb) branch'; \
             exit 1; \
         fi; \
-        git checkout master; \
+        git checkout $(git mb); \
         git merge $current_branch; \
-        git push origin master; \
+        git push origin $(git mb); \
         git checkout $current_branch; \
     }; f"
 
