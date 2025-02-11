@@ -964,7 +964,7 @@ px-env() {
         warn-with-red-background "Pixi environment not found!"
         return 1
     fi
-    # eval "$(pixi shell-hook)"
+    eval "$(pixi shell-hook)"
 }
 
 # ---------------------------
