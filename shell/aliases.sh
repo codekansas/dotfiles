@@ -955,6 +955,19 @@ cn-rm() {
 }
 
 # ---------------------------
+# Activate a Pixi environment
+# ---------------------------
+
+px-env() {
+    # Check for .pixi directory
+    if [[ ! -d .pixi ]]; then
+        warn-with-red-background "Pixi environment not found!"
+        return 1
+    fi
+    # eval "$(pixi shell-hook)"
+}
+
+# ---------------------------
 # Create a new UV environment
 # ---------------------------
 
@@ -1336,11 +1349,12 @@ load-pixi() {
     if [[ -d ${HOME}/.cargo/bin ]]; then
         pathadd PATH ${HOME}/.cargo/bin
     fi
-    if ! command -v pixi &> /dev/null; then
+    local pixi_dir=${HOME}/.pixi/bin
+    if [[ ! -d ${pixi_dir} ]]; then
         echo "Installing pixi"
         curl -fsSL https://pixi.sh/install.sh | bash
     fi
-    pathadd PATH ${HOME}/.pixi/bin
+    pathadd PATH ${pixi_dir}
     eval "$(pixi completion --shell $(shell-str))"
 }
 
