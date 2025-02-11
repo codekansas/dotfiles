@@ -964,7 +964,12 @@ px-env() {
         warn-with-red-background "Pixi environment not found!"
         return 1
     fi
-    eval "$(pixi shell-hook)"
+
+    # Remove alias
+    unalias pixi 2> /dev/null
+
+    # Activate the environment
+    eval "$(\pixi shell-hook)"
 }
 
 # ---------------------------
