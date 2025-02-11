@@ -221,7 +221,7 @@
   /* Terminal features */
   "terminal.integrated.inheritEnv": false,
   "terminal.integrated.defaultProfile.osx": "zsh",
-  "terminal.integrated.defaultProfile.linux": "bash",
+  "terminal.integrated.defaultProfile.linux": "zsh",
   "terminal.explorerKind": "external",
   "terminal.external.osxExec": "iTerm.app",
 
