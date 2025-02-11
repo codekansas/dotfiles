@@ -1331,6 +1331,21 @@ load-uv() {
 
 alias uv='load-uv && \uv'
 
+load-pixi() {
+    unalias pixi 2> /dev/null
+    if [[ -d ${HOME}/.cargo/bin ]]; then
+        pathadd PATH ${HOME}/.cargo/bin
+    fi
+    if ! command -v pixi &> /dev/null; then
+        echo "Installing pixi"
+        curl -fsSL https://pixi.sh/install.sh | bash
+    fi
+    pathadd PATH ${HOME}/.pixi/bin
+    eval "$(pixi completion --shell $(shell-str))"
+}
+
+alias pixi='load-pixi && \pixi'
+
 relink-directories() {
     if [[ $# -ne 2 ]]; then
         echo "Usage: relink-directories <dataset-dir> <checkpoints-dir>"
