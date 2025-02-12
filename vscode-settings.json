@@ -264,7 +264,9 @@
 
   /* Files settings */
   "files.associations": {
-    "*.cmake.in": "cmake"
+    "*.cmake.in": "cmake",
+    "*.urdf": "xml",
+    "*.mjcf": "xml"
   },
   "files.trimTrailingWhitespace": true,
   "files.insertFinalNewline": true,
