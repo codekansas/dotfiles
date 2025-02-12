@@ -81,13 +81,13 @@
     }; f"
     mm = "!f() { \
         current_branch=$(git rev-parse --abbrev-ref HEAD); \
-        if [ \"$current_branch\" = \"$(git mb)\" ]; then \
-            echo 'Error: You are already on the $(git mb) branch'; \
+        if [ \"$current_branch\" = \"master\" ]; then \
+            echo 'Error: You are already on the master branch'; \
             exit 1; \
         fi; \
-        git checkout $(git mb); \
+        git checkout master; \
         git merge $current_branch; \
-        git push origin $(git mb); \
+        git push origin master; \
         git checkout $current_branch; \
     }; f"
 
