@@ -1,5 +1,5 @@
 # Plot settings
-backend: macosx
+# backend: macosx
 
 # Image settings
 image.cmap: magma
