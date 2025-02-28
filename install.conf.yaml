@@ -44,6 +44,7 @@
     ~/.Xmodmap:
     ~/.third-party:
     ~/.vscode-settings.json:
+    ~/.vscode-keybindings.json:
     ~/.matplotlib/matplotlibrc: matplotlib/matplotlibrc
     ~/.python/extras: python/extras
     ~/.python/startup.py: python/startup.py
