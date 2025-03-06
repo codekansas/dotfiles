@@ -28,7 +28,7 @@
     cm = commit -m
     amend = commit --amend --no-edit
     co = checkout
-    latest = "!git checkout $(git mb) && git pull"
+    latest = "!git checkout master && git pull"
     asdf = !git latest && git gone
     d = diff
     di = diff
