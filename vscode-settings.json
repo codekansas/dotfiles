@@ -385,8 +385,8 @@
   /* Vim */
   "editor.lineNumbers": "relative",
   "cursor.cpp.disabledLanguages": [
-    "scminput",
-    "markdown"
+    "markdown",
+    "scminput"
   ],
   "editor.accessibilitySupport": "off",
   "vsintellicode.modify.editor.suggestSelection": "choseToUpdateConfiguration",
