@@ -464,7 +464,8 @@ tbd() {
 alias pwd='pwd -P'
 
 # tmux
-export TMUX_ATTACH_ARGS="-CC"
+# export TMUX_ATTACH_ARGS="-CC"
+export TMUX_ATTACH_ARGS=""
 
 tm() {
     if [[ $# -ne 1 ]]; then
