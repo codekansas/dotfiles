@@ -32,5 +32,10 @@
     "key": "cmd+e",
     "command": "workbench.action.files.saveWithoutFormatting",
     "when": "editorTextFocus"
+  },
+  // Cursor composer modes
+  {
+    "key": "cmd+i",
+    "command": "composerMode.agent"
   }
 ]
