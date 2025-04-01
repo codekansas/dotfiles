@@ -33,7 +33,7 @@
     "editor.formatOnSave": true
   },
   "[python]": {
-    "editor.defaultFormatter": "charliermarsh.ruff",
+    "editor.defaultFormatter": "ms-python.black-formatter",
     "editor.formatOnSave": true,
     "editor.codeActionsOnSave": {
       "source.organizeImports": "explicit",
@@ -384,10 +384,7 @@
 
   /* Vim */
   "editor.lineNumbers": "relative",
-  "cursor.cpp.disabledLanguages": [
-    "markdown",
-    "scminput"
-  ],
+  "cursor.cpp.disabledLanguages": ["markdown", "scminput"],
   "editor.accessibilitySupport": "off",
   "vsintellicode.modify.editor.suggestSelection": "choseToUpdateConfiguration",
   "extensions.ignoreRecommendations": true,
