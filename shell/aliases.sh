@@ -210,6 +210,15 @@ slog() {
     echo $(slurm-get-job-path $job_id --silent)
 }
 
+plog() {
+    if [[ $# -ne 1 ]]; then
+        echo "Usage: plog <process-id>"
+        return 1
+    fi
+    local process_id=$1; shift
+    echo $(log-dir-from-proc-id $process_id --silent)
+}
+
 sjson() {
     if [[ $# -ne 2 ]]; then
         echo "Usage: sjson <job-id> <json-field>"
@@ -346,6 +355,54 @@ stbd() {
     local cmd="tensorboard serve --logdir ${tmp_tbd_dir}"
     if [[ -n $TENSORBOARD_PORT ]]; then
         cmd="${cmd} --port ${TENSORBOARD_PORT}"
+    fi
+    if [[ $TENSORBOARD_BIND_ALL -eq 1 ]]; then
+        cmd="${cmd} --bind_all"
+    fi
+
+    echo "Running '$cmd'"
+    eval $cmd
+
+    rm -r $tmp_tbd_dir
+}
+
+export GROUPED_TENSORBOARD_PORT=6005
+
+gtbd() {
+    local proc_ids=()
+    if [[ $# -eq 0 ]]; then
+        # Attempts to parse running jobs using Nvidia SMI.
+        while IFS= read -r line; do
+            proc_ids+=("$line")
+        done < <(nvidia-smi --query-compute-apps=pid,name --format=csv | tail -n +2 | awk -F ',' '{print $1}')
+    else
+        proc_ids=("$@")
+    fi
+
+    local tmp_tbd_dir=$(mktemp -d -t tbd-XXXXXXXX)
+
+    # For each path, find all subdirectories named `tensorboard` and link them to the tmp directory.
+    local has_dir=0
+    for proc_id in ${proc_ids[@]}; do
+        local log_dir=$(plog $proc_id)
+        local tbd_root=${log_dir}/tensorboard/
+        if [[ -d "${tbd_root}" ]]; then
+            echo "-> ${tbd_root}"
+            ln -s "${tbd_root}" "${tmp_tbd_dir}/${proc_id}"
+            has_dir=1
+        else
+            echo "Failed to get tensorboard directory for process ID $proc_id"
+        fi
+    done
+
+    if [[ $has_dir -eq 0 ]]; then
+        echo "No log directories found"
+        return 1
+    fi
+
+    local cmd="tensorboard serve --logdir ${tmp_tbd_dir}"
+    if [[ -n $GROUPED_TENSORBOARD_PORT ]]; then
+        cmd="${cmd} --port ${GROUPED_TENSORBOARD_PORT}"
     fi
     if [[ $TENSORBOARD_BIND_ALL -eq 1 ]]; then
         cmd="${cmd} --bind_all"
