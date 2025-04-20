@@ -523,6 +523,9 @@ tbd() {
 # pwd without symlinks
 alias pwd='pwd -P'
 
+# zellij
+alias zj='zellij'
+
 # tmux
 # export TMUX_ATTACH_ARGS="-CC"
 export TMUX_ATTACH_ARGS=""
