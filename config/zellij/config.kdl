@@ -419,15 +419,12 @@ load_plugins {
 
 // Whether to stack panes when resizing beyond a certain size
 // Default: true
-//
-// stacked_resize false
+stacked_resize true
 
 // Whether to show release notes on first version run
 // Default: true
-//
-// show_release_notes false
+show_release_notes false
 
 // Whether to show startup tips on session start
 // Default: true
-//
-// show_startup_tips false
+show_startup_tips false
