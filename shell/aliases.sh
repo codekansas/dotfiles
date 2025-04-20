@@ -525,6 +525,7 @@ alias pwd='pwd -P'
 
 # zellij
 alias zj='zellij'
+export ZELLIJ_CONFIG_FILE=$(realpath $HOME/.config/zellij/config.kdl)
 
 # tmux
 # export TMUX_ATTACH_ARGS="-CC"
