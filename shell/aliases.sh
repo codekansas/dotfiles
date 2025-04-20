@@ -1264,6 +1264,8 @@ gless() {
     sed -s '$a\\n[ ---------- ]\n' $@ | less
 }
 
+alias eless='2>&1 | less'
+
 # ---------------
 # Docker commands
 # ---------------
