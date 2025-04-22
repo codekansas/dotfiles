@@ -2,8 +2,10 @@
 """Creates a new project, copying a standard format."""
 
 import argparse
+import datetime
 import re
 from pathlib import Path
+from typing import Mapping
 
 
 def get_default_author() -> str:
@@ -69,7 +71,7 @@ def main() -> None:
     if not re.match(r"^[a-zA-Z_][a-zA-Z0-9_]*$", python_safe_name):
         raise ValueError(f"Invalid Python package name: {python_safe_name}")
 
-    replacements = {
+    replacements: Mapping[str, str] = {
         "[[PROJECT NAME]]": name,
         "[[PROJECT PYTHON NAME]]": python_safe_name,
         "[[PROJECT DESCRIPTION]]": description,
@@ -77,6 +79,7 @@ def main() -> None:
         "[[PROJECT EMAIL]]": email,
         "[[PROJECT URL]]": url,
         "[[PROJECT PYTHON VERSION]]": version,
+        "[[PROJECT YEAR]]": str(datetime.datetime.now().year),
     }
 
     # Copies the `template` directory to the target directory, replacing placeholders.
