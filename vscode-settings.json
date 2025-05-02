@@ -258,7 +258,8 @@
     "oracle": "linux",
     "kbot": "linux",
     "yuno-gasai": "linux",
-    "lambda": "linux"
+    "lambda": "linux",
+    "nyc-lambda": "linux"
   },
 
   /* Speed up search */
