@@ -38,7 +38,7 @@ setup(
     packages=find_packages(),
     # entry_points={
     #     "console_scripts": [
-    #         "[[PROJECT PYTHON NAME]].cli:main",
+    #         "cli=[[PROJECT PYTHON NAME]].cli:main",
     #     ],
     # },
 )
