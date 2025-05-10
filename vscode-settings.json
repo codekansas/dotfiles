@@ -144,6 +144,7 @@
   /* Rust settings */
   "rust-analyzer.procMacro.enable": false,
   "rust-analyzer.diagnostics.disabled": ["unresolved-proc-macro"],
+  "rust-analyzer.inlayHints.typeHints.enable": false,
 
   /* Prettier */
   // This overrides the per-language configuration, which is bad for YAML.
