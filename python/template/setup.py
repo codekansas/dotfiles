@@ -14,8 +14,6 @@ with open("[[PROJECT PYTHON NAME]]/requirements.txt", "r", encoding="utf-8") as 
     requirements: list[str] = f.read().splitlines()
 
 requirements_dev = [
-    "black",
-    "darglint",
     "mypy",
     "pytest",
     "ruff",
