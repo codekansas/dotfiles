@@ -133,7 +133,7 @@
 
   /* Python language features */
   "python.diagnostics.sourceMapsEnabled": true,
-  "python.languageServer": "Default",
+  "python.languageServer": "None",
   "python.analysis.logLevel": "Information",
   "python.analysis.autoSearchPaths": false,
 
@@ -390,5 +390,7 @@
   "editor.accessibilitySupport": "off",
   "vsintellicode.modify.editor.suggestSelection": "choseToUpdateConfiguration",
   "extensions.ignoreRecommendations": true,
-  "redhat.telemetry.enabled": true
+  "redhat.telemetry.enabled": true,
+  "cursorpyright.analysis.autoSearchPaths": false,
+  "cursorpyright.analysis.logLevel": "Information"
 }
