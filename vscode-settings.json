@@ -260,7 +260,8 @@
     "kbot": "linux",
     "yuno-gasai": "linux",
     "lambda": "linux",
-    "nyc-lambda": "linux"
+    "nyc-lambda": "linux",
+    "mu": "linux"
   },
 
   /* Speed up search */
