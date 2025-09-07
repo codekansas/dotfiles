@@ -1,0 +1,21 @@
+# .ssh/config.d/gpu
+
+Host gpu.*
+    ServerAliveInterval 60
+    ServerAliveCountMax 5
+    ControlMaster auto
+    ControlPath ~/.ssh/sockets/%r@%h-%p
+    ControlPersist 600
+
+# Specific GPUs
+# -------------
+
+# Lambda box with 2x 4090s.
+Host gpu.zeus
+    Hostname 100.109.97.58
+    User ben
+
+# Lambda box with 2x A6000s.
+Host gpu.jupiter
+    Hostname 100.120.14.83
+    User ben

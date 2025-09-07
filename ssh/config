@@ -1,0 +1,17 @@
+# .ssh/config
+
+Include ~/.ssh/config.d/*
+Include ~/.ssh/config.local
+
+# Configuration
+# -------------
+
+Host github.com
+    IdentityFile ~/.ssh/id_ed25519
+
+# ------
+# Robots
+
+Host kbotv2-no4
+    Hostname 100.88.88.63
+    User dpsh

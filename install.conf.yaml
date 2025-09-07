@@ -6,7 +6,6 @@
 - clean: ['~', '~/.config']
 
 - create:
-  - ~/.ssh/config.d
   - ~/.tmux/plugins
   - ~/.matplotlib
   - ~/.config/matplotlib
@@ -55,7 +54,8 @@
     ~/.config/zellij: config/zellij
     ~/.ipython/profile_default/ipython_config.py: ipython/profile_default/ipython_config.py
     ~/.jupyter/jupyter_notebook_config.py: jupyter/jupyter_notebook_config.py
-    ~/.ssh/config.d/base: ssh/config.d/base
+    ~/.ssh/config: ssh/config
+    ~/.ssh/config.d: ssh/config.d
 
 - shell:
   - [git submodule update --init --recursive, Installing submodules]

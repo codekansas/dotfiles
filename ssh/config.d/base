@@ -1,11 +1,4 @@
-# Use "Include config.d/base" directive at the top of
-# your .ssh/config file to automatically set up a
-# persistent SSH port when connecting. Useful when
-# using VSCode remotely with 2FA, for example.
+# .ssh/config.d/base
 
 Host *
-    AddKeysToAgent yes
     UseKeychain yes
-    ControlMaster auto
-    ControlPath ~/.ssh/sockets/%r@%h-%p
-    ControlPersist 600
