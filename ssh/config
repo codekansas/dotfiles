@@ -8,10 +8,3 @@ Include ~/.ssh/config.local
 
 Host github.com
     IdentityFile ~/.ssh/id_ed25519
-
-# ------
-# Robots
-
-Host kbotv2-no4
-    Hostname 100.88.88.63
-    User dpsh
