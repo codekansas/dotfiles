@@ -41,7 +41,6 @@
     },
     "editor.formatOnType": false
   },
-
   /* Web languages */
   "[html]": {
     "editor.defaultFormatter": "vscode.html-language-features",
@@ -105,7 +104,6 @@
     "editor.wordWrap": "wordWrapColumn",
     "editor.wordWrapColumn": 120
   },
-
   /* Configuration languages */
   "[jsonc]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
@@ -124,38 +122,33 @@
     "editor.formatOnSave": true,
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-
   /* Extensions */
   // "extensions.autoUpdate": false,
   // "extensions.autoCheckUpdates": false,
   "extensions.autoUpdate": true,
   "extensions.autoCheckUpdates": true,
-
   /* Python language features */
   "python.diagnostics.sourceMapsEnabled": true,
   "python.languageServer": "None",
   "python.analysis.logLevel": "Information",
   "python.analysis.autoSearchPaths": false,
-
   /* Ruff settings */
   "ruff.fixAll": true,
   "ruff.organizeImports": true,
-
   /* Rust settings */
   "rust-analyzer.procMacro.enable": false,
-  "rust-analyzer.diagnostics.disabled": ["unresolved-proc-macro"],
+  "rust-analyzer.diagnostics.disabled": [
+    "unresolved-proc-macro"
+  ],
   "rust-analyzer.inlayHints.typeHints.enable": false,
-
   /* Prettier */
   // This overrides the per-language configuration, which is bad for YAML.
   // "prettier.tabWidth": 4,
-
   /* Jupyter language features */
   "notebook.cellToolbarLocation": {
     "default": "right",
     "jupyter-notebook": "left"
   },
-
   /* C++ language features */
   "C_Cpp.autocomplete": "default",
   "C_Cpp.vcFormat.wrap.preserveBlocks": "allOneLineScopes",
@@ -187,10 +180,11 @@
   "C_Cpp.vcFormat.newLine.scopeBracesOnSeparateLines": false,
   "C_Cpp.vcFormat.newLine.beforeWhileInDoWhile": false,
   "C_Cpp.enhancedColorization": "enabled",
-  "C_Cpp.commentContinuationPatterns": ["/**"],
+  "C_Cpp.commentContinuationPatterns": [
+    "/**"
+  ],
   "C_Cpp.errorSquiggles": "enabled",
   "cmake.configureOnOpen": false,
-
   /* Editor features */
   // "editor.quickSuggestions": {
   //     "other": false,
@@ -217,17 +211,14 @@
   "editor.minimap.enabled": false,
   "editor.maxTokenizationLineLength": 512,
   "editor.cursorSurroundingLines": 15,
-
   /* Explorer features */
   "explorer.confirmDragAndDrop": false,
-
   /* Terminal features */
   "terminal.integrated.inheritEnv": false,
   "terminal.integrated.defaultProfile.osx": "zsh",
   "terminal.integrated.defaultProfile.linux": "zsh",
   "terminal.explorerKind": "external",
   "terminal.external.osxExec": "iTerm.app",
-
   /* Remote features */
   "remote.autoForwardPorts": true,
   "remote.autoForwardPortsSource": "output",
@@ -238,10 +229,12 @@
   "remote.SSH.enableDynamicForwarding": false,
   "remote.SSH.localServerDownload": "off",
   "remote.SSH.remoteServerListenOnSocket": true,
-
+  "remote.SSH.remotePlatform": {
+    "gpu.zeus": "linux",
+    "gpu.jupiter": "linux"
+  },
   /* Speed up search */
   "search.followSymlinks": false,
-
   /* Files settings */
   "files.associations": {
     "*.cmake.in": "cmake",
@@ -326,7 +319,6 @@
     "**/logs/**": true,
     "**/.fdk/**": true
   },
-
   /* Workbench features */
   "workbench.editor.revealIfOpen": true,
   "workbench.editor.closeEmptyGroups": false,
@@ -334,18 +326,15 @@
   "workbench.editorAssociations": {
     "*.ipynb": "jupyter-notebook"
   },
-
   /* Version control */
   "git.autofetch": true,
   "git.enableSmartCommit": true,
   "git.confirmSync": false,
   "git.ignoreLimitWarning": true,
-
   /* GitLens */
   "javascript.updateImportsOnFileMove.enabled": "always",
   "editor.inlineSuggest.enabled": true,
   "typescript.updateImportsOnFileMove.enabled": "always",
-
   /* Copilot */
   "github.copilot.enable": {
     "*": true,
@@ -354,15 +343,16 @@
     "scminput": false,
     "yaml": true
   },
-
   /* Miscellaneous */
   "security.workspace.trust.untrustedFiles": "open",
   "git.openRepositoryInParentFolders": "never",
   "window.zoomLevel": -1,
-
   /* Vim */
   "editor.lineNumbers": "relative",
-  "cursor.cpp.disabledLanguages": ["markdown", "scminput"],
+  "cursor.cpp.disabledLanguages": [
+    "markdown",
+    "scminput"
+  ],
   "editor.accessibilitySupport": "off",
   "vsintellicode.modify.editor.suggestSelection": "choseToUpdateConfiguration",
   "extensions.ignoreRecommendations": true,
