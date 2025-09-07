@@ -6,5 +6,5 @@ Include ~/.ssh/config.local
 # Configuration
 # -------------
 
-Host github.com
-    IdentityFile ~/.ssh/id_ed25519
+# Host github.com
+#     IdentityFile ~/.ssh/id_ed25519

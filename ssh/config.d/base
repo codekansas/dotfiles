@@ -1,4 +1,4 @@
 # .ssh/config.d/base
 
-Host *
-    UseKeychain yes
+# Host *
+#     UseKeychain yes
