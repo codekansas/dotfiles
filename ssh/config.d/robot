@@ -1,4 +1,8 @@
 # .ssh/config.d/robot
 
-# K-Bots
-# ------
+# Khadas VIM4
+# -----------
+
+Host robot.vishnu
+    Hostname 100.64.251.91
+    User khadas
