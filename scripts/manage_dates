@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env -S uv run --no-project --script
 
 import argparse
 import datetime
@@ -20,8 +20,7 @@ SPECIAL_DATES = {
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Manages files organized by date")
     parser.add_argument("path", help="Path to the root directory")
-    parser.add_argument("-a", "--action", choices=["delete", "list", "sweep"],
-                        help="Action to take", default="list")
+    parser.add_argument("-a", "--action", choices=["delete", "list", "sweep"], help="Action to take", default="list")
     parser.add_argument("-s", "--start-date", type=str, help="Start date")
     parser.add_argument("-e", "--end-date", type=str, help="End date")
     return parser.parse_args()

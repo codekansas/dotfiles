@@ -1,4 +1,4 @@
-#!/usr/bin/env -S uv run --script
+#!/usr/bin/env -S uv run --no-project --script
 """Script which creates a new VSCode workspace from a given directory.
 
 The new workspace is stored under `~/.code-workspaces` and is named after

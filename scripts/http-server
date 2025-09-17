@@ -1,4 +1,4 @@
-#!/usr/bin/env -S uv run --script
+#!/usr/bin/env -S uv run --no-project --script
 """Helper script to run an HTTP server from a given directory."""
 
 import argparse

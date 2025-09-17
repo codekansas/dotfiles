@@ -1,4 +1,4 @@
-#!/usr/bin/env -S uv run --script
+#!/usr/bin/env -S uv run --no-project --script
 
 import argparse
 import subprocess
@@ -61,7 +61,7 @@ def main() -> None:
     stats = pd.read_csv(StringIO(result.decode("utf-8")), sep=", ", engine="python")
     stats["utilization.gpu"] = stats["utilization.gpu [%]"].apply(lambda x: float(x.strip()[:2]) / 100)
     stats["utilization.memory"] = stats["utilization.memory [%]"].apply(lambda x: float(x.strip()[:2]) / 100)
-    
+
     gids = stats["pci.bus_id"].unique()
     for gid in gids:
         locs = stats.loc[stats["pci.bus_id"] == gid]
