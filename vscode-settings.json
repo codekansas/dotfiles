@@ -122,6 +122,11 @@
     "editor.formatOnSave": true,
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
+  "[tex]": {
+    "editor.defaultFormatter": "James-Yu.latex-workshop",
+    "editor.tabSize": 2,
+    "editor.formatOnSave": true
+  },
   /* Extensions */
   // "extensions.autoUpdate": false,
   // "extensions.autoCheckUpdates": false,
