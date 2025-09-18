@@ -19,7 +19,7 @@ __delete_old_dates() {
         $root \
         -s $start_date \
         -e $end_date \
-        -a delete
+        -a delete 2> /dev/null
 }
 
 # Updates the daily symlink to point to today.

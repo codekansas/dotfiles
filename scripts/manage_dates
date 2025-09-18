@@ -4,6 +4,7 @@ import argparse
 import datetime
 import re
 import shutil
+import sys
 from collections import defaultdict
 from pathlib import Path
 
@@ -56,16 +57,16 @@ def main() -> None:
 
     if args.action == "list":
         for fpath in fpaths["valid"]:
-            print(fpath)
+            print(fpath, file=sys.stdout)
     elif args.action == "delete":
         for fpath in fpaths["valid"]:
-            print(f"Deleting {fpath}")
+            print(f"Deleting {fpath}", file=sys.stderr)
             shutil.rmtree(fpath)
     elif args.action == "sweep":
         for fpath in fpaths["not-date"]:
             dpath = root / today / fpath.name
             dpath.parent.mkdir(exist_ok=True)
-            print(f"Moving {fpath} to {dpath}")
+            print(f"Moving {fpath} to {dpath}", file=sys.stderr)
             shutil.move(fpath, dpath)
     else:
         raise NotImplementedError(f"Invalid action: {args.action}")
