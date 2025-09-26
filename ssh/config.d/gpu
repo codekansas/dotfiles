@@ -17,5 +17,5 @@ Host gpu.zeus
 
 # Lambda box with 2x A6000s.
 Host gpu.jupiter
-    Hostname 100.120.14.83
+    Hostname 100.96.152.27
     User ben
