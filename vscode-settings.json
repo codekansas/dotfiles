@@ -43,7 +43,7 @@
   },
   /* Web languages */
   "[html]": {
-    "editor.defaultFormatter": "vscode.html-language-features",
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.tabSize": 2,
     "editor.formatOnSave": true
   },
@@ -142,9 +142,7 @@
   "ruff.organizeImports": true,
   /* Rust settings */
   "rust-analyzer.procMacro.enable": false,
-  "rust-analyzer.diagnostics.disabled": [
-    "unresolved-proc-macro"
-  ],
+  "rust-analyzer.diagnostics.disabled": ["unresolved-proc-macro"],
   "rust-analyzer.inlayHints.typeHints.enable": false,
   /* Prettier */
   // This overrides the per-language configuration, which is bad for YAML.
@@ -185,9 +183,7 @@
   "C_Cpp.vcFormat.newLine.scopeBracesOnSeparateLines": false,
   "C_Cpp.vcFormat.newLine.beforeWhileInDoWhile": false,
   "C_Cpp.enhancedColorization": "enabled",
-  "C_Cpp.commentContinuationPatterns": [
-    "/**"
-  ],
+  "C_Cpp.commentContinuationPatterns": ["/**"],
   "C_Cpp.errorSquiggles": "enabled",
   "cmake.configureOnOpen": false,
   /* Editor features */
@@ -354,10 +350,7 @@
   "window.zoomLevel": -1,
   /* Vim */
   "editor.lineNumbers": "relative",
-  "cursor.cpp.disabledLanguages": [
-    "markdown",
-    "scminput"
-  ],
+  "cursor.cpp.disabledLanguages": ["markdown", "scminput"],
   "editor.accessibilitySupport": "off",
   "vsintellicode.modify.editor.suggestSelection": "choseToUpdateConfiguration",
   "extensions.ignoreRecommendations": true,
