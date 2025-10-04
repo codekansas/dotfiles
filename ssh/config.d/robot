@@ -6,3 +6,7 @@
 Host robot.vishnu
     Hostname 100.64.251.91
     User ben
+
+Host robot.brahma
+    Hostname 100.97.253.15
+    User dpsh
