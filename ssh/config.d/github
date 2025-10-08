@@ -1,0 +1,11 @@
+# .ssh/config.d/github
+
+Host github.com
+  HostName github.com
+  User git
+  IdentityAgent SSH_AUTH_SOCK
+  ServerAliveInterval 15
+  ServerAliveCountMax 4
+  ConnectTimeout 10
+  TCPKeepAlive yes
+
