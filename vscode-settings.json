@@ -231,8 +231,8 @@
   "remote.SSH.localServerDownload": "off",
   "remote.SSH.remoteServerListenOnSocket": true,
   "remote.SSH.remotePlatform": {
-    "gpu.zeus": "linux",
-    "gpu.jupiter": "linux"
+    "gpu-zeus": "linux",
+    "gpu-jupiter": "linux"
   },
   /* Speed up search */
   "search.followSymlinks": false,
