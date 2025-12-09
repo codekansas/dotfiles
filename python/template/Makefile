@@ -5,7 +5,7 @@ define HELP_MESSAGE
 
 # Installing
 
-1. Create a new Conda environment: `conda create --name [[PROJECT NAME]] python=3.11`
+1. Create a new Conda environment: `conda create --name [[PROJECT NAME]] python=3.12`
 2. Activate the environment: `conda activate [[PROJECT NAME]]`
 3. Install the package: `make install-dev`
 
