@@ -34,6 +34,7 @@
     ~/.profile:
     ~/.cron:
     ~/.cron-local/bin: cron-local/bin
+    ~/.codex/config.toml: codex/config.toml
     ~/.zsh:
     ~/.zshrc:
     ~/.zlogin:
