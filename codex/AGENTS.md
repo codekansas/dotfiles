@@ -30,3 +30,7 @@
 
 - In general, we don't care about test coverage, since most of the code we write is fairly technical. We therefore don't need to implement lots of redundant tests.
 - For machine learning code, we should implement tests for the correctness of the core mathematical functionality, which requires some amount of careful thought.
+
+## Logging
+
+- Avoid using `print` statements as much as possible. Instead, use the `colorlogging` module, which can be enabled when initializing a CLI using `colorlogging.configure()`. Use `logger = logging.getLogger()`, and and avoid using f-statements in log messages.
