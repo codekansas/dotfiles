@@ -4,3 +4,6 @@ model_reasoning_effort = "medium"
 [features]
 streamable_shell = true
 web_search_request = true
+
+[projects."${HOME}/Github/"]
+trust_level = "trusted"
