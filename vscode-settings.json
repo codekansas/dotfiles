@@ -2,50 +2,50 @@
   /* Development languages */
   "[c]": {
     "editor.defaultFormatter": "xaver.clang-format",
-    "editor.formatOnSave": true,
+    "editor.formatOnSave": true
   },
   "[cu]": {
     "editor.defaultFormatter": "xaver.clang-format",
-    "editor.formatOnSave": true,
+    "editor.formatOnSave": true
   },
   "[cpp]": {
-    "editor.defaultFormatter": "ms-vscode.cpptools",
+    "editor.defaultFormatter": "xaver.clang-format",
     "editor.formatOnSave": true,
     "editor.codeActionsOnSave": {
       "source.organizeImports": "explicit",
-      "source.fixAll": "explicit",
-    },
+      "source.fixAll": "explicit"
+    }
   },
   "[cuda-cpp]": {
-    "editor.defaultFormatter": "ms-vscode.cpptools",
+    "editor.defaultFormatter": "xaver.clang-format",
     "editor.formatOnSave": true,
     "editor.codeActionsOnSave": {
       "source.organizeImports": "explicit",
-      "source.fixAll": "explicit",
-    },
+      "source.fixAll": "explicit"
+    }
   },
   "[rust]": {
     "editor.defaultFormatter": "rust-lang.rust-analyzer",
-    "editor.formatOnSave": true,
+    "editor.formatOnSave": true
   },
-  "[cmake]": {
-    "editor.defaultFormatter": "cheshirekow.cmake-format",
-    "editor.formatOnSave": true,
-  },
+  // "[cmake]": {
+  //   "editor.defaultFormatter": "cheshirekow.cmake-format",
+  //   "editor.formatOnSave": true
+  // },
   "[python]": {
     "editor.defaultFormatter": "charliermarsh.ruff",
     "editor.formatOnSave": true,
     "editor.formatOnType": false,
     "editor.codeActionsOnSave": {
       "source.organizeImports.ruff": "explicit",
-      "source.fixAll.ruff": "explicit",
-    },
+      "source.fixAll.ruff": "explicit"
+    }
   },
   /* Web languages */
   "[html]": {
     "editor.defaultFormatter": "vscode.html-language-features",
     "editor.tabSize": 2,
-    "editor.formatOnSave": true,
+    "editor.formatOnSave": true
   },
   "[typescript]": {
     "editor.defaultFormatter": "vscode.typescript-language-features",
@@ -54,8 +54,8 @@
     "editor.formatOnType": false,
     "editor.codeActionsOnSave": {
       "source.organizeImports": "always",
-      "source.removeUnusedImports": "always",
-    },
+      "source.removeUnusedImports": "always"
+    }
   },
   "[typescriptreact]": {
     "editor.defaultFormatter": "vscode.typescript-language-features",
@@ -64,8 +64,8 @@
     "editor.formatOnType": false,
     "editor.codeActionsOnSave": {
       "source.organizeImports": "always",
-      "source.removeUnusedImports": "always",
-    },
+      "source.removeUnusedImports": "always"
+    }
   },
   "[javascript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
@@ -74,8 +74,8 @@
     "editor.formatOnType": false,
     "editor.codeActionsOnSave": {
       "source.organizeImports": "always",
-      "source.removeUnusedImports": "always",
-    },
+      "source.removeUnusedImports": "always"
+    }
   },
   "[javascriptreact]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
@@ -84,48 +84,48 @@
     "editor.formatOnType": false,
     "editor.codeActionsOnSave": {
       "source.organizeImports": "always",
-      "source.removeUnusedImports": "always",
-    },
+      "source.removeUnusedImports": "always"
+    }
   },
   "[css]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.tabSize": 2,
-    "editor.formatOnSave": true,
+    "editor.formatOnSave": true
   },
   "[scss]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.tabSize": 2,
-    "editor.formatOnSave": true,
+    "editor.formatOnSave": true
   },
   "[markdown]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.tabSize": 2,
     "editor.formatOnSave": true,
     "editor.wordWrap": "wordWrapColumn",
-    "editor.wordWrapColumn": 120,
+    "editor.wordWrapColumn": 120
   },
   /* Configuration languages */
   "[jsonc]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.tabSize": 2,
-    "editor.formatOnSave": true,
+    "editor.formatOnSave": true
   },
   "[json]": {
     "editor.defaultFormatter": "vscode.json-language-features",
     "editor.tabSize": 2,
-    "editor.formatOnSave": true,
+    "editor.formatOnSave": true
   },
   "[yaml]": {
     "editor.insertSpaces": true,
     "editor.tabSize": 2,
     "editor.autoIndent": "advanced",
     "editor.formatOnSave": true,
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[tex]": {
     "editor.defaultFormatter": "James-Yu.latex-workshop",
     "editor.tabSize": 2,
-    "editor.formatOnSave": true,
+    "editor.formatOnSave": true
   },
 
   /* Extensions */
@@ -142,7 +142,7 @@
   "python.analysis.autoSearchPaths": true,
 
   /* Ruff settings */
-  "ruff.importStrategy":"fromEnvironment",
+  "ruff.importStrategy": "fromEnvironment",
   "ruff.fixAll": true,
   "ruff.organizeImports": true,
 
@@ -383,5 +383,5 @@
   "cursorpyright.analysis.autoSearchPaths": false,
   "cursorpyright.analysis.logLevel": "Information",
   "vsintellicode.modify.editor.suggestSelection": "choseToUpdateConfiguration",
-  "extensions.ignoreRecommendations": true,
+  "extensions.ignoreRecommendations": true
 }
