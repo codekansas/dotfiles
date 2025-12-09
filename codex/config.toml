@@ -1,9 +1,13 @@
 model = "gpt-5.1-codex-max"
-model_reasoning_effort = "medium"
+model_reasoning_effort = "high"
+approval_policy = "on-failure"
 
 [features]
 streamable_shell = true
 web_search_request = true
+
+[sandbox_workspace_write]
+network_access = true
 
 [projects."${HOME}/Github/"]
 trust_level = "trusted"
