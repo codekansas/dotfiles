@@ -14,6 +14,7 @@
 - Almost every repository we're working with uses Python >= 3.11, so we should almost never use `typing.Dict`, `typing.List`, `typing.Union`, or similar - just use `dict`, `list`, `|` or whatever built-in notation.
 - Similarly, we should use advanced Python typing semantics like Protocols to provide proper typechecking for complex components, if needed.
 - Avoid using `typing.Any` as much as possible. If we do use it, we need to mark the line with `noqa: ANN401`
+- Avoid `from __future__ import ...` statements, since we will always expect to use Python 3.11 or later.
 
 ## Comments
 
