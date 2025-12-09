@@ -20,3 +20,13 @@
 - Avoid having a comment before every line. Instead, have one longer comment followed by a block of code, usually a minimum of 3-5 lines (unless the line is very complicated and a comment would help clarify the thinking). Write comments assuming that the reader will be intelligent and care about the general structure of the code.
 - For complex mathematically-oriented functions, include detailed math notation or explanatory diagrams in the docstring.
 - Use docstrings for complex functions but avoid them for simple functions. Docstrings should include `Args` and `Returns` (unless nothing is returned).
+
+## Linting
+
+- Run `ruff check` to lint code.
+- All our code should be Mypy-compatible.
+
+## Testing
+
+- In general, we don't care about test coverage, since most of the code we write is fairly technical. We therefore don't need to implement lots of redundant tests.
+- For machine learning code, we should implement tests for the correctness of the core mathematical functionality, which requires some amount of careful thought.
