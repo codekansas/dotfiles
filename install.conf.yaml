@@ -35,6 +35,7 @@
     ~/.cron:
     ~/.cron-local/bin: cron-local/bin
     ~/.codex/config.toml: codex/config.toml
+    ~/.codex/AGENTS.md: codex/AGENTS.md
     ~/.zsh:
     ~/.zshrc:
     ~/.zlogin:
