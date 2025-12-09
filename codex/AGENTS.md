@@ -7,6 +7,10 @@
 - Use `bsz` and `tsz` for tensor batch and time dimension sizes.
 - Don't use capital letters in variable names, even for annotating tensor dimensions. If the letter used to denote the tensor dimension is ambiguous, we can add a comment or docstring message to explain it.
 
+## Machine Learning
+
+- When useful, use `chex` at the start of a function to do runtime validation on the function's input values.
+
 ## Coding Style
 
 - Follow Google's Python style guide as closely as possible.
@@ -34,4 +38,4 @@
 
 ## Logging
 
-- Avoid using `print` statements as much as possible. Instead, use the `colorlogging` module, which can be enabled when initializing a CLI using `colorlogging.configure()`. Use `logger = logging.getLogger()`, and and avoid using f-statements in log messages.
+- Avoid using `print` statements as much as possible. Instead, use the `colorlogging` module, which can be enabled when initializing a CLI using `colorlogging.configure()`. Use `logger = logging.getLogger(__name__)`, and and avoid using f-statements in log messages.
