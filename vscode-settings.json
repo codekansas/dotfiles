@@ -378,6 +378,9 @@
   "editor.accessibilitySupport": "off",
   "editor.tabCompletion": "on",
 
+  /* VSCode */
+  "update.mode": "manual",
+
   /* Cursor */
   "cursor.cpp.disabledLanguages": ["markdown", "scminput"],
   "cursorpyright.analysis.autoSearchPaths": false,
