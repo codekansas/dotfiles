@@ -48,7 +48,7 @@
     "editor.formatOnSave": true
   },
   "[typescript]": {
-    "editor.defaultFormatter": "vscode.typescript-language-features",
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.tabSize": 2,
     "editor.formatOnSave": true,
     "editor.formatOnType": false,
@@ -58,7 +58,7 @@
     }
   },
   "[typescriptreact]": {
-    "editor.defaultFormatter": "vscode.typescript-language-features",
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.tabSize": 2,
     "editor.formatOnSave": true,
     "editor.formatOnType": false,
@@ -372,19 +372,23 @@
   "git.openRepositoryInParentFolders": "never",
   "window.zoomLevel": -1,
 
+  /* Chat */
+  "chat.agent.enabled": true,
+
   /* Editor */
   "editor.inlineSuggest.enabled": true,
   "editor.lineNumbers": "relative",
   "editor.accessibilitySupport": "off",
   "editor.tabCompletion": "on",
-
-  /* VSCode */
-  "update.mode": "manual",
+  "editor.experimental.asyncTokenization": true,
 
   /* Cursor */
   "cursor.cpp.disabledLanguages": ["markdown", "scminput"],
   "cursorpyright.analysis.autoSearchPaths": false,
   "cursorpyright.analysis.logLevel": "Information",
   "vsintellicode.modify.editor.suggestSelection": "choseToUpdateConfiguration",
-  "extensions.ignoreRecommendations": true
+  "extensions.ignoreRecommendations": true,
+
+  /* VSCode */
+  "update.mode": "manual"
 }
