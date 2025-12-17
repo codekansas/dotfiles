@@ -119,11 +119,13 @@ alias reload='exec $SHELL'
 alias smi='nvidia-smi --query-gpu=index,name,utilization.gpu,utilization.memory,memory.total,memory.used --format=csv -l 1'
 alias smiwho="ps -up \$(nvidia-smi -q -x | grep pid | sed -e 's/<pid>//g' -e 's/<\/pid>//g' -e 's/^[[:space:]]*//')"
 
-# cursor
+# ides
 alias install-cursor="brew install --cask cursor"
 alias update-cursor="brew upgrade --cask cursor"
 alias install-vscode="brew install --cask visual-studio-code"
 alias update-vscode="brew upgrade --cask visual-studio-code"
+alias install-agy="brew install --cask antigravity"
+alias update-agy="brew upgrade --cask antigravity"
 
 # time
 alias today='date +"%Y-%m-%d'
