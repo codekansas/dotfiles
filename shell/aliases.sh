@@ -120,8 +120,10 @@ alias smi='nvidia-smi --query-gpu=index,name,utilization.gpu,utilization.memory,
 alias smiwho="ps -up \$(nvidia-smi -q -x | grep pid | sed -e 's/<pid>//g' -e 's/<\/pid>//g' -e 's/^[[:space:]]*//')"
 
 # cursor
-alias update-cursor='brew upgrade --cask cursor'
-alias update-vscode='brew upgrade --cask visual-studio-code'
+alias install-cursor="brew install --cask cursor"
+alias update-cursor="brew upgrade --cask cursor"
+alias install-vscode="brew install --cask visual-studio-code"
+alias update-vscode="brew upgrade --cask visual-studio-code"
 
 # time
 alias today='date +"%Y-%m-%d'
