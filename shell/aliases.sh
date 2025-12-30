@@ -550,7 +550,7 @@ zjd() {
         echo "No session found for $name"
         return 1
     fi
-    zellij delete-session -s $name
+    zellij delete-session $name
 }
 
 export ZELLIJ_CONFIG_FILE=$(realpath $HOME/.config/zellij/config.kdl)
