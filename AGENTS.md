@@ -40,8 +40,8 @@
 
 ### Linting
 
-- Run `ruff check` to lint code.
-- All our code should be Mypy-compatible.
+- Run `ruff check` and `ty lint` to lint code.
+- All our code should typecheck properly. We should avoid using ambiguous types as much as possible.
 
 ### Testing
 

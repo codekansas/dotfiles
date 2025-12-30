@@ -103,6 +103,10 @@ def main():
     if (ruff_path := shutil.which("ruff")) is not None:
         settings["ruff.path"] = [ruff_path]
 
+    # Adds Ty path if it is available.
+    if (ty_path := shutil.which("ty")) is not None:
+        settings["ty.path"] = [ty_path]
+
     # Adds cmake-format path if available.
     if (cmake_format_path := shutil.which("cmake-format")) is not None:
         settings["cmakeFormat.exePath"] = cmake_format_path

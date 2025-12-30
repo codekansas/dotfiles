@@ -48,8 +48,8 @@ format:
 .PHONY: format
 
 static-checks:
-	@ruff check $(py-files)
-	@mypy --install-types --non-interactive $(py-files)
+	@ruff check [[PROJECT NAME]] tests
+	@ty lint [[PROJECT NAME]] tests
 .PHONY: lint
 
 # ------------------------ #

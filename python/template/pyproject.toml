@@ -19,8 +19,8 @@ Repository = "[[PROJECT URL]]"
 
 dev = [
     # Linting.
-    "mypy",
     "ruff",
+    "ty",
     # Tests.
     "pytest",
 ]
@@ -55,28 +55,6 @@ testpaths = ["tests"]
 markers = [
     "slow: Marks test as being slow",
 ]
-
-[tool.mypy]
-
-pretty = true
-show_column_numbers = true
-show_error_context = true
-show_error_codes = true
-show_traceback = true
-disallow_untyped_defs = true
-strict_equality = true
-allow_redefinition = true
-
-warn_unused_ignores = true
-warn_redundant_casts = true
-
-incremental = true
-namespace_packages = false
-
-# Uncomment to exclude modules from Mypy.
-# [[tool.mypy.overrides]]
-# module = []
-# ignore_missing_imports = true
 
 [tool.ruff]
 
