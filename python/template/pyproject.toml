@@ -1,3 +1,40 @@
+[project]
+
+name = "[[PROJECT NAME]]"
+description = "[[PROJECT DESCRIPTION]]"
+authors = [
+    { name = "[[PROJECT AUTHOR]]", email = "[[PROJECT AUTHOR EMAIL]]" },
+]
+license = "MIT"
+readme = "README.md"
+requires-python = ">= [[PROJECT PYTHON VERSION]]"
+dynamic = ["version"]
+
+[project.urls]
+
+Repository = "[[PROJECT URL]]"
+
+[project.optional-dependencies]
+
+dev = [
+    "mypy",
+    "pytest",
+    "ruff",
+]
+
+[build-system]
+
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+
+include-package-data = true
+
+[tool.setuptools.package-data]
+
+[[PROJECT PYTHON NAME]] = ["*.py", "*.txt", "py.typed"]
+
 [tool.pytest.ini_options]
 
 addopts = "-rx -rf -x -q --full-trace"
