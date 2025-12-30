@@ -169,10 +169,6 @@ def main():
                 "name": clean_name(directory.name),
                 "path": str(directory),
             },
-            {
-                "name": "Workspaces",
-                "path": str(code_ws_directory),
-            },
         ],
         "settings": settings,
     }

@@ -31,6 +31,11 @@ build-backend = "setuptools.build_meta"
 
 include-package-data = true
 
+[tool.setuptools.packages.find]
+
+where = ["."]
+include = ["[[PROJECT PYTHON NAME]]"]
+
 [tool.setuptools.package-data]
 
 [[PROJECT PYTHON NAME]] = ["*.py", "*.txt", "py.typed"]
