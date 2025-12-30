@@ -533,7 +533,7 @@ alias zj='zellij'
 alias zjl='zellij list-sessions'
 
 zjs() {
-    local name=$(dirname $PWD)
+    local name=$(basename $PWD)
     local has_session=$(zellij list-sessions | grep -c $name)
     # Create a new session if it doesn't exist.
     if [[ $has_session -eq 0 ]]; then
@@ -544,7 +544,7 @@ zjs() {
 }
 
 zjd() {
-    local name=$(dirname $PWD)
+    local name=$(basename $PWD)
     local has_session=$(zellij list-sessions | grep -c $name)
     if [[ $has_session -eq 0 ]]; then
         echo "No session found for $name"
