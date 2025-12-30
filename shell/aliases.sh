@@ -539,7 +539,7 @@ zjs() {
     if [[ $has_session -eq 0 ]]; then
         zellij -s $name
     else
-        zellij attach -s $name
+        zellij attach $name
     fi
 }
 
