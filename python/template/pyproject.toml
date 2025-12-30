@@ -9,6 +9,7 @@ license = "MIT"
 readme = "README.md"
 requires-python = ">= [[PROJECT PYTHON VERSION]]"
 dynamic = ["version"]
+dependencies = []
 
 [project.urls]
 
@@ -17,9 +18,11 @@ Repository = "[[PROJECT URL]]"
 [project.optional-dependencies]
 
 dev = [
+    # Linting.
     "mypy",
-    "pytest",
     "ruff",
+    # Tests.
+    "pytest",
 ]
 
 [build-system]
@@ -34,11 +37,15 @@ include-package-data = true
 [tool.setuptools.packages.find]
 
 where = ["."]
-include = ["[[PROJECT PYTHON NAME]]"]
+include = ["[[PROJECT PYTHON NAME]]*"]
 
 [tool.setuptools.package-data]
 
 [[PROJECT PYTHON NAME]] = ["*.py", "*.txt", "py.typed"]
+
+[tool.setuptools.dynamic]
+
+version = {attr = "[[PROJECT PYTHON NAME]].__version__"}
 
 [tool.pytest.ini_options]
 
