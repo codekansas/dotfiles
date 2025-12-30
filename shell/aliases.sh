@@ -530,6 +530,29 @@ alias pwd='pwd -P'
 
 # zellij
 alias zj='zellij'
+alias zjl='zellij list-sessions'
+
+zjs() {
+    local name=$(dirname $PWD)
+    local has_session=$(zellij list-sessions | grep -c $name)
+    # Create a new session if it doesn't exist.
+    if [[ $has_session -eq 0 ]]; then
+        zellij -s $name
+    else
+        zellij attach -s $name
+    fi
+}
+
+zjd() {
+    local name=$(dirname $PWD)
+    local has_session=$(zellij list-sessions | grep -c $name)
+    if [[ $has_session -eq 0 ]]; then
+        echo "No session found for $name"
+        return 1
+    fi
+    zellij delete-session -s $name
+}
+
 export ZELLIJ_CONFIG_FILE=$(realpath $HOME/.config/zellij/config.kdl)
 
 # tmux
