@@ -39,6 +39,7 @@
 
 - Run `ruff check` and `ty lint` to lint code.
 - All our code should typecheck properly. We should avoid using ambiguous types as much as possible.
+- When fixing lint issues, think hard about the correct type and try to avoid using `# type: ignore`. Prefer to use `from typing import cast` for ambiguous types.
 
 ### Testing
 
