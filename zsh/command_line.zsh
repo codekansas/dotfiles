@@ -25,7 +25,7 @@ function conda_prompt_info {
 
 function venv_prompt_info {
     if [[ -n $VIRTUAL_ENV ]]; then
-        echo " [%{$fg_bold[yellow]%}$(basename $VIRTUAL_ENV)%{$reset_color%}]"
+        echo " [%{$fg_bold[yellow]%}$(basename $(dirname $VIRTUAL_ENV))%{$reset_color%}]"
     fi
 }
 

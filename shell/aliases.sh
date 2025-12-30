@@ -1043,32 +1043,20 @@ px-env() {
 # ---------------------------
 
 uv-env() {
-    local env_path=${HOME}/.virtualenvs/$1
-    if [[ -d ${env_path} ]]; then
-        source ${env_path}/bin/activate
-    else
-        # Create new environment if it doesn't exist
+    local env_path=$PWD/.venv
+    # Create new environment if it doesn't exist
+    if [[ ! -d ${env_path} ]]; then
         load-uv
-        mkdir -p ${HOME}/.virtualenvs
-        if [[ $# -eq 1 ]]; then
+        if [[ $# -eq 0 ]]; then
             uv venv ${env_path} --python ${DEFAULT_PYTHON_VERSION}
-        elif [[ $# -eq 2 ]]; then
+        elif [[ $# -eq 1 ]]; then
             uv venv ${env_path} --python $2
         else
-            echo "Usage: uv-env <env-name> (<python-version>)"
+            echo "Usage: uv-env (<python-version>)"
             return 1
         fi
-        source ${env_path}/bin/activate
     fi
-}
-
-uv-rm() {
-    if [[ "$#" -ne "1" ]]; then
-        echo "Usage: uv-rm <name>"
-        return
-    fi
-    rm -rf ${HOME}/.virtualenvs/$1
-    echo "Removed environment '$1'"
+    source ${env_path}/bin/activate
 }
 
 # Use UV instead of regular PIP.

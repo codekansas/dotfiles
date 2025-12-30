@@ -26,24 +26,6 @@ _cn_vars_complete() {
 }
 complete -F _cn_vars_complete 'cn-vars'
 
-# --
-# uv
-# --
-
-_uv_complete() {
-    local cur opts
-    COMPREPLY=()
-    cur="${COMP_WORDS[COMP_CWORD]}"
-    opts="$(ls -1 ${HOME}/.virtualenvs | paste -sd ' ')"
-    COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
-    return 0
-}
-
-if [[ -d ${HOME}/.virtualenvs ]]; then
-    complete -F _uv_complete 'uv-env'
-    complete -F _uv_complete 'uv-rm'
-fi
-
 # ----
 # tmux
 # ----
