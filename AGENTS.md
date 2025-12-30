@@ -8,20 +8,17 @@
 
 ### Coding Style
 
-- Prefer `const x = ...` over `function x(...)`
+- Prefer `const x = ...` over `function x(...)` wherever possible.
 
 ## Python
-
-### Variable Names
-
-- Follow Noam Shazeer's tensor name suffix convention when writing Jax, PyTorch, Tensorflow or Numpy code. This means that, wherever possible, tensor names should be written as `name_bt3` or similar, where `_bt3` represents the tensor dimensions, for example, `b` for batch size, `t` for time, and `3` for a fixed channel dimension.
-- Prefer `idx` over `i` or `index`. Similarly, `for ... in` statements should use variable names that are descriptive.
-- Use `bsz` and `tsz` for tensor batch and time dimension sizes.
-- Don't use capital letters in variable names, even for annotating tensor dimensions. If the letter used to denote the tensor dimension is ambiguous, we can add a comment or docstring message to explain it.
 
 ### Machine Learning
 
 - When useful, use `chex` at the start of a function to do runtime validation on the function's input values.
+- Follow Noam Shazeer's tensor name suffix convention when writing Jax, PyTorch, Tensorflow or Numpy code. This means that, wherever possible, tensor names should be written as `name_bt3` or similar, where `_bt3` represents the tensor dimensions, for example, `b` for batch size, `t` for time, and `3` for a fixed channel dimension.
+- Prefer `idx` over `i` or `index`. Similarly, `for ... in` statements should use variable names that are descriptive.
+- Use `bsz` and `tsz` for tensor batch and time dimension sizes.
+- Don't use capital letters in variable names, even for annotating tensor dimensions. If the letter used to denote the tensor dimension is ambiguous, we can add a comment or docstring message to explain it.
 
 ### Coding Style
 
