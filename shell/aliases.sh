@@ -537,9 +537,9 @@ zjs() {
     local has_session=$(zellij list-sessions | grep -c $name)
     # Create a new session if it doesn't exist.
     if [[ $has_session -eq 0 ]]; then
-        zellij -s $name
+        zellij -s $name $@
     else
-        zellij attach $name
+        zellij attach $name $@
     fi
 }
 
@@ -550,7 +550,7 @@ zjd() {
         echo "No session found for $name"
         return 1
     fi
-    zellij delete-session $name
+    zellij delete-session $name $@
 }
 
 export ZELLIJ_CONFIG_FILE=$(realpath $HOME/.config/zellij/config.kdl)
