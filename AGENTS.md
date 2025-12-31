@@ -45,6 +45,7 @@
 
 - In general, we don't care about test coverage, since most of the code we write is fairly technical. We therefore don't need to implement lots of redundant tests.
 - For machine learning code, we should implement tests for the correctness of the core mathematical functionality, which requires some amount of careful thought.
+- When writing tests, use pytest functions. Avoid doing `class TestX:` unless it's absolutely necessary.
 
 ### Logging
 
