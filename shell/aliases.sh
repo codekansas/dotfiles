@@ -127,6 +127,10 @@ alias update-vscode="brew upgrade --cask visual-studio-code"
 alias install-agy="brew install --cask antigravity"
 alias update-agy="brew upgrade --cask antigravity"
 
+export EXTENSION_LIST_URL='https://gist.github.com/codekansas/7248380bdf07d6eac42274a4e6f62166/raw'
+alias install-vscode-extensions="curl -L $EXTENSION_LIST_URL | xargs -n 1 code --install-extension"
+alias install-cursor-extensions="curl -L $EXTENSION_LIST_URL | xargs -n 1 cursor --install-extension"
+
 # time
 alias today='date +"%Y-%m-%d'
 alias now='date +"%T"'
