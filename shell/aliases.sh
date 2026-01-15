@@ -1336,7 +1336,8 @@ pathclean() {
 }
 
 trim() {
-  local s="$1"
+  local s
+  s="$(cat)"
   s="${s#"${s%%[![:space:]]*}"}"
   s="${s%"${s##*[![:space:]]}"}"
   printf '%s' "$s"
