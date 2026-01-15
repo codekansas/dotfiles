@@ -1335,6 +1335,13 @@ pathclean() {
     done
 }
 
+trim() {
+  local s="$1"
+  s="${s#"${s%%[![:space:]]*}"}"
+  s="${s%"${s##*[![:space:]]}"}"
+  printf '%s' "$s"
+}
+
 killport() {
     if [[ $# -ne 1 ]]; then
         echo "Usage: killport <port>"
@@ -1342,12 +1349,12 @@ killport() {
     fi
     local port=$1
     local lsof_out=$(lsof -i :${port} | grep LISTEN)
-    local pids=$(echo $lsof_out | awk '{print $2}' | sort -u | tr '\n' ' ')
+    local pids=$(echo $lsof_out | awk '{print $2}' | sort -u | tr '\n' ' ' | trim)
     if [[ ${pids} =~ [^[:space:]] ]]; then
         echo "Killing process(es) '${pids}' on port ${port}"
         echo ${pids} | xargs kill -9
     else
-        echo "No processes found for port ${port}"
+        echo "No processes found for port '${port}' (PIDs: '${pids}')"
     fi
 }
 
