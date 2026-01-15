@@ -1341,10 +1341,13 @@ killport() {
         return 1
     fi
     local port=$1
-    local pids=$(lsof -i :${port} | grep LISTEN | awk '{print $2}' | sort -u | tr '\n' ' ')
-    if [[ -n ${pid} ]]; then
+    local lsof_out=$(lsof -i :${port} | grep LISTEN)
+    local pids=$(echo $lsof_out | awk '{print $2}' | sort -u | tr '\n' ' ')
+    if [[ ${pids} =~ [^[:space:]] ]]; then
         echo "Killing process(es) '${pids}' on port ${port}"
         echo ${pids} | xargs kill -9
+    else
+        echo "No processes found for port ${port}"
     fi
 }
 
@@ -1375,6 +1378,8 @@ killgpu() {
 }
 
 killml() {
+    killport 6006
+    killport 6007
     killport 9249
     killport 29500
     killproc tensorboard
