@@ -1,11 +1,11 @@
 # .ssh/config.d/gpu
 
-Host gpu-*
-    ServerAliveInterval 60
-    ServerAliveCountMax 5
-    ControlMaster auto
-    ControlPath ~/.ssh/sockets/%r@%h-%p
-    ControlPersist 600
+# Host gpu-*
+#     ServerAliveInterval 60
+#     ServerAliveCountMax 5
+#     ControlMaster auto
+#     ControlPath ~/.ssh/sockets/%r@%h-%p
+#     ControlPersist 600
 
 # Specific GPUs
 # -------------
