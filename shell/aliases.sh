@@ -508,24 +508,48 @@ export TENSORBOARD_BIND_ALL=1
 tbd() {
     local cmd
     local extra
+    local port
+    local ip_list
 
+    extra=""
     if [[ -n $TENSORBOARD_PORT ]] && [[ $# -ne 2 ]]; then
-        extra="--port ${TENSORBOARD_PORT}"
+        extra+="--port ${TENSORBOARD_PORT} "
     fi
     if [[ $TENSORBOARD_BIND_ALL -eq 1 ]]; then
-        extra="--bind_all"
+        extra+="--bind_all "
     fi
 
     if [[ $# -eq 0 ]]; then
+        port=${TENSORBOARD_PORT:-6006}
         cmd="tensorboard serve --reload_interval 30 --logdir . ${extra}"
     elif [[ $# -eq 1 ]]; then
+        port=${TENSORBOARD_PORT:-6006}
         cmd="tensorboard serve --reload_interval 30 --logdir $1 ${extra}"; shift
     elif [[ $# -eq 2 ]]; then
+        port=$2
         cmd="tensorboard serve --reload_interval 30 --logdir $1 --port $2 ${extra}"; shift; shift
     else
         echo "Usage: tbd (<directory>) (<port>)"
     fi
     echo "Running '$cmd'"
+    if [[ -n $port ]]; then
+        local ips=()
+        while IFS= read -r ip; do
+            [[ -n $ip ]] && ips+=("$ip")
+        done < <(
+            hostname -I 2>/dev/null \
+                | tr ' ' '\n' \
+                | awk 'NF' \
+                | grep -E '^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$' \
+                | sort -u
+        )
+        if [[ ${#ips[@]} -gt 0 ]]; then
+            echo "Tensorboard URLs:"
+            for ip in "${ips[@]}"; do
+                echo " - http://${ip}:${port}"
+            done
+        fi
+    fi
     eval $cmd
 }
 
