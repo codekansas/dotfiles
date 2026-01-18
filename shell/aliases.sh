@@ -132,7 +132,7 @@ alias install-vscode-extensions="curl -L $EXTENSION_LIST_URL | xargs -n 1 code -
 alias install-cursor-extensions="curl -L $EXTENSION_LIST_URL | xargs -n 1 cursor --install-extension"
 
 # time
-alias today='date +"%Y-%m-%d'
+alias today='date +"%Y-%m-%d"'
 alias now='date +"%T"'
 
 # paths
