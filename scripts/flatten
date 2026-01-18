@@ -17,17 +17,36 @@ fromdir=$tmpdir/$(basename "$1")
 mv "$1" "$fromdir"
 todir=$(dirname "$1")
 
-# Moves regular files.
-for file in $fromdir/*; do
-    mv "$file" "$todir"
-done
+# Shows progress for file moves.
+total=$(find "$fromdir" -maxdepth 1 -mindepth 1 | wc -l | tr -d " ")
+moved=0
 
-# Moves hidden files.
-for file in $fromdir/.*; do
-    if [ "$file" != "$fromdir/." ] && [ "$file" != "$fromdir/.." ]; then
-        mv "$file" "$todir"
+print_progress() {
+    if [ "$total" -eq 0 ]; then
+        return
     fi
+    pct=$((moved * 100 / total))
+    filled=$((pct / 2))
+    bar=$(printf "%${filled}s" "" | tr " " "#")
+    empty=$(printf "%$((50 - filled))s" "" | tr " " "-")
+    printf "\r[%s%s] %d/%d" "$bar" "$empty" "$moved" "$total"
+}
+
+# Moves regular and hidden files.
+for file in "$fromdir"/* "$fromdir"/.*; do
+    if [ "$file" = "$fromdir/." ] || [ "$file" = "$fromdir/.." ]; then
+        continue
+    fi
+    if [ ! -e "$file" ]; then
+        continue
+    fi
+    mv "$file" "$todir"
+    moved=$((moved + 1))
+    print_progress
 done
+if [ "$total" -gt 0 ]; then
+    printf "\n"
+fi
 
 # Removes the temporary directory.
 rmdir "$fromdir"
