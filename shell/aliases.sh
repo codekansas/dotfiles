@@ -1420,6 +1420,8 @@ killml() {
     killgpu
 }
 
+alias killtbd='killproc tensorboard'
+
 shell-str() {
     echo $SHELL | awk -F/ '{print $NF}'
 }
