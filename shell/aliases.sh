@@ -1409,6 +1409,40 @@ killgpu() {
     fi
 }
 
+listports() {
+  # Hosts you want to expose per port.
+  # Order matters: first ones are usually most useful.
+  EXTRA_HOSTS=(
+    "localhost"
+    "$(hostname -f 2>/dev/null)"
+    "$(hostname -I 2>/dev/null | awk '{print $1}')"
+    "$(curl -fs https://ifconfig.me 2>/dev/null)"
+  )
+
+  printf "%-6s %-60s %-6s %-s\n" "PROTO" "ENDPOINT" "PID" "COMMAND"
+  printf "%-6s %-60s %-6s %-s\n" "-----" "------------------------------------------------------------" "-----" "-------"
+
+  lsof -nP -iTCP -sTCP:LISTEN 2>/dev/null | awk -v hosts="${EXTRA_HOSTS[*]}" '
+    NR>1 {
+      split($9, a, ":")
+      port = a[length(a)]
+      bound = a[1]
+      pid = $2
+      cmd = $1
+
+      # Normalize wildcard binds
+      if (bound == "*" || bound == "0.0.0.0") {
+        n = split(hosts, H, " ")
+        for (i = 1; i <= n; i++) {
+          if (H[i] != "")
+            printf "%-6s %-60s %-6s %-s\n", "tcp", "http://" H[i] ":" port, pid, cmd
+        }
+      } else {
+        printf "%-6s %-60s %-6s %-s\n", "tcp", "http://" bound ":" port, pid, cmd
+      }
+    }'
+}
+
 killml() {
     killport 6006
     killport 6007
