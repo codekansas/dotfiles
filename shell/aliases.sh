@@ -1451,6 +1451,7 @@ killml() {
     killproc tensorboard
     killproc runml
     killproc mlfab
+    killproc nvidia-smi
     killgpu
 }
 
