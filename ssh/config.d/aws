@@ -1,6 +1,6 @@
 # .ssh/config.d/gpu
 
-# Host gpu-*
+# Host *-clawdbot*
 #     ServerAliveInterval 60
 #     ServerAliveCountMax 5
 #     ControlMaster auto
@@ -14,3 +14,5 @@ Host aws-clawdbot
     Hostname 100.112.115.67
     User ec2-user
     IdentityFile ~/.ssh/clawdbot.pem
+    LocalForward 18789 127.0.0.1:18789
+
