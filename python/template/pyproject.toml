@@ -3,7 +3,7 @@
 name = "[[PROJECT NAME]]"
 description = "[[PROJECT DESCRIPTION]]"
 authors = [
-    { name = "[[PROJECT AUTHOR]]", email = "[[PROJECT AUTHOR EMAIL]]" },
+    { name = "[[PROJECT AUTHOR]]", email = "[[PROJECT EMAIL]]" },
 ]
 license = "MIT"
 readme = "README.md"
