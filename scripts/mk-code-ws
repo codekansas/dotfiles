@@ -14,6 +14,19 @@ from pathlib import Path
 from typing import Dict, List, Union
 
 
+ANSI_RESET = "\033[0m"
+ANSI_DIM = "\033[90m"
+ANSI_BOLD_CYAN = "\033[1;36m"
+
+
+def print_dim(message: str, end: str = "\n") -> None:
+    print(f"{ANSI_DIM}{message}{ANSI_RESET}", end=end)
+
+
+def print_emphasis(message: str, end: str = "\n") -> None:
+    print(f"{ANSI_BOLD_CYAN}{message}{ANSI_RESET}", end=end)
+
+
 def clean_name(dir_name: str) -> str:
     """Converts directory name into a name suitable for VSCode workspace.
 
@@ -53,15 +66,15 @@ def recursive_merge(config: Union[Dict, List], old_config: Union[Dict, List]) ->
                 if isinstance(value, (dict, list)):
                     recursive_merge(config[key], value)
                 elif config[key] != value:
-                    print(f"Ignoring key {key} in old config")
+                    print_dim(f"Ignoring key {key} in old config")
             else:
-                print(f"Adding new key {key} from old config")
+                print_dim(f"Adding new key {key} from old config")
                 config[key] = value
 
     elif isinstance(config, list) and isinstance(old_config, list):
         for value in old_config:
             if value not in config:
-                print(f"Adding new value {value} from old config")
+                print_dim(f"Adding new value {value} from old config")
                 config.append(value)
 
     else:
@@ -84,15 +97,11 @@ def main():
         for i in range(1, 1000):
             if not workspace_file.exists():
                 break
-            print(f"Workspace {workspace_file} already exists, trying another name")
+            print_dim(f"Workspace {workspace_file} already exists, trying another name")
             workspace_file = code_ws_directory / f"{directory.name}-{i}.code-workspace"
         is_new = True
     else:
         is_new = not workspace_file.exists()
-
-    print("┌─" + "─" * len(str(workspace_file)) + "─┐")
-    print(f"│ {workspace_file} │")
-    print("└─" + "─" * len(str(workspace_file)) + "─┘")
 
     settings = {}
     cmake_configure_settings = {}
@@ -145,10 +154,10 @@ def main():
             cmake_configure_settings["TORCH_CUDA_ARCH_LIST"] = f"'{major_ver}.{minor_ver}'"
 
         except Exception as e:
-            print(f"Failed to get CUDA architecture list: {e}")
+            print_dim(f"Failed to get CUDA architecture list: {e}")
 
     except ModuleNotFoundError:
-        print("PyTorch not found, skipping")
+        print_dim("PyTorch not found, skipping")
 
     # Gets Pybind11 settings.
     try:
@@ -156,7 +165,7 @@ def main():
 
         cmake_prefix_paths += [pybind11.get_cmake_dir()]
     except ModuleNotFoundError:
-        print("Pybind11 not found, skipping")
+        print_dim("Pybind11 not found, skipping")
 
     if cmake_prefix_paths:
         cmake_configure_settings["CMAKE_PREFIX_PATH"] = cmake_prefix_paths
@@ -190,7 +199,8 @@ def main():
     with open(workspace_file, "w", encoding="utf-8") as f:
         json.dump(config, f, indent=2, sort_keys=True)
 
-    print(f"{'Created' if is_new else 'Updated'} workspace {workspace_file}")
+    print_dim(f"{'Created' if is_new else 'Updated'} workspace", end=" ")
+    print_emphasis(str(workspace_file))
 
 
 if __name__ == "__main__":
