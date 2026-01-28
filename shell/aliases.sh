@@ -783,7 +783,7 @@ load-nvm() {
         export NVM_DIR="/opt/homebrew/opt/nvm"
     fi
     [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-    [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+    # [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 }
 alias nvm='echo "Run load-nvm first"'
 alias npm='echo "Run load-nvm first"'
