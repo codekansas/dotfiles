@@ -12,6 +12,28 @@
 
 ## Python
 
+### Project Organization
+
+- Favor package-first layouts with stable import paths.
+- Organize by domain/capability first, then by technical role.
+- Keep modules focused; one file should usually have one primary responsibility.
+- Design dependency flow in one direction and avoid upward imports.
+- Keep pure business/domain logic separate from infrastructure (I/O, network, DB, CLI, framework glue).
+- Keep framework entrypoints thin; they should parse/validate inputs, call library code, and format outputs.
+- Prefer composition over deep inheritance hierarchies.
+- Use explicit interfaces (Protocol/ABC) at subsystem boundaries when multiple implementations are expected.
+- Keep shared utilities narrow and intentional; avoid a catch-all `utils` module.
+- Centralize config schemas/defaults, and keep config objects separate from runtime side effects.
+- Keep top-level directories predictable:
+  - `src/<pkg>/` or `<pkg>/` for application/library code.
+  - `tests/` mirroring package structure.
+  - `scripts/` for development and maintenance tasks.
+  - `examples/` for demos only.
+- Treat public APIs as intentional:
+  - Export stable APIs explicitly in `__init__.py`.
+  - Keep internals private by default.
+  - Update docs/examples together with public API changes.
+
 ### Machine Learning
 
 - When useful, use `chex` at the start of a function to do runtime validation on the function's input values.
