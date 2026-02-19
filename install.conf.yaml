@@ -11,6 +11,7 @@
   - ~/.config/matplotlib
   - ~/.ipython/profile_default
   - ~/.jupyter
+  - ~/.codex/skills
 
 - link:
     ~/.dotfiles: ''
@@ -36,6 +37,19 @@
     ~/.cron-local/bin: cron-local/bin
     ~/.codex/config.toml: codex/config.toml
     ~/.codex/AGENTS.md: codex/AGENTS.md
+    ~/.codex/skills/create-cli: codex/skills/create-cli
+    ~/.codex/skills/domain-dns-ops: codex/skills/domain-dns-ops
+    ~/.codex/skills/frontend-design: codex/skills/frontend-design
+    ~/.codex/skills/instruments-profiling: codex/skills/instruments-profiling
+    ~/.codex/skills/markdown-converter: codex/skills/markdown-converter
+    ~/.codex/skills/native-app-performance: codex/skills/native-app-performance
+    ~/.codex/skills/openai-image-gen: codex/skills/openai-image-gen
+    ~/.codex/skills/oracle: codex/skills/oracle
+    ~/.codex/skills/swift-concurrency-expert: codex/skills/swift-concurrency-expert
+    ~/.codex/skills/swiftui-liquid-glass: codex/skills/swiftui-liquid-glass
+    ~/.codex/skills/swiftui-performance-audit: codex/skills/swiftui-performance-audit
+    ~/.codex/skills/swiftui-view-refactor: codex/skills/swiftui-view-refactor
+    ~/.codex/skills/video-transcript-downloader: codex/skills/video-transcript-downloader
     ~/.cursor/rules/AGENTS.md: cursor/rules/AGENTS.md
     ~/.zsh:
     ~/.zshrc:

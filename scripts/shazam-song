@@ -1,0 +1,52 @@
+#!/usr/bin/env -S uv run --quiet --script
+# /// script
+# requires-python = ">=3.12,<3.13"
+# dependencies = ["shazamio"]
+# ///
+"""
+shazam-song - Identify songs from audio files using Shazam API
+Usage: shazam-song <audio-file>
+"""
+
+import asyncio
+import os
+import sys
+from shazamio import Shazam
+
+
+async def main():
+    if len(sys.argv) != 2 or sys.argv[1] in {"-h", "--help"}:
+        usage = "Usage: shazam-song <audio-file>"
+        if len(sys.argv) == 2 and sys.argv[1] in {"-h", "--help"}:
+            print(usage)
+            sys.exit(0)
+        print(usage, file=sys.stderr)
+        sys.exit(1)
+
+    audio_path = sys.argv[1]
+    if not os.path.exists(audio_path):
+        print(f"Error: file not found: {audio_path}", file=sys.stderr)
+        sys.exit(1)
+
+    shazam = Shazam()
+    out = await shazam.recognize(audio_path)
+    if out.get("track"):
+        track = out["track"]
+        title = track.get("title", "Unknown")
+        artist = track.get("subtitle", "Unknown")
+        print(f"🎵 {title} - {artist}")
+
+        # Print extra info if available
+        if track.get("genres"):
+            genres = track["genres"].get("primary", "")
+            if genres:
+                print(f"   Genre: {genres}")
+        if track.get("url"):
+            print(f"   Shazam: {track['url']}")
+    else:
+        print("❌ Song not recognized")
+        sys.exit(1)
+
+
+if __name__ == "__main__":
+    asyncio.run(main())
