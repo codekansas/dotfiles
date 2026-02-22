@@ -1,10 +1,23 @@
 model = "gpt-5.3-codex"
 model_reasoning_effort = "xhigh"
-approval_policy = "on-failure"
+approval_policy = "on-request"
 personality = "pragmatic"
+sandbox_mode = "workspace-write"
 
 [features]
-streamable_shell = true
+apply_patch_freeform = true
+apps = true
+apps_mcp_gateway = true
+child_agents_md = true
+elevated_windows_sandbox = true
+experimental_windows_sandbox = true
+multi_agent = true
+remote_models = true
+runtime_metrics = true
+search_tool = true
+shell_snapshot = true
+unified_exec = true
+use_linux_sandbox_bwrap = true
 
 [sandbox_workspace_write]
 network_access = true
