@@ -32,3 +32,4 @@ The run ID can be parsed from the associated URL.
 - Stage and commit tersely: `git add -A` then `git commit -m "{fix description}"`
 - Push: `git push`
 - Recheck: `gh pr checks` to confirm.
+- If the original branch was main / master / default, merge the PR, then check that the resulting status checks also pass. If they do not, then repeat this workflow until success.
