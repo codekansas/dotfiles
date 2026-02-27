@@ -3,18 +3,18 @@
       create: true
       relink: true
 
-- clean: ['~', '~/.config']
+- clean: ["~", "~/.config"]
 
 - create:
-  - ~/.tmux/plugins
-  - ~/.matplotlib
-  - ~/.config/matplotlib
-  - ~/.ipython/profile_default
-  - ~/.jupyter
-  - ~/.codex/skills
+    - ~/.tmux/plugins
+    - ~/.matplotlib
+    - ~/.config/matplotlib
+    - ~/.ipython/profile_default
+    - ~/.jupyter
+    - ~/.codex/skills
 
 - link:
-    ~/.dotfiles: ''
+    ~/.dotfiles: ""
     ~/.tmux.conf:
     ~/.tmux/plugins/tpm: tmux/plugins/tpm
     ~/.vim:
@@ -37,19 +37,11 @@
     ~/.cron-local/bin: cron-local/bin
     ~/.codex/config.toml: codex/config.toml
     ~/.codex/AGENTS.md: codex/AGENTS.md
-    ~/.codex/skills/create-cli: codex/skills/create-cli
-    ~/.codex/skills/domain-dns-ops: codex/skills/domain-dns-ops
-    ~/.codex/skills/frontend-design: codex/skills/frontend-design
-    ~/.codex/skills/instruments-profiling: codex/skills/instruments-profiling
-    ~/.codex/skills/markdown-converter: codex/skills/markdown-converter
-    ~/.codex/skills/native-app-performance: codex/skills/native-app-performance
-    ~/.codex/skills/openai-image-gen: codex/skills/openai-image-gen
-    ~/.codex/skills/oracle: codex/skills/oracle
-    ~/.codex/skills/swift-concurrency-expert: codex/skills/swift-concurrency-expert
-    ~/.codex/skills/swiftui-liquid-glass: codex/skills/swiftui-liquid-glass
-    ~/.codex/skills/swiftui-performance-audit: codex/skills/swiftui-performance-audit
-    ~/.codex/skills/swiftui-view-refactor: codex/skills/swiftui-view-refactor
-    ~/.codex/skills/video-transcript-downloader: codex/skills/video-transcript-downloader
+    ~/.codex/skills/*:
+      create: true
+      glob: true
+      path: codex/skills/*
+      relink: true
     ~/.cursor/rules/AGENTS.md: cursor/rules/AGENTS.md
     ~/.zsh:
     ~/.zshrc:
@@ -75,22 +67,31 @@
     ~/.ssh/config.d: ssh/config.d
 
 - shell:
-  - [git submodule update --init --recursive, Installing submodules]
-  - [if command -v zsh ; then ~/.zsh/oh-my-zsh.sh ; fi, Installing oh-my-zsh]
-  - [mkdir -p ~/.ssh/sockets && chmod 700 ~/.ssh/sockets, Creating sockets folder]
-  - [if command -v brew ; then brew bundle --file=~/.dotfiles/Brewfile & ; fi, Installing Homebrew packages]
-  - [if command -v tmux && tmux info &> /dev/null ; then tmux source ~/.tmux.conf && ~/.tmux/plugins/tpm/bin/install_plugins ; fi, Installing Tmux]
+    - [git submodule update --init --recursive, Installing submodules]
+    - [if command -v zsh ; then ~/.zsh/oh-my-zsh.sh ; fi, Installing oh-my-zsh]
+    - [
+        mkdir -p ~/.ssh/sockets && chmod 700 ~/.ssh/sockets,
+        Creating sockets folder,
+      ]
+    - [
+        if command -v brew ; then brew bundle --file=~/.dotfiles/Brewfile & ; fi,
+        Installing Homebrew packages,
+      ]
+    - [
+        if command -v tmux && tmux info &> /dev/null ; then tmux source ~/.tmux.conf && ~/.tmux/plugins/tpm/bin/install_plugins ; fi,
+        Installing Tmux,
+      ]
 
 - crontab:
-  - key: SHELL
-    value: /bin/zsh
-  - key: RANDOM_DELAY
-    value: 10
-  - time: 0 6 * * *
-    command: 'mkdir -p ${HOME}/.cron-local && /usr/bin/env > ${HOME}/.cron-local/cron-env'
-  - time: 30 * * * *
-    command: '~/.cron/hourly.zsh'
-  - time: 0 6 * * *
-    command: '~/.cron/daily.zsh'
-  - time: 0 7 * * 3
-    command: '~/.cron/weekly.zsh'
+    - key: SHELL
+      value: /bin/zsh
+    - key: RANDOM_DELAY
+      value: 10
+    - time: 0 6 * * *
+      command: "mkdir -p ${HOME}/.cron-local && /usr/bin/env > ${HOME}/.cron-local/cron-env"
+    - time: 30 * * * *
+      command: "~/.cron/hourly.zsh"
+    - time: 0 6 * * *
+      command: "~/.cron/daily.zsh"
+    - time: 0 7 * * 3
+      command: "~/.cron/weekly.zsh"
