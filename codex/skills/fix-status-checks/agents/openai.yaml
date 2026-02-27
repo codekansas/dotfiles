@@ -1,4 +1,4 @@
 interface:
-  display_name: "Fix status checks"
+  display_name: "Fix Status Checks"
   short_description: "Inspect, fix, and push"
   default_prompt: "Fix the failing status checks on this PR: inspect what failed, fix the issue, and push."
