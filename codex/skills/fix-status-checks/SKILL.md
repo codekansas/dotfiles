@@ -1,6 +1,6 @@
 ---
 name: fix-status-checks
-description: Fix failing status checks on the current branch's PR. Use when the user has a PR (e.g. from yeet) and status checks are failing—inspect, fix, and push.
+description: Fix failing status checks and resolve branch conflicts for the current branch. Use when the user has a PR (e.g. from yeet) and status checks are failing or branch conflicts are preventing a merge—inspect, fix, and push.
 ---
 
 ## Prerequisites
