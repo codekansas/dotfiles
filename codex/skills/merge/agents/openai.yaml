@@ -1,0 +1,4 @@
+interface:
+  display_name: "Merge"
+  short_description: "Commit, push, fix checks, and merge PRs"
+  default_prompt: "Use $merge to take current local changes through commit, PR checks, and final merge to the default branch."
