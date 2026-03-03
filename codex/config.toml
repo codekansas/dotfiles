@@ -24,3 +24,16 @@ network_access = true
 
 [projects."${HOME}/Github/"]
 trust_level = "trusted"
+
+[mcp_servers.notion]
+url = "https://mcp.notion.com/mcp"
+
+[mcp_servers.playwright]
+args = ["@playwright/mcp@latest"]
+command = "npx"
+
+[mcp_servers.linear]
+url = "https://mcp.linear.app/mcp"
+
+[mcp_servers.figma]
+url = "https://mcp.figma.com/mcp"
