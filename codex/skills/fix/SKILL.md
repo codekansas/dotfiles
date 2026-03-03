@@ -24,28 +24,35 @@ description: "Use when the user asks to resolve remote GitHub PR push blockers, 
    - `git branch --show-current`
    - `gh pr view --json number,state,headRefName,baseRefName,mergeStateStatus,url` (if a PR already exists)
    - Record the specific error to eliminate (failed check name, merge conflict, non-fast-forward push rejection, etc.).
-3. Choose branch strategy:
-   - If on non-default branch: stay on this branch and repair the existing PR (or create one if missing).
-   - If on default branch: create a fix branch from default (`git checkout -b "codex/fix-{description}"`) and do all fixes there.
-4. Ensure remote branch and PR exist for the fix work:
+3. Detect stale upstream branch or merged PR state:
+   - Upstream deleted/unset: `git rev-parse --abbrev-ref --symbolic-full-name @{u}` fails, or `git ls-remote --exit-code --heads origin $(git branch --show-current)` fails.
+   - Current branch PR already merged: `gh pr view --json state,mergedAt --jq '.state'` returns `MERGED`.
+4. Choose branch strategy:
+   - If stale condition is true, first rebase onto `master` (or the repo default branch), then create a new fix branch for a new PR:
+     - `git fetch origin`
+     - `git rebase origin/<default-branch>` (this is `origin/master` when default is `master`)
+     - `git checkout -b "codex/fix-{description}-rebased"`
+   - If not stale and on non-default branch: stay on this branch and repair the existing PR (or create one if missing).
+   - If not stale and on default branch: create a fix branch from default (`git checkout -b "codex/fix-{description}"`) and do all fixes there.
+5. Ensure remote branch and PR exist for the fix work:
    - Push branch: `git push -u origin $(git branch --show-current)`
    - Create PR when missing: `GH_PROMPT_DISABLED=1 GIT_TERMINAL_PROMPT=0 gh pr create --fill --head $(git branch --show-current)`
-5. Triage blockers and apply fixes:
+6. Triage blockers and apply fixes:
    - Failing checks: `gh pr checks`, then inspect failing GitHub Actions logs via `gh run view <run_id> --log`.
    - Merge conflicts/stale branch: `git fetch origin` then merge default into branch (`git merge origin/<default-branch>`) and resolve conflicts.
    - Push rejection (non-fast-forward): `git fetch origin` then integrate remote changes before retrying push.
    - Other actionable CI blockers: reproduce locally when possible and patch.
-6. Commit and push each fix iteration:
+7. Commit and push each fix iteration:
    - `git add -A`
    - `git commit -m "{fix description}"` (skip commit if no changes)
    - `git push`
-7. Re-evaluate blockers after each push:
+8. Re-evaluate blockers after each push:
    - `gh pr checks`
    - `gh pr view --json mergeStateStatus,mergeable,url`
-   - Continue iterating steps 5-7 until both are true:
+   - Continue iterating steps 6-8 until both are true:
      - PR required checks are passing.
      - The original blocking condition is resolved (the initial error no longer reproduces/is no longer reported).
-8. Final verification:
+9. Final verification:
    - Re-run the command that originally failed (or equivalent check) to confirm the blocker is gone.
    - Report PR URL and what was fixed.
 
