@@ -1,0 +1,4 @@
+interface:
+  display_name: "Fix"
+  short_description: "Unblock PR pushes and get checks green"
+  default_prompt: "Use $fix to resolve PR push blockers, create a fix PR from default branch when needed, and iterate until checks pass and the root blocker is gone."
