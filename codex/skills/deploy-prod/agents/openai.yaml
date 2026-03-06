@@ -1,0 +1,4 @@
+interface:
+  display_name: "Deploy Prod"
+  short_description: "Promote staging to production safely"
+  default_prompt: "Use $deploy-prod to verify staging, write a reusable prod deploy script if needed, promote production, and wait for a healthy rollout."
