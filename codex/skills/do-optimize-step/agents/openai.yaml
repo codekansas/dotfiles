@@ -1,4 +1,4 @@
 interface:
   display_name: "Do Optimize Step"
   short_description: "Process one optimize-loop run and prepare the next experiment"
-  default_prompt: "Use $do-optimize-step to process exactly one optimize-loop step: read optimization_loop_state.json and the latest run artifacts, summarize the last experiment, update the TSV/Markdown/SVG outputs, decide keep or discard, prepare the next experiment, update the state file, and exit without running the experiment."
+  default_prompt: "Use $do-optimize-step to process exactly one optimize-loop step: read .optimize/<DATETIME>/optimization_loop_state.json and the latest run artifacts, summarize the last experiment, update the TSV/Markdown/SVG outputs, decide keep or discard, prepare the next experiment, update the state file, and exit without running the experiment."

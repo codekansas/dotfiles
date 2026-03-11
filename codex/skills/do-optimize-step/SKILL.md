@@ -1,27 +1,29 @@
 ---
 name: "do-optimize-step"
-description: "Use when the optimize loop needs one bounded subagent step to process the most recent experiment and prepare the next one. Read optimization_loop_state.json and prior artifacts, summarize the last run, update the TSV/Markdown/SVG outputs, decide keep or discard, implement the next experiment, update state, and exit."
+description: "Use when the optimize loop needs one bounded subagent step to process the most recent experiment and prepare the next one. Read .optimize/<DATETIME>/optimization_loop_state.json and prior artifacts, summarize the last run, update the TSV/Markdown/SVG outputs, decide keep or discard, implement the next experiment, update state, and exit."
 ---
 
 ## Purpose
 
 - This is the bounded worker for the long-running `optimize` skill.
 - It is invoked in a subagent for one step only.
+- The parent optimize coordinator may reuse the same subagent thread for many separate step requests.
 - It should not run the experiment command itself.
+- It does not own the optimization loop and must return control to the parent optimize coordinator.
 
 ## Required Inputs
 
 The parent optimize coordinator should provide:
 
 - the target working directory
-- the absolute path to `optimization_loop_state.json`
+- the absolute path to `.optimize/<DATETIME>/optimization_loop_state.json`
 - the path to the latest run log when one exists
 - the current objective and metric protocol
 - the timestamped `run_dir`, which should normally be `.optimize/<DATETIME>/`
 
 ## Responsibilities
 
-1. Read `optimization_loop_state.json`.
+1. Read `.optimize/<DATETIME>/optimization_loop_state.json`.
 2. Read the existing results artifacts from the paths stored in state. These should normally live under `.optimize/<DATETIME>/`.
 3. Read the relevant repository code before editing anything.
 4. Process the most recent run recorded in `last_run`.
@@ -93,5 +95,6 @@ Before exiting, ensure the state file is coherent:
 
 - Do not run the experiment command.
 - Do not turn into a long-running loop.
+- Do not take ownership of the optimization loop.
 - Do not spawn watchers, daemons, or nested coordinators.
-- If you discover a bug in the optimization loop itself, leave the state consistent and let the parent coordinator call `$fix-optimize-loop`.
+- If you discover a bug in the optimization loop itself, leave the state consistent, return control, and let the parent coordinator call `$fix-optimize-loop`.
