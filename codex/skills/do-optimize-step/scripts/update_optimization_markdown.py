@@ -2,7 +2,7 @@
 """Rewrite the optimization markdown summary from state and TSV artifacts.
 
 Args:
-  --state: Path to optimization_loop_state.json.
+  --state: Path to .optimize/<DATETIME>/optimization_loop_state.json.
   --tsv: Path to the optimization TSV ledger.
   --output: Path to the markdown summary to write.
 
@@ -19,7 +19,11 @@ from typing import cast
 
 def _parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--state", required=True, help="Path to optimization_loop_state.json.")
+    parser.add_argument(
+        "--state",
+        required=True,
+        help="Path to .optimize/<DATETIME>/optimization_loop_state.json.",
+    )
     parser.add_argument("--tsv", required=True, help="Path to the optimization TSV ledger.")
     parser.add_argument("--output", required=True, help="Path to the markdown summary output.")
     return parser.parse_args()
