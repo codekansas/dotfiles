@@ -35,7 +35,7 @@
     ~/.profile:
     ~/.cron:
     ~/.cron-local/bin: cron-local/bin
-    ~/.codex/config.toml: codex/config.toml
+    ~/.codex/config_template.toml: codex/config_template.toml
     ~/.codex/AGENTS.md: codex/AGENTS.md
     ~/.codex/skills/*:
       create: true

@@ -1,0 +1,39 @@
+model = "gpt-5.4"
+model_reasoning_effort = "xhigh"
+approval_policy = "on-request"
+personality = "pragmatic"
+sandbox_mode = "workspace-write"
+
+[features]
+apply_patch_freeform = true
+apps = true
+apps_mcp_gateway = true
+child_agents_md = true
+elevated_windows_sandbox = true
+experimental_windows_sandbox = true
+multi_agent = true
+remote_models = true
+runtime_metrics = true
+search_tool = true
+shell_snapshot = true
+unified_exec = true
+use_linux_sandbox_bwrap = true
+
+[sandbox_workspace_write]
+network_access = true
+
+[projects."${HOME}/Github/"]
+trust_level = "trusted"
+
+[mcp_servers.notion]
+url = "https://mcp.notion.com/mcp"
+
+[mcp_servers.playwright]
+args = ["@playwright/mcp@latest"]
+command = "npx"
+
+[mcp_servers.linear]
+url = "https://mcp.linear.app/mcp"
+
+[mcp_servers.figma]
+url = "https://mcp.figma.com/mcp"
