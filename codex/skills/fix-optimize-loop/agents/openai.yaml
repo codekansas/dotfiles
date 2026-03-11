@@ -1,0 +1,4 @@
+interface:
+  display_name: "Fix Optimize Loop"
+  short_description: "Repair a broken optimize loop and return it to a runnable state"
+  default_prompt: "Use $fix-optimize-loop to diagnose an optimize-loop failure, repair the code, parser, state, or artifact generation flow, make optimization_loop_state.json consistent again, and exit so the parent optimize coordinator can continue."

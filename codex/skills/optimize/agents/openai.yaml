@@ -1,4 +1,4 @@
 interface:
   display_name: "Optimize"
-  short_description: "Run autonomous optimization with a watcher, logs, and a progress graph"
-  default_prompt: "Use $optimize with a natural-language optimization goal, infer a consistent metric and observability protocol from the codebase, set up the Codex watcher when available, maintain results artifacts plus a progress graph, and keep iterating without stopping early until manually stopped."
+  short_description: "Run an autonomous optimization loop with helper subagents"
+  default_prompt: "Use $optimize with a natural-language optimization goal, stay alive as the long-running coordinator, run the experiments yourself, delegate each bounded results-and-next-step update to $do-optimize-step, and call $fix-optimize-loop whenever the optimization loop hits a bug."
