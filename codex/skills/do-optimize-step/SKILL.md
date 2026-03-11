@@ -7,7 +7,8 @@ description: "Use when the optimize loop needs one bounded subagent step to proc
 
 - This is the bounded worker for the long-running `optimize` skill.
 - It is invoked in a subagent for one step only.
-- The parent optimize coordinator may reuse the same subagent thread for many separate step requests.
+- The parent optimize coordinator may reuse the same subagent thread only within one short helper lease.
+- Expect the parent coordinator to close this worker when the step role is idle or the lease expires.
 - It should not run the experiment command itself.
 - It does not own the optimization loop and must return control to the parent optimize coordinator.
 

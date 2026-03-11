@@ -1,4 +1,4 @@
 interface:
   display_name: "Optimize"
   short_description: "Run an autonomous optimization loop with helper subagents"
-  default_prompt: "Use $optimize with a natural-language optimization goal, stay alive as the long-running coordinator, never hand off control of the loop itself, never pause between iterations, keep going unattended until explicitly interrupted, create and reuse exactly two helper subagents across the run, run the experiments yourself, send bounded results-and-next-step work to $do-optimize-step, and send loop repairs to $fix-optimize-loop."
+  default_prompt: "Use $optimize with a natural-language optimization goal, stay alive as the long-running coordinator, never hand off control of the loop itself, never pause between iterations, keep going unattended until explicitly interrupted, spawn $do-optimize-step and $fix-optimize-loop helpers only when their role is needed, give each helper a short fixed lease, clean up idle or expired helpers, run the experiments yourself, send bounded results-and-next-step work to $do-optimize-step, and send loop repairs to $fix-optimize-loop."
