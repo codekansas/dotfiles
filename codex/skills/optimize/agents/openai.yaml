@@ -1,4 +1,4 @@
 interface:
   display_name: "Optimize"
-  short_description: "Run infinite optimization with metric logs"
-  default_prompt: "Use $optimize with a natural-language optimization goal, infer a consistent metric protocol from the codebase, and run an unbounded optimization loop until stopped."
+  short_description: "Run autonomous optimization with a watcher, logs, and a progress graph"
+  default_prompt: "Use $optimize with a natural-language optimization goal, infer a consistent metric and observability protocol from the codebase, set up the Codex watcher when available, maintain results artifacts plus a progress graph, and keep iterating without stopping early until manually stopped."
