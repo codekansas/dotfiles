@@ -22,7 +22,7 @@ use_linux_sandbox_bwrap = true
 [sandbox_workspace_write]
 network_access = true
 
-[projects."/home/ben/Github/"]
+[projects."${HOME}/Github/"]
 trust_level = "trusted"
 
 [mcp_servers.notion]
