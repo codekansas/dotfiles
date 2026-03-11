@@ -7,7 +7,8 @@ description: "Use when the optimize loop hits a bug in experiment execution, met
 
 - This is the bounded repair worker for the long-running `optimize` skill.
 - It is invoked in a subagent only when some part of the loop is broken.
-- The parent optimize coordinator may reuse the same subagent thread for many separate repair requests.
+- The parent optimize coordinator may reuse the same subagent thread only within one short helper lease.
+- Expect the parent coordinator to close this worker when repair work is done or the lease expires.
 - It should repair the loop and return control to the parent coordinator.
 - It does not own the optimization loop and must never take over future iterations.
 

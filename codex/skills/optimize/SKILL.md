@@ -36,10 +36,12 @@ description: "Use when the user provides natural-language instructions for what 
 - The current Codex agent is the long-running coordinator.
 - Never hand off ownership of the optimization loop to a subagent.
 - Subagents are bounded helpers. They do work for one step, then return control immediately to the parent optimize coordinator.
-- Create exactly two helper subagents and reuse them throughout the run:
-  - one dedicated `$do-optimize-step` worker
-  - one dedicated `$fix-optimize-loop` worker
-- Do not spawn fresh helper subagents for routine iterations.
+- Do not pre-spawn helper subagents at loop start.
+- Create helper subagents lazily, only when a step or repair actually needs one.
+- Keep at most one live `$do-optimize-step` worker and at most one live `$fix-optimize-loop` worker at a time.
+- Give each helper a fixed 15-minute wall-clock lease from spawn time.
+- Reuse a helper only while it is healthy, still within its lease, and there is more work for that same role.
+- Close a helper as soon as that role goes idle, and always close it when its lease expires.
 - The coordinator owns:
   - the infinite loop
   - experiment execution
@@ -47,6 +49,7 @@ description: "Use when the user provides natural-language instructions for what 
   - raw metric extraction
   - delegating subagents
   - helper-subagent reuse and recovery
+  - helper-subagent lease tracking and cleanup
 - The coordinator should stay lightweight.
 - The coordinator should not do the deep experiment analysis itself.
 - After each run, delegate the experiment analysis, results updates, and next experiment implementation to a subagent using `$do-optimize-step`.
@@ -140,27 +143,30 @@ Notes:
 The long-running coordinator should use this loop:
 
 1. Initialize or reuse `.optimize/<DATETIME>/optimization_loop_state.json`.
-2. Spawn or reuse exactly two helper subagents:
-   - a dedicated experiment-step worker for `$do-optimize-step`
-   - a dedicated repair worker for `$fix-optimize-loop`
-3. Reuse those same helper subagents with new input across the entire optimization run.
-4. If `pending.experiment_command` is empty, send input to the existing `$do-optimize-step` worker, wait for it, then continue.
-5. Run `pending.experiment_command`, redirecting all output to `.optimize/<DATETIME>/optimization_runs/step_####.log`.
-6. Poll until the experiment finishes or `pending.timeout_seconds` elapses.
-7. Update `last_run` in the state file with the raw outcome:
+2. Start with no helper subagents. Track optional helper slots for:
+   - one `$do-optimize-step` worker
+   - one `$fix-optimize-loop` worker
+   Each slot should also track the helper's spawn time so you can enforce the 15-minute lease.
+3. If `pending.experiment_command` is empty, ensure a healthy leased `$do-optimize-step` worker exists, send input to it, wait for it, then clean it up if the role is idle or its lease is over.
+4. Run `pending.experiment_command`, redirecting all output to `.optimize/<DATETIME>/optimization_runs/step_####.log`.
+5. Poll until the experiment finishes or `pending.timeout_seconds` elapses.
+6. Update `last_run` in the state file with the raw outcome:
    - `outcome=completed` when the command exits successfully and the metric parses
    - `outcome=parse_error` when the command exits successfully but the metric does not parse
    - `outcome=crash` when the command exits non-zero
    - `outcome=timeout` when the timeout is exceeded
-8. Write any raw error details into `last_error`.
-9. Send input to the existing `$do-optimize-step` worker and wait for it.
-10. If the coordinator, the parser, the graph update flow, the repo recovery flow, or the subagent handoff breaks, send input to the existing `$fix-optimize-loop` worker and wait for it.
-11. After the repair worker exits:
+7. Write any raw error details into `last_error`.
+8. Ensure a healthy leased `$do-optimize-step` worker exists, send input to it, and wait for it.
+9. If the coordinator, the parser, the graph update flow, the repo recovery flow, or the subagent handoff breaks, ensure a healthy leased `$fix-optimize-loop` worker exists, send input to it, and wait for it.
+10. After helper work finishes:
+   - close any helper whose role is idle
+   - close any helper whose 15-minute lease has expired
+11. If a repair worker ran and exits:
    - if `pending.experiment_command` is valid, continue to the next run
    - if `pending.experiment_command` is empty, send input to `$do-optimize-step` again
 12. Repeat forever.
 
-If one of the two helper subagents exits, fails, or becomes unusable, recreate that same helper role and continue. Recreating a broken helper is allowed; spawning fresh helpers for every loop iteration is not.
+If a helper exits, fails, becomes unusable, or ages out of its lease, close it, clear that slot, and create a fresh helper only when that role is needed again.
 
 Subagent completions do not transfer control. The optimize coordinator always resumes after each `wait`.
 
@@ -169,9 +175,12 @@ Subagent completions do not transfer control. The optimize coordinator always re
 Use worker subagents for both helper skills.
 
 - The parent optimize coordinator must remain the single owner of the loop across every iteration.
-- The parent optimize coordinator should normally keep exactly two helper agent IDs live at once: one step worker and one repair worker.
-- Reuse those helper agent IDs with new input instead of spawning new helpers for ordinary loop work.
-- Only create a replacement helper when one of the two dedicated helpers has actually failed, exited, or become unusable.
+- The parent optimize coordinator should normally keep zero live helpers until work actually requires one.
+- At most one step worker and one repair worker may be live at the same time.
+- Each helper gets a fixed 15-minute lease from spawn time.
+- Reuse a helper only within that lease and only while that role is actively being used.
+- Close helpers promptly when their role goes idle instead of keeping them around speculatively.
+- If a helper has exited, expired, or become unusable, replace it only when that role is needed again.
 
 For `$do-optimize-step`:
 
@@ -184,7 +193,7 @@ For `$do-optimize-step`:
 - Tell it to read the repo, the state file, the existing results, and the most recent run log.
 - Tell it to summarize the last experiment, update the TSV/Markdown/SVG artifacts, decide keep or discard, restore the best kept state if needed, implement the next experiment, update `pending`, and exit.
 - Tell it explicitly that it does not own the loop and must return control to the parent optimize coordinator.
-- Reuse this same worker for later experiment-step messages.
+- Reuse the worker only while its 15-minute lease is still active and the step role is still busy; otherwise close it.
 
 For `$fix-optimize-loop`:
 
@@ -194,7 +203,7 @@ For `$fix-optimize-loop`:
   - loop support files in `$do-optimize-step/scripts/` when relevant
 - Tell it to diagnose the bug, repair the loop or experiment setup, make the state file consistent again, and exit.
 - Tell it explicitly that it is repairing one problem for the parent optimize coordinator, not taking over the loop.
-- Reuse this same worker for later repair messages.
+- Reuse the worker only while its 15-minute lease is still active and repair work is still ongoing; otherwise close it.
 
 Because the coordinator is blocked on these results, it should `wait` for each subagent before proceeding.
 
@@ -223,6 +232,7 @@ The coordinator must keep these artifacts current across the loop:
 - The first run must establish the baseline.
 - Keep experiment execution isolated from experiment design. The coordinator runs experiments; `$do-optimize-step` decides what to try next.
 - If a subagent fails, that is not a stopping condition. Call `$fix-optimize-loop` and continue.
+- Do not keep idle helpers alive across long experiment runs just in case they are needed later.
 - If parsing is ambiguous, repair the parser instead of guessing.
 - If graph or Markdown generation breaks, repair it instead of abandoning the artifact.
 - Never let one broken experiment terminate the overall loop.
