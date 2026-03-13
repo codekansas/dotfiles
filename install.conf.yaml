@@ -37,11 +37,27 @@
     ~/.cron-local/bin: cron-local/bin
     ~/.codex/config_template.toml: codex/config_template.toml
     ~/.codex/AGENTS.md: codex/AGENTS.md
-    ~/.codex/skills/*:
-      create: true
-      glob: true
-      path: codex/skills/*
-      relink: true
+    ~/.codex/skills/create-cli: codex/skills/create-cli
+    ~/.codex/skills/deploy-prod: codex/skills/deploy-prod
+    ~/.codex/skills/do-optimize-step: codex/skills/do-optimize-step
+    ~/.codex/skills/domain-dns-ops: codex/skills/domain-dns-ops
+    ~/.codex/skills/fix: codex/skills/fix
+    ~/.codex/skills/fix-deployments: codex/skills/fix-deployments
+    ~/.codex/skills/fix-optimize-loop: codex/skills/fix-optimize-loop
+    ~/.codex/skills/frontend-design: codex/skills/frontend-design
+    ~/.codex/skills/instruments-profiling: codex/skills/instruments-profiling
+    ~/.codex/skills/markdown-converter: codex/skills/markdown-converter
+    ~/.codex/skills/merge: codex/skills/merge
+    ~/.codex/skills/native-app-performance: codex/skills/native-app-performance
+    ~/.codex/skills/openai-image-gen: codex/skills/openai-image-gen
+    ~/.codex/skills/optimize: codex/skills/optimize
+    ~/.codex/skills/oracle: codex/skills/oracle
+    ~/.codex/skills/swift-concurrency-expert: codex/skills/swift-concurrency-expert
+    ~/.codex/skills/swiftui-liquid-glass: codex/skills/swiftui-liquid-glass
+    ~/.codex/skills/swiftui-performance-audit: codex/skills/swiftui-performance-audit
+    ~/.codex/skills/swiftui-view-refactor: codex/skills/swiftui-view-refactor
+    ~/.codex/skills/video-transcript-downloader: codex/skills/video-transcript-downloader
+    ~/.codex/skills/yeet: codex/skills/yeet
     ~/.cursor/rules/AGENTS.md: cursor/rules/AGENTS.md
     ~/.zsh:
     ~/.zshrc:
