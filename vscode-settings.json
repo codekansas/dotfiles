@@ -2,31 +2,31 @@
   /* Development languages */
   "[c]": {
     "editor.defaultFormatter": "xaver.clang-format",
-    "editor.formatOnSave": true
+    "editor.formatOnSave": true,
   },
   "[cu]": {
     "editor.defaultFormatter": "xaver.clang-format",
-    "editor.formatOnSave": true
+    "editor.formatOnSave": true,
   },
   "[cpp]": {
     "editor.defaultFormatter": "xaver.clang-format",
     "editor.formatOnSave": true,
     "editor.codeActionsOnSave": {
       "source.organizeImports": "explicit",
-      "source.fixAll": "explicit"
-    }
+      "source.fixAll": "explicit",
+    },
   },
   "[cuda-cpp]": {
     "editor.defaultFormatter": "xaver.clang-format",
     "editor.formatOnSave": true,
     "editor.codeActionsOnSave": {
       "source.organizeImports": "explicit",
-      "source.fixAll": "explicit"
-    }
+      "source.fixAll": "explicit",
+    },
   },
   "[rust]": {
     "editor.defaultFormatter": "rust-lang.rust-analyzer",
-    "editor.formatOnSave": true
+    "editor.formatOnSave": true,
   },
   // "[cmake]": {
   //   "editor.defaultFormatter": "cheshirekow.cmake-format",
@@ -38,14 +38,14 @@
     "editor.formatOnType": false,
     "editor.codeActionsOnSave": {
       "source.organizeImports.ruff": "explicit",
-      "source.fixAll.ruff": "explicit"
-    }
+      "source.fixAll.ruff": "explicit",
+    },
   },
   /* Web languages */
   "[html]": {
     "editor.defaultFormatter": "vscode.html-language-features",
     "editor.tabSize": 2,
-    "editor.formatOnSave": true
+    "editor.formatOnSave": true,
   },
   "[typescript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
@@ -54,8 +54,8 @@
     "editor.formatOnType": false,
     "editor.codeActionsOnSave": {
       "source.organizeImports": "always",
-      "source.removeUnusedImports": "always"
-    }
+      "source.removeUnusedImports": "always",
+    },
   },
   "[typescriptreact]": {
     "editor.defaultFormatter": "vscode.typescript-language-features",
@@ -64,8 +64,8 @@
     "editor.formatOnType": false,
     "editor.codeActionsOnSave": {
       "source.organizeImports": "always",
-      "source.removeUnusedImports": "always"
-    }
+      "source.removeUnusedImports": "always",
+    },
   },
   "[javascript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
@@ -74,8 +74,8 @@
     "editor.formatOnType": false,
     "editor.codeActionsOnSave": {
       "source.organizeImports": "always",
-      "source.removeUnusedImports": "always"
-    }
+      "source.removeUnusedImports": "always",
+    },
   },
   "[javascriptreact]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
@@ -84,48 +84,48 @@
     "editor.formatOnType": false,
     "editor.codeActionsOnSave": {
       "source.organizeImports": "always",
-      "source.removeUnusedImports": "always"
-    }
+      "source.removeUnusedImports": "always",
+    },
   },
   "[css]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.tabSize": 2,
-    "editor.formatOnSave": true
+    "editor.formatOnSave": true,
   },
   "[scss]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.tabSize": 2,
-    "editor.formatOnSave": true
+    "editor.formatOnSave": true,
   },
   "[markdown]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.tabSize": 2,
     "editor.formatOnSave": true,
     "editor.wordWrap": "wordWrapColumn",
-    "editor.wordWrapColumn": 120
+    "editor.wordWrapColumn": 120,
   },
   /* Configuration languages */
   "[jsonc]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.tabSize": 2,
-    "editor.formatOnSave": true
+    "editor.formatOnSave": true,
   },
   "[json]": {
     "editor.defaultFormatter": "vscode.json-language-features",
     "editor.tabSize": 2,
-    "editor.formatOnSave": true
+    "editor.formatOnSave": true,
   },
   "[yaml]": {
     "editor.insertSpaces": true,
     "editor.tabSize": 2,
     "editor.autoIndent": "advanced",
     "editor.formatOnSave": true,
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
   },
   "[tex]": {
     "editor.defaultFormatter": "James-Yu.latex-workshop",
     "editor.tabSize": 2,
-    "editor.formatOnSave": true
+    "editor.formatOnSave": true,
   },
 
   /* Extensions */
@@ -161,7 +161,7 @@
   /* Jupyter language features */
   "notebook.cellToolbarLocation": {
     "default": "right",
-    "jupyter-notebook": "left"
+    "jupyter-notebook": "left",
   },
 
   /* C++ language features */
@@ -209,16 +209,16 @@
   "editor.rulers": [
     {
       "column": 80,
-      "color": "#00ff2255"
+      "color": "#00ff2255",
     },
     {
       "column": 88,
-      "color": "#00ff2222"
+      "color": "#00ff2222",
     },
     {
       "column": 120,
-      "color": "#00e1ff55"
-    }
+      "color": "#00e1ff55",
+    },
   ],
   "editor.acceptSuggestionOnEnter": "smart",
   "editor.suggestSelection": "first",
@@ -248,7 +248,7 @@
   "remote.SSH.remoteServerListenOnSocket": true,
   "remote.SSH.remotePlatform": {
     "gpu-zeus": "linux",
-    "gpu-jupiter": "linux"
+    "gpu-jupiter": "linux",
   },
 
   /* Speed up search */
@@ -259,7 +259,7 @@
     "*.cmake.in": "cmake",
     "*.urdf": "xml",
     "*.mjcf": "xml",
-    "*.mdx": "markdown"
+    "*.mdx": "markdown",
   },
   "files.trimTrailingWhitespace": true,
   "files.insertFinalNewline": true,
@@ -277,7 +277,7 @@
     "**/.ipynb_checkpoints": true,
     "**/.mypy_cache": true,
     "**/node_modules/**": true,
-    "**/dist/**": true
+    "**/dist/**": true,
   },
   "files.watcherExclude": {
     "**/.classpath/**": true,
@@ -307,7 +307,7 @@
     "**/dist/**": true,
     "**/log/**": true,
     "**/logs/**": true,
-    "**/.fdk/**": true
+    "**/.fdk/**": true,
   },
   "search.exclude": {
     "**/.classpath/**": true,
@@ -336,7 +336,7 @@
     "**/dist/**": true,
     "**/log/**": true,
     "**/logs/**": true,
-    "**/.fdk/**": true
+    "**/.fdk/**": true,
   },
 
   /* Workbench features */
@@ -344,7 +344,7 @@
   "workbench.editor.closeEmptyGroups": false,
   "workbench.editor.closeOnFileDelete": true,
   "workbench.editorAssociations": {
-    "*.ipynb": "jupyter-notebook"
+    "*.ipynb": "jupyter-notebook",
   },
 
   /* Version control */
@@ -363,7 +363,7 @@
     "plaintext": true,
     "markdown": false,
     "scminput": false,
-    "yaml": true
+    "yaml": true,
   },
   "github.copilot.nextEditSuggestions.enabled": true,
 
@@ -390,5 +390,5 @@
   "extensions.ignoreRecommendations": true,
 
   /* VSCode */
-  "update.mode": "manual"
+  "update.mode": "manual",
 }
