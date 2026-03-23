@@ -3,6 +3,7 @@ model_reasoning_effort = "xhigh"
 approval_policy = "on-request"
 personality = "pragmatic"
 sandbox_mode = "workspace-write"
+suppress_unstable_features_warning = true
 
 [features]
 apply_patch_freeform = true
