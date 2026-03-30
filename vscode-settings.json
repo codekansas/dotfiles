@@ -395,4 +395,5 @@
 
   /* VSCode */
   "update.mode": "manual",
+  "security.promptForLocalFileProtocolHandling": false,
 }
