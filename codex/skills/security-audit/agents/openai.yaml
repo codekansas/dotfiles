@@ -1,0 +1,4 @@
+interface:
+  display_name: "Security Audit"
+  short_description: "Run a full repository security audit"
+  default_prompt: "Use $security-audit to inspect this repository and produce a prioritized security audit report with concrete findings and file references."
