@@ -1,0 +1,4 @@
+interface:
+  display_name: "Batch"
+  short_description: "Plan big work and parallelize agents"
+  default_prompt: "Use $batch to break this large task into a clear multi-part plan and run the independent parts with parallel sub-agents."

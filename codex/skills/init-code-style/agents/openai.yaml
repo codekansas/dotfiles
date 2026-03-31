@@ -1,0 +1,4 @@
+interface:
+  display_name: "Init Code Style"
+  short_description: "Create a repo-specific CODE_STYLE.md"
+  default_prompt: "Use $init-code-style to inspect this repository and create or refresh a detailed CODE_STYLE.md."

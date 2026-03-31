@@ -37,12 +37,16 @@
     ~/.cron-local/bin: cron-local/bin
     ~/.codex/config_template.toml: codex/config_template.toml
     ~/.codex/AGENTS.md: codex/AGENTS.md
+    ~/.codex/skills/address-pr-comments: codex/skills/address-pr-comments
+    ~/.codex/skills/batch: codex/skills/batch
+    ~/.codex/skills/code-cleanup: codex/skills/code-cleanup
     ~/.codex/skills/create-cli: codex/skills/create-cli
     ~/.codex/skills/deploy-prod: codex/skills/deploy-prod
     ~/.codex/skills/domain-dns-ops: codex/skills/domain-dns-ops
     ~/.codex/skills/fix: codex/skills/fix
     ~/.codex/skills/fix-deployments: codex/skills/fix-deployments
     ~/.codex/skills/frontend-design: codex/skills/frontend-design
+    ~/.codex/skills/init-code-style: codex/skills/init-code-style
     ~/.codex/skills/instruments-profiling: codex/skills/instruments-profiling
     ~/.codex/skills/markdown-converter: codex/skills/markdown-converter
     ~/.codex/skills/merge: codex/skills/merge

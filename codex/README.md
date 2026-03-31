@@ -22,6 +22,13 @@ Imported on 2026-02-16.
 - `swiftui-view-refactor`
 - `video-transcript-downloader`
 
+## Local Skills
+
+- `address-pr-comments`
+- `batch`
+- `code-cleanup`
+- `init-code-style`
+
 ## Excluded Skills
 
 - `1password`
