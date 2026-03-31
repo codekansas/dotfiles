@@ -1,0 +1,4 @@
+interface:
+  display_name: "Address PR Comments"
+  short_description: "Fix PR feedback and resolve threads"
+  default_prompt: "Use $address-pr-comments to pull unresolved PR review feedback, fix it on this branch, push the changes, and resolve the addressed threads."

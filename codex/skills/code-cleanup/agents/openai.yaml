@@ -1,0 +1,4 @@
+interface:
+  display_name: "Code Cleanup"
+  short_description: "Align recent commits with CODE_STYLE.md"
+  default_prompt: "Use $code-cleanup to review recent commits on this branch and bring the touched code into line with CODE_STYLE.md."
