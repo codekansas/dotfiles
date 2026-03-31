@@ -49,6 +49,7 @@
     ~/.codex/skills/init-code-style: codex/skills/init-code-style
     ~/.codex/skills/instruments-profiling: codex/skills/instruments-profiling
     ~/.codex/skills/markdown-converter: codex/skills/markdown-converter
+    ~/.codex/skills/memories: codex/skills/memories
     ~/.codex/skills/merge: codex/skills/merge
     ~/.codex/skills/native-app-performance: codex/skills/native-app-performance
     ~/.codex/skills/openai-image-gen: codex/skills/openai-image-gen
