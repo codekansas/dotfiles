@@ -60,27 +60,31 @@ while IFS= read -r file_path; do
     "$paths_csv" \
     "$file_path" >>"$rows_file"
 
-  IFS=',' read -r -a tags_array <<<"$tags_csv"
-  for tag_value in "${tags_array[@]}"; do
-    if [[ -z "$tag_value" ]]; then
-      continue
-    fi
+  if [[ -n "$tags_csv" ]]; then
+    IFS=',' read -r -a tags_array <<<"$tags_csv"
+    for tag_value in "${tags_array[@]}"; do
+      if [[ -z "$tag_value" ]]; then
+        continue
+      fi
 
-    tag_dir="$(index_root)/by-tag/$(slugify "$tag_value")"
-    mkdir -p "$tag_dir"
-    ln -sf "$file_path" "${tag_dir}/$(basename "$file_path")"
-  done
+      tag_dir="$(index_root)/by-tag/$(slugify "$tag_value")"
+      mkdir -p "$tag_dir"
+      ln -sf "$file_path" "${tag_dir}/$(basename "$file_path")"
+    done
+  fi
 
-  IFS=',' read -r -a paths_array <<<"$paths_csv"
-  for path_value in "${paths_array[@]}"; do
-    if [[ -z "$path_value" ]]; then
-      continue
-    fi
+  if [[ -n "$paths_csv" ]]; then
+    IFS=',' read -r -a paths_array <<<"$paths_csv"
+    for path_value in "${paths_array[@]}"; do
+      if [[ -z "$path_value" ]]; then
+        continue
+      fi
 
-    path_dir="$(index_root)/by-path/$(slugify "$path_value")"
-    mkdir -p "$path_dir"
-    ln -sf "$file_path" "${path_dir}/$(basename "$file_path")"
-  done
+      path_dir="$(index_root)/by-path/$(slugify "$path_value")"
+      mkdir -p "$path_dir"
+      ln -sf "$file_path" "${path_dir}/$(basename "$file_path")"
+    done
+  fi
 
   memory_count=$((memory_count + 1))
 done < <(collect_memory_files)

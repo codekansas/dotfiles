@@ -71,7 +71,17 @@ else
   memory_id="$(timestamp_id)-${memory_slug}"
 fi
 created_at="$(now_utc)"
-memory_path="$(memory_target_path "$status" "$memory_id")"
+
+if [[ -n "$custom_id" ]]; then
+  memory_path="$(memory_target_path "$status" "$memory_id")"
+  if [[ -e "$memory_path" ]]; then
+    printf 'memories: memory id already exists: %s\n' "$memory_id" >&2
+    exit 1
+  fi
+else
+  memory_id="$(ensure_unique_memory_id "$status" "$memory_id")"
+  memory_path="$(memory_target_path "$status" "$memory_id")"
+fi
 
 cat >"$memory_path" <<EOF
 ---

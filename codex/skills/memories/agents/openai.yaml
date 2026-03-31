@@ -1,4 +1,4 @@
 interface:
   display_name: "Repo Memories"
-  short_description: "Store and retrieve repo-local context"
-  default_prompt: "Use $memories to save, list, update, or organize repo-local working context in .memories without changing tracked repository files."
+  short_description: "Proactively track repo-local working context"
+  default_prompt: "Use $memories proactively as a local change-tracking and continuity tool: save, list, update, or organize repo-local working context in .memories without changing tracked repository files."

@@ -236,6 +236,55 @@ memory_target_path() {
   printf '%s/%s.md\n' "$(status_dir "$status_name")" "$memory_id"
 }
 
+canonicalize_path() {
+  local input_path="$1"
+  local parent_dir
+  local file_name
+
+  if [[ ! -e "$input_path" ]]; then
+    return 1
+  fi
+
+  parent_dir="$(cd "$(dirname "$input_path")" && pwd -P)"
+  file_name="$(basename "$input_path")"
+  printf '%s/%s\n' "$parent_dir" "$file_name"
+}
+
+is_memory_file_path() {
+  local input_path="$1"
+  local absolute_path
+  local entries_dir
+
+  absolute_path="$(canonicalize_path "$input_path")" || return 1
+  entries_dir="$(entries_root)"
+
+  if [[ ! -f "$absolute_path" ]]; then
+    return 1
+  fi
+
+  case "$absolute_path" in
+    "${entries_dir}"/*/*.md) return 0 ;;
+    *) return 1 ;;
+  esac
+}
+
+ensure_unique_memory_id() {
+  local status_name="$1"
+  local base_id="$2"
+  local candidate_id="$base_id"
+  local candidate_path
+  local suffix_idx=2
+
+  candidate_path="$(memory_target_path "$status_name" "$candidate_id")"
+  while [[ -e "$candidate_path" ]]; do
+    candidate_id="${base_id}-${suffix_idx}"
+    candidate_path="$(memory_target_path "$status_name" "$candidate_id")"
+    suffix_idx=$((suffix_idx + 1))
+  done
+
+  printf '%s\n' "$candidate_id"
+}
+
 resolve_memory() {
   local selector="$1"
   local file_path
@@ -243,8 +292,13 @@ resolve_memory() {
   local matched_path=""
 
   if [[ -f "$selector" ]]; then
-    printf '%s\n' "$selector"
-    return 0
+    if is_memory_file_path "$selector"; then
+      canonicalize_path "$selector"
+      return 0
+    fi
+
+    printf 'memories: selector is not a memory file: %s\n' "$selector" >&2
+    return 1
   fi
 
   while IFS= read -r file_path; do
