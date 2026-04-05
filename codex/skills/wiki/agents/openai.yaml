@@ -1,0 +1,4 @@
+interface:
+  display_name: "Wiki"
+  short_description: "Passively maintain an LLM-built repo-local wiki"
+  default_prompt: "Use $wiki proactively to keep a repo-local .wiki improving in the background: absorb new sources, update interlinked pages, answer from accumulated context, file durable analyses, and run periodic lint/reindex passes so the wiki gets better at understanding the user's goals and queries."
