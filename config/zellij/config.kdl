@@ -171,6 +171,17 @@ keybinds clear-defaults=true {
         bind "Ctrl g" { SwitchToMode "Locked"; }
         bind "Ctrl q" { Quit; }
         bind "Alt f" { ToggleFloatingPanes; }
+        bind "Alt Enter" {
+            Run "/bin/sh" "-lc" "$HOME/.config/zellij/stack-panes-horizontally" {
+                floating true;
+                close_on_exit true;
+                borderless true;
+                width 1;
+                height 1;
+                x 0;
+                y 0;
+            };
+        }
         bind "Alt n" { NewPane; }
         bind "Alt i" { MoveTab "Left"; }
         bind "Alt o" { MoveTab "Right"; }
