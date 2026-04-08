@@ -1,0 +1,146 @@
+#!/usr/bin/env python3
+
+import argparse
+import json
+import os
+import re
+import subprocess
+import tempfile
+from dataclasses import dataclass
+from pathlib import Path
+
+
+@dataclass(frozen=True)
+class Pane:
+    id: int
+    tab_id: int
+    pane_x: int
+    pane_y: int
+    is_focused: bool
+
+
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(
+        description="Reflow the active Zellij tab into equally sized horizontal panes."
+    )
+    parser.add_argument(
+        "--session",
+        default=os.environ.get("ZELLIJ_SESSION_NAME"),
+        help="Target Zellij session name. Defaults to ZELLIJ_SESSION_NAME.",
+    )
+    return parser.parse_args()
+
+
+def run_zellij(session_name: str, *args: str) -> str:
+    result = subprocess.run(
+        ["zellij", "--session", session_name, *args],
+        check=True,
+        capture_output=True,
+        text=True,
+    )
+    return result.stdout
+
+
+def get_active_tab_id(session_name: str) -> int:
+    tab_info = run_zellij(session_name, "action", "current-tab-info")
+    match = re.search(r"^id:\s*(\d+)\s*$", tab_info, re.MULTILINE)
+    if match is None:
+        raise RuntimeError(f"Could not parse the active tab id from: {tab_info!r}")
+    return int(match.group(1))
+
+
+def get_tiled_panes(session_name: str, active_tab_id: int) -> list[Pane]:
+    pane_records = json.loads(run_zellij(session_name, "action", "list-panes", "--json", "--all"))
+    panes: list[Pane] = []
+    for record in pane_records:
+        if record["tab_id"] != active_tab_id:
+            continue
+        if (
+            record["is_plugin"]
+            or record["is_floating"]
+            or record["is_suppressed"]
+            or record["exited"]
+        ):
+            continue
+        if not record["is_selectable"]:
+            continue
+        panes.append(
+            Pane(
+                id=int(record["id"]),
+                tab_id=int(record["tab_id"]),
+                pane_x=int(record["pane_x"]),
+                pane_y=int(record["pane_y"]),
+                is_focused=bool(record["is_focused"]),
+            )
+        )
+    panes.sort(key=lambda pane: (pane.pane_x, pane.pane_y, pane.id))
+    return panes
+
+
+def format_percentage(pane_count: int) -> str:
+    percentage = 100 / pane_count
+    return f"{percentage:.6f}".rstrip("0").rstrip(".") + "%"
+
+
+def build_layout(panes: list[Pane]) -> str:
+    size = format_percentage(len(panes))
+    focus_idx = next((idx for idx, pane in enumerate(panes) if pane.is_focused), None)
+    pane_lines = []
+    for idx in range(len(panes)):
+        focus_attr = " focus=true" if focus_idx == idx else ""
+        pane_lines.append(f'            pane{focus_attr} size="{size}"')
+    pane_block = "\n".join(pane_lines)
+    return (
+        "layout {\n"
+        "    tab {\n"
+        "        pane size=1 borderless=true {\n"
+        '            plugin location="zellij:tab-bar"\n'
+        "        }\n"
+        '        pane split_direction="vertical" {\n'
+        f"{pane_block}\n"
+        "        }\n"
+        "        pane size=1 borderless=true {\n"
+        '            plugin location="zellij:status-bar"\n'
+        "        }\n"
+        "    }\n"
+        "}\n"
+    )
+
+
+def override_layout(session_name: str, layout_text: str) -> None:
+    layout_path: Path | None = None
+    try:
+        with tempfile.NamedTemporaryFile("w", suffix=".kdl", delete=False) as layout_file:
+            layout_file.write(layout_text)
+            layout_path = Path(layout_file.name)
+        subprocess.run(
+            [
+                "zellij",
+                "--session",
+                session_name,
+                "action",
+                "override-layout",
+                "--apply-only-to-active-tab",
+                str(layout_path),
+            ],
+            check=True,
+        )
+    finally:
+        if layout_path is not None:
+            layout_path.unlink(missing_ok=True)
+
+
+def main() -> int:
+    args = parse_args()
+    if not args.session:
+        raise SystemExit("This script must run inside Zellij or receive --session.")
+    active_tab_id = get_active_tab_id(args.session)
+    panes = get_tiled_panes(args.session, active_tab_id)
+    if len(panes) < 2:
+        return 0
+    override_layout(args.session, build_layout(panes))
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
