@@ -172,7 +172,7 @@ keybinds clear-defaults=true {
         bind "Ctrl q" { Quit; }
         bind "Alt f" { ToggleFloatingPanes; }
         bind "Alt Enter" {
-            Run "/bin/sh" "-lc" "$HOME/.config/zellij/stack-panes-horizontally" {
+            Run "/bin/sh" "-lc" "$HOME/.scripts/stack-panes-horizontally" {
                 floating true;
                 close_on_exit true;
                 borderless true;
@@ -218,6 +218,8 @@ keybinds clear-defaults=true {
         bind "`" { SwitchToMode "Tmux"; }
     }
 }
+
+default_layout "default"
 
 // Plugin aliases - can be used to change the implementation of Zellij
 // changing these requires a restart to take effect
