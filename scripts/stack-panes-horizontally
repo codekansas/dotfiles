@@ -1,0 +1,131 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+readonly script_name="$(basename "$0")"
+readonly max_layout_steps=6
+readonly poll_sleep_seconds="0.05"
+
+usage() {
+  cat <<EOF
+Usage: ${script_name} [--session SESSION]
+
+Cycle the active Zellij tab onto the custom equal-horizontal swap layout.
+Defaults to the current Zellij session via ZELLIJ_SESSION_NAME.
+EOF
+}
+
+session_name="${ZELLIJ_SESSION_NAME:-}"
+current_pane_id="${ZELLIJ_PANE_ID:-}"
+
+while (($# > 0)); do
+  case "$1" in
+    --session)
+      if (($# < 2)); then
+        echo "${script_name}: --session requires a value" >&2
+        exit 1
+      fi
+      session_name="$2"
+      shift 2
+      ;;
+    -h|--help)
+      usage
+      exit 0
+      ;;
+    *)
+      echo "${script_name}: unknown argument: $1" >&2
+      usage >&2
+      exit 1
+      ;;
+  esac
+done
+
+if [[ -z "${session_name}" ]]; then
+  echo "${script_name}: this script must run inside Zellij or receive --session" >&2
+  exit 1
+fi
+
+if ! command -v jq >/dev/null 2>&1; then
+  echo "${script_name}: jq is required" >&2
+  exit 1
+fi
+
+run_zellij() {
+  zellij --session "${session_name}" "$@"
+}
+
+tab_id_from_current_pane() {
+  if [[ -z "${current_pane_id}" ]] || [[ "${session_name}" != "${ZELLIJ_SESSION_NAME:-}" ]]; then
+    return 1
+  fi
+  run_zellij action list-panes --json --all \
+    | jq -cer --argjson pane_id "${current_pane_id}" '.[] | select(.id == $pane_id) | .tab_id' \
+    | head -n 1
+}
+
+active_tab_id() {
+  run_zellij action list-tabs --json --all | jq -cer '.[] | select(.active) | .tab_id' | head -n 1
+}
+
+readonly tab_id="$(tab_id_from_current_pane || active_tab_id)"
+
+active_tab_json() {
+  run_zellij action list-tabs --json --all | jq -cer --argjson tab_id "${tab_id}" '.[] | select(.tab_id == $tab_id)'
+}
+
+panes_in_tab_json() {
+  run_zellij action list-panes --json --all | jq -cer --argjson tab_id "${tab_id}" '.[] | select(.tab_id == $tab_id)'
+}
+
+selectable_tiled_pane_count() {
+  panes_in_tab_json | jq -ser '[.[] | select(.is_plugin | not) | select(.is_floating | not) | select(.is_suppressed | not) | select(.is_selectable)] | length'
+}
+
+floating_panes_visible() {
+  active_tab_json | jq -er '.are_floating_panes_visible'
+}
+
+visible_floating_pane_count() {
+  panes_in_tab_json | jq -ser '[.[] | select(.is_floating) | select(.is_suppressed | not)] | length'
+}
+
+current_pane_is_floating() {
+  if [[ -z "${current_pane_id}" ]]; then
+    echo "false"
+    return 0
+  fi
+  panes_in_tab_json | jq -er --argjson pane_id "${current_pane_id}" '. | select(.id == $pane_id) | .is_floating' | head -n 1
+}
+
+active_layout_name() {
+  active_tab_json | jq -er '.active_swap_layout_name // "BASE"'
+}
+
+active_layout_dirty() {
+  active_tab_json | jq -er '.is_swap_layout_dirty'
+}
+
+if [[ "$(floating_panes_visible)" == "true" ]]; then
+  if [[ "$(visible_floating_pane_count)" -gt 1 ]] || [[ "$(current_pane_is_floating)" != "true" ]]; then
+    echo "${script_name}: hide floating panes before stacking tiled panes." >&2
+    exit 1
+  fi
+  run_zellij action hide-floating-panes --tab-id "${tab_id}"
+  sleep "${poll_sleep_seconds}"
+fi
+
+if [[ "$(selectable_tiled_pane_count)" -lt 2 ]]; then
+  exit 0
+fi
+
+for ((step = 0; step < max_layout_steps; ++step)); do
+  if [[ "$(active_layout_name)" == "equal-horizontal" ]] && [[ "$(active_layout_dirty)" == "false" ]]; then
+    exit 0
+  fi
+  run_zellij action next-swap-layout --tab-id "${tab_id}"
+  sleep "${poll_sleep_seconds}"
+done
+
+echo "${script_name}: could not find the equal-horizontal swap layout in this session." >&2
+echo "${script_name}: start a fresh Zellij session after installing the updated default layout." >&2
+exit 1
