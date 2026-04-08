@@ -1,4 +1,4 @@
 interface:
   display_name: "Merge"
-  short_description: "Commit, push, fix checks, and merge PRs"
-  default_prompt: "Use $merge to take current local changes through commit, PR checks, and final merge to the default branch."
+  short_description: "Roll the whole dirty tree into one PR and merge it"
+  default_prompt: "Use $merge to collect all current local changes into one branch and PR, keep the work tree clean, and merge the full branch to the default branch."
