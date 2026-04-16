@@ -368,6 +368,7 @@
     "markdown": false,
     "scminput": false,
     "yaml": true,
+    "latex": false,
   },
   "github.copilot.nextEditSuggestions.enabled": true,
 
