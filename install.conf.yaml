@@ -61,6 +61,7 @@
     ~/.codex/skills/swiftui-view-refactor: codex/skills/swiftui-view-refactor
     ~/.codex/skills/video-transcript-downloader: codex/skills/video-transcript-downloader
     ~/.codex/skills/wiki: codex/skills/wiki
+    ~/.codex/skills/yolo: codex/skills/yolo
     ~/.codex/skills/yeet: codex/skills/yeet
     ~/.cursor/rules/AGENTS.md: cursor/rules/AGENTS.md
     ~/.zsh:

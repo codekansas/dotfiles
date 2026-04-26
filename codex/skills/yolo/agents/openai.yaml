@@ -1,0 +1,4 @@
+interface:
+  display_name: "Yolo"
+  short_description: "Merge, promote, and verify production"
+  default_prompt: "Use $yolo to collect all current local changes into one PR, merge them, propagate through staging, promote to production, and keep fixing until prod is healthy with the changes live."
