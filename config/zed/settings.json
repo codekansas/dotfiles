@@ -1,4 +1,9 @@
 {
+  "agent_servers": {
+    "codex-acp": {
+      "type": "registry"
+    }
+  },
   "agent_ui_font_size": 14.0,
   "ui_font_weight": 400.0,
   "ui_font_size": 15.0,
