@@ -1,4 +1,16 @@
 {
+  "agent_ui_font_size": 14.0,
+  "ui_font_weight": 400.0,
+  "ui_font_size": 15.0,
+  "ui_font_family": ".ZedSans",
+  "buffer_line_height": "standard",
+  "buffer_font_weight": 400.0,
+  "buffer_font_size": 12.0,
+  "theme": {
+    "mode": "system",
+    "light": "Ayu Mirage",
+    "dark": "Ayu Dark"
+  },
   "base_keymap": "VSCode",
   "auto_update": true,
 
@@ -95,6 +107,11 @@
   },
 
   "agent": {
+    "default_model": {
+      "provider": "openai",
+      "model": "gpt-5-mini",
+      "enable_thinking": false
+    },
     "enabled": true,
   },
 
