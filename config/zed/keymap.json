@@ -1,0 +1,44 @@
+// Zed keymap
+//
+// For information on binding keys, see the Zed
+// documentation: https://zed.dev/docs/key-bindings
+//
+// To see the default key bindings run `zed: open default keymap`
+// from the command palette.
+[
+  {
+    "context": "Editor && mode == full",
+    "use_key_equivalents": true,
+    "bindings": {
+      // Cursor move up/down by 5 lines.
+      "alt-up": ["workspace::SendKeystrokes", "up up up up up"],
+      "alt-down": ["workspace::SendKeystrokes", "down down down down down"],
+
+      // Copy relative file path.
+      "cmd-shift-c": "workspace::CopyRelativePath",
+
+      // Save without formatting.
+      "cmd-e": "workspace::SaveWithoutFormat",
+    },
+  },
+  {
+    "context": "Workspace",
+    "use_key_equivalents": true,
+    "bindings": {
+      // Cursor/Zed agent panel.
+      "cmd-i": "agent::ToggleFocus",
+
+      // Go to line.
+      "cmd-l": "go_to_line::Toggle",
+
+      // Open Codex.
+      "cmd-shift-i": [
+        "agent::NewExternalAgentThread",
+        { "agent": "codex-acp" },
+      ],
+
+      // Toggle the right dock, which is Zed's closest equivalent to Cursor's unified sidebar.
+      "alt-cmd-s": "workspace::ToggleRightDock",
+    },
+  },
+]
