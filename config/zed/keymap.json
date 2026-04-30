@@ -31,11 +31,8 @@
       // Go to line.
       "cmd-l": "go_to_line::Toggle",
 
-      // Open Codex.
-      "cmd-shift-i": [
-        "agent::NewExternalAgentThread",
-        { "agent": "codex-acp" },
-      ],
+      // Open the agent panel.
+      "cmd-shift-i": "agent::ToggleFocus",
 
       // Toggle the right dock, which is Zed's closest equivalent to Cursor's unified sidebar.
       "alt-cmd-s": "workspace::ToggleRightDock",
