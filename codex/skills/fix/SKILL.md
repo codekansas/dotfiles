@@ -1,6 +1,6 @@
 ---
 name: "fix"
-description: "Use when the user asks to resolve remote GitHub PR push blockers, including failing status checks, merge conflicts, stale base branches, or related CI/merge errors. Handle both feature branches and default branches: if currently on main/master/default, create a fix branch and PR, then iterate commits until the PR checks pass and the original blocker is resolved."
+description: "Fix GitHub PR blockers: checks, conflicts, stale branches, CI, or merge errors."
 ---
 
 ## Prerequisites

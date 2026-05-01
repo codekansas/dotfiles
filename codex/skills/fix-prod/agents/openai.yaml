@@ -1,0 +1,4 @@
+interface:
+  display_name: "Fix Prod"
+  short_description: "Repair default branch and production health"
+  default_prompt: "Use $fix-prod to check default-branch status, production propagation, and prod health, then fix failures through PRs with integration coverage."

@@ -1,11 +1,6 @@
 ---
 name: domain-dns-ops
-description: >
-  Domain/DNS ops across Cloudflare, DNSimple, and Namecheap. Use for onboarding
-  zones to Cloudflare, flipping nameservers, setting redirects
-  (Page Rules/Rulesets/Workers), updating redirect-worker mappings, and
-  verifying DNS/HTTP. Source of truth should be your infrastructure manager
-  repository.
+description: "Run domain/DNS ops across Cloudflare, DNSimple, Namecheap, redirects, and verification."
 ---
 
 # Domain/DNS Ops

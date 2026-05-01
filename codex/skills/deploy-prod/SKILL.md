@@ -1,6 +1,6 @@
 ---
 name: "deploy-prod"
-description: "Use when the user explicitly asks to take a healthy staging deployment all the way to production in one flow: inspect the repository's CI/CD setup, identify how staging and production are deployed, verify staging health, write a reusable production deploy script when the deployment path is clear but not yet scripted, then trigger production and monitor rollout status until production is deployed and healthy."
+description: "Promote healthy staging to production: verify, deploy, monitor, and fix rollout issues."
 ---
 
 ## Prerequisites

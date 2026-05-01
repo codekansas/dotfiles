@@ -1,6 +1,6 @@
 ---
 name: wiki
-description: "Passively build, update, and check a repo-local `.wiki/` knowledge base made of interlinked Markdown pages so it incrementally gets better at understanding the user's queries, goals, and evolving project context. Use proactively when Codex is accumulating knowledge over time: absorb new sources into the wiki, quietly maintain entity/concept/source pages, file durable analyses from ongoing work, and run background health passes that improve structure, links, and synthesis."
+description: "Maintain repo-local `.wiki/` knowledge pages for durable project context."
 ---
 
 # Repo Wiki

@@ -1,6 +1,6 @@
 ---
 name: "batch"
-description: "Break a large task into a concrete multi-part plan and orchestrate parallel sub-agents for the independent parts. Use only when the user explicitly asks for delegation, sub-agents, or parallel agent work, or explicitly invokes $batch."
+description: "Use only for explicit $batch, sub-agent, delegation, or parallel-agent requests."
 ---
 
 # Batch

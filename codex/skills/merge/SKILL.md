@@ -1,6 +1,6 @@
 ---
 name: "merge"
-description: "Use when the user explicitly asks to take all current local git changes all the way to the repository default branch in one flow: collect every uncommitted file into one branch/PR, commit that work, push, fix failing status checks until green, and merge into main/master/default via GitHub CLI."
+description: "Use only when asked to merge all local changes to the default branch via PR."
 ---
 
 ## Prerequisites

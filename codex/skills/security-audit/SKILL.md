@@ -1,6 +1,6 @@
 ---
 name: "security-audit"
-description: "Perform a full repository security audit grounded in code, configuration, CI/CD, secrets handling, auth, dependency and deployment surfaces, and produce a prioritized Markdown report with concrete findings and file references. Use when the user explicitly asks for a security audit, vulnerability assessment, AppSec review, or hardening review of a repository or project path."
+description: "Run repository security audits covering code, config, CI/CD, secrets, auth, and deployments."
 ---
 
 # Security Audit

@@ -1,6 +1,6 @@
 ---
 name: "address-pr-comments"
-description: "Pull unresolved GitHub pull request feedback, implement the requested changes, commit and push the fixes, and resolve the review threads that were actually addressed. Use when the user wants an end-to-end PR comment pass rather than a read-only summary."
+description: "Address unresolved GitHub PR comments end-to-end: patch, push, and resolve handled threads."
 ---
 
 # Address PR Comments
