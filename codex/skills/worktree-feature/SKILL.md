@@ -1,6 +1,6 @@
 ---
 name: "worktree-feature"
-description: "Use for $worktree-feature or feature work in a new git worktree: implement, PR, merge, clean up."
+description: "Use for $worktree-feature or feature work in a new git worktree: implement, PR, merge/queue, clean up."
 ---
 
 ## Prerequisites
@@ -16,7 +16,6 @@ description: "Use for $worktree-feature or feature work in a new git worktree: i
 - Branch: `codex/{task-slug}`.
 - Commit message: `{task-slug}` or a terse human-readable variant.
 - PR title: `[codex] {feature summary}`.
-- Fix branches after a merged but broken base branch: `codex/{task-slug}-fix-{n}`.
 
 ## Workflow
 
@@ -60,42 +59,27 @@ description: "Use for $worktree-feature or feature work in a new git worktree: i
      - `gh run view <run_id> --log`
    - For locally actionable failures, implement fixes in the same worktree, commit, push, and re-check.
    - Do not merge while required checks are failing, pending, or blocked unless branch protection explicitly queues auto-merge.
-7. Merge the PR:
+7. Merge or queue the PR:
    - Use squash merge by default:
      - `gh pr merge --squash --delete-branch`
-   - If branch protection requires auto-merge or a merge queue, use the appropriate `gh pr merge --auto ...` mode and wait for completion.
-   - Capture the merged PR number and merge commit SHA:
-     - `gh pr view <number> --json state,mergedAt,mergeCommit --jq '{state, mergedAt, mergeCommit}'`
-8. Verify propagation to the base branch:
-   - Repeatedly fetch the base branch until the merge commit is present:
-     - `git fetch origin "{base_branch}"`
-     - `git merge-base --is-ancestor "{merge_sha}" "origin/{base_branch}"`
-   - If propagation does not happen in a reasonable time, inspect the PR state, merge queue, branch protection, and remote branch refs before reporting a blocker.
-9. Verify post-merge status checks on the base branch:
-   - Inspect GitHub Actions and commit checks for the merge SHA:
-     - `gh run list --branch "{base_branch}" --commit "{merge_sha}" --json databaseId,workflowName,status,conclusion,url,headSha,createdAt`
-     - `gh api repos/{owner}/{repo}/commits/{merge_sha}/check-runs`
-     - `gh api repos/{owner}/{repo}/commits/{merge_sha}/status`
-   - Wait for expected checks to reach terminal success.
-   - If no checks are configured for the base branch, state that clearly and rely on the local validation already run.
-10. Loop on failures after merge:
-   - If the base branch checks fail, the feature is missing from the base branch, or the base branch is otherwise unhealthy, debug before reporting success.
-   - Inspect failing workflow logs, commit statuses, and relevant local reproduction commands.
-   - Reuse the worktree if it is clean, create a fresh fix branch from `origin/{base_branch}`, implement the fix, and repeat the PR/check/merge/propagation verification loop:
-     - `git -C "{worktree_path}" switch -c "codex/{task-slug}-fix-{n}" "origin/{base_branch}"`
-   - Continue until the intended feature is present on the base branch and post-merge checks pass.
-11. Pull the original checkout after the final successful merge:
+   - If branch protection requires auto-merge or a merge queue, use the appropriate `gh pr merge --auto ...` mode and stop once GitHub confirms the PR is queued or auto-merge is enabled.
+   - Do not wait for merge-queue completion, base-branch propagation, post-merge checks, deployment jobs, or production rollout.
+   - Capture the PR handoff state:
+     - `gh pr view <number> --json state,mergedAt,mergeCommit,mergeStateStatus,autoMergeRequest,url --jq '{state, mergedAt, mergeCommit, mergeStateStatus, autoMergeRequest, url}'`
+   - Continue once the PR is either merged or accepted into the merge queue / auto-merge path.
+8. Pull the original checkout only when the PR merged immediately:
    - Check the original checkout before changing it:
      - `git -C "$repo_root" status --short`
      - `git -C "$repo_root" branch --show-current`
+   - If the PR was queued or auto-merge was enabled but not merged yet, do not switch or pull the original checkout. Report that it was left at its current branch and SHA because the merge has not landed yet.
    - If the original checkout is clean and not on the base branch, switch it to the base branch:
      - `git -C "$repo_root" switch "{base_branch}"`
-   - Pull the original checkout so it contains the new work:
+   - Pull the original checkout so it contains the merged work:
      - `git -C "$repo_root" pull --ff-only`
-   - Verify the original checkout now contains the final merge SHA:
+   - When a merge commit SHA is available, verify the original checkout contains it:
      - `git -C "$repo_root" merge-base --is-ancestor "{merge_sha}" HEAD`
    - If the original checkout is dirty or cannot be switched/pulled without overwriting local work, do not force it. Report the exact blocker and leave the checkout untouched.
-12. Clean up the feature worktree after the final successful merge:
+9. Clean up the feature worktree after the PR is merged or queued:
    - Verify the feature worktree is clean before removing it:
      - `git -C "{worktree_path}" status --short`
    - Remove the sibling worktree from the original checkout:
@@ -105,14 +89,15 @@ description: "Use for $worktree-feature or feature work in a new git worktree: i
    - Confirm the worktree is no longer listed:
      - `git -C "$repo_root" worktree list`
    - Do not force-remove a dirty or blocked worktree. Report the exact blocker and leave the worktree in place for the user to inspect.
-13. Finish with a concise report:
+10. Finish with a concise report:
    - Worktree path.
    - Whether the worktree was removed successfully.
    - PR number and URL.
-   - Merge commit SHA on the base branch.
+   - PR handoff state: merged, queued, or auto-merge enabled.
+   - Merge commit SHA if the PR merged immediately.
    - Checks and local validation run.
-   - Whether the original checkout was pulled successfully, including the branch and SHA now checked out.
-   - `git status --short` for both the worktree and original checkout.
+   - Whether the original checkout was pulled successfully or intentionally left unchanged because the PR is still queued.
+   - `git status --short` for the original checkout, and the worktree cleanup result.
 
 ## Guardrails
 
@@ -120,5 +105,5 @@ description: "Use for $worktree-feature or feature work in a new git worktree: i
 - Do not overwrite or remove an existing worktree unless it is clearly the clean worktree for this task.
 - Do not force-push or rewrite history unless the user explicitly asks.
 - Do not bypass branch protections, required reviews, merge queues, or required status checks.
-- Do not report success until the merge commit is reachable from `origin/{base_branch}` and required post-merge checks have passed.
+- Do not wait for production deployment, production health checks, post-merge checks, or merge-queue completion after GitHub has accepted the PR into the queue / auto-merge path.
 - Do not leave the feature worktree dirty at handoff.
