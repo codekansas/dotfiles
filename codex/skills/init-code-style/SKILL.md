@@ -1,6 +1,6 @@
 ---
 name: "init-code-style"
-description: "Create or refresh a repository-specific CODE_STYLE.md by inspecting the codebase, toolchain, docs, and architectural patterns first. Use when the user wants a durable style guide, repository structure guide, or detailed coding conventions for future contributors and agents."
+description: "Create or refresh repo CODE_STYLE.md from code, docs, tooling, and architecture."
 ---
 
 # Init Code Style

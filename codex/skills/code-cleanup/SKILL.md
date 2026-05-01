@@ -1,6 +1,6 @@
 ---
 name: "code-cleanup"
-description: "Review recent commits and bring their resulting code back into line with the repository's CODE_STYLE.md. Use when the user wants cleanup, normalization, or style-alignment work focused on the latest branch or recent commit range."
+description: "Align recent commits with CODE_STYLE.md and repo conventions."
 ---
 
 # Code Cleanup

@@ -1,6 +1,6 @@
 ---
 name: "yeet"
-description: "Use only when the user explicitly asks to stage all current local changes, commit them, push, and open a single GitHub pull request for the whole dirty tree in one flow using the GitHub CLI (`gh`)."
+description: "Use only when asked to commit all local changes, push, and open one PR."
 ---
 
 ## Prerequisites

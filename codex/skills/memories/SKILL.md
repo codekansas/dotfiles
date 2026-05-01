@@ -1,6 +1,6 @@
 ---
 name: memories
-description: Manage repo-local development memories stored in a repository's `.memories/` directory. Use proactively during multi-step repo work to save, list, update, organize, or retrieve local working context, investigation notes, changed-file context, and handoff state without changing tracked repository files, even when the user did not explicitly ask for memory tracking.
+description: "Maintain repo-local `.memories/` notes for durable multi-step work context."
 ---
 
 # Repo Memories

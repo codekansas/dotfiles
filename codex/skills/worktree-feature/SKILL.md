@@ -1,6 +1,6 @@
 ---
 name: "worktree-feature"
-description: "Use when the user explicitly invokes $worktree-feature or asks to implement a feature in a new git worktree: create a sibling repo-task worktree, implement the requested feature there, open a PR, fix checks until green, merge to master/default, then verify the merge has reached the base branch and post-merge status checks pass."
+description: "Use for $worktree-feature or feature work in a new git worktree: implement, PR, merge, clean up."
 ---
 
 ## Prerequisites
@@ -71,7 +71,6 @@ description: "Use when the user explicitly invokes $worktree-feature or asks to 
      - `git fetch origin "{base_branch}"`
      - `git merge-base --is-ancestor "{merge_sha}" "origin/{base_branch}"`
    - If propagation does not happen in a reasonable time, inspect the PR state, merge queue, branch protection, and remote branch refs before reporting a blocker.
-   - If the original checkout is already on the base branch and clean, fast-forward it with `git -C "$repo_root" pull --ff-only`. If it is on another branch or dirty, leave it untouched and report that `origin/{base_branch}` is verified.
 9. Verify post-merge status checks on the base branch:
    - Inspect GitHub Actions and commit checks for the merge SHA:
      - `gh run list --branch "{base_branch}" --commit "{merge_sha}" --json databaseId,workflowName,status,conclusion,url,headSha,createdAt`
@@ -85,12 +84,34 @@ description: "Use when the user explicitly invokes $worktree-feature or asks to 
    - Reuse the worktree if it is clean, create a fresh fix branch from `origin/{base_branch}`, implement the fix, and repeat the PR/check/merge/propagation verification loop:
      - `git -C "{worktree_path}" switch -c "codex/{task-slug}-fix-{n}" "origin/{base_branch}"`
    - Continue until the intended feature is present on the base branch and post-merge checks pass.
-11. Finish with a concise report:
+11. Pull the original checkout after the final successful merge:
+   - Check the original checkout before changing it:
+     - `git -C "$repo_root" status --short`
+     - `git -C "$repo_root" branch --show-current`
+   - If the original checkout is clean and not on the base branch, switch it to the base branch:
+     - `git -C "$repo_root" switch "{base_branch}"`
+   - Pull the original checkout so it contains the new work:
+     - `git -C "$repo_root" pull --ff-only`
+   - Verify the original checkout now contains the final merge SHA:
+     - `git -C "$repo_root" merge-base --is-ancestor "{merge_sha}" HEAD`
+   - If the original checkout is dirty or cannot be switched/pulled without overwriting local work, do not force it. Report the exact blocker and leave the checkout untouched.
+12. Clean up the feature worktree after the final successful merge:
+   - Verify the feature worktree is clean before removing it:
+     - `git -C "{worktree_path}" status --short`
+   - Remove the sibling worktree from the original checkout:
+     - `git -C "$repo_root" worktree remove "{worktree_path}"`
+   - Prune stale worktree metadata:
+     - `git -C "$repo_root" worktree prune`
+   - Confirm the worktree is no longer listed:
+     - `git -C "$repo_root" worktree list`
+   - Do not force-remove a dirty or blocked worktree. Report the exact blocker and leave the worktree in place for the user to inspect.
+13. Finish with a concise report:
    - Worktree path.
+   - Whether the worktree was removed successfully.
    - PR number and URL.
    - Merge commit SHA on the base branch.
    - Checks and local validation run.
-   - Whether the original checkout was fast-forwarded or left untouched.
+   - Whether the original checkout was pulled successfully, including the branch and SHA now checked out.
    - `git status --short` for both the worktree and original checkout.
 
 ## Guardrails

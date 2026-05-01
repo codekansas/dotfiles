@@ -1,6 +1,6 @@
 ---
 name: "fix-deployments"
-description: "Use when the user asks to repair broken GitHub deployments or environments for the current repository. Discover the repository's current deployment environments, order them from lowest-risk to highest-risk (for example Staging before Production), then inspect, patch, redeploy, and verify each environment in sequence until they are healthy."
+description: "Repair broken GitHub deployments/environments; patch and verify each environment in risk order."
 ---
 
 ## Prerequisites

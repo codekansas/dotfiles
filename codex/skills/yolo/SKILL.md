@@ -1,6 +1,6 @@
 ---
 name: "yolo"
-description: "Use when the user explicitly asks to take all current local git changes all the way to production in one flow: collect every uncommitted file into one branch/PR, fix checks until green, merge to the default branch, propagate through staging or any intermediate environments first, verify staging is healthy, promote to production, and keep debugging/fixing/releasing until the intended changes are visible on production and production is healthy."
+description: "Use only when asked to ship all local changes through PR, staging, and production."
 ---
 
 ## Prerequisites
