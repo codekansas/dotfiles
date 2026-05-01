@@ -1,0 +1,4 @@
+interface:
+  display_name: "Worktree Feature"
+  short_description: "Build features in isolated worktrees"
+  default_prompt: "Use $worktree-feature to create a new repo-task worktree, implement the requested feature there, open and merge a PR, then verify the merge and checks on the base branch."
