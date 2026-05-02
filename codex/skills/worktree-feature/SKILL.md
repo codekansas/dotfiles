@@ -1,6 +1,6 @@
 ---
 name: "worktree-feature"
-description: "Use for $worktree-feature or feature work in a new git worktree: implement, PR, merge/queue, clean up."
+description: "Use for $worktree-feature or feature work in a new git worktree: implement, pass checks, merge/queue, clean up."
 ---
 
 ## Prerequisites
@@ -53,25 +53,29 @@ description: "Use for $worktree-feature or feature work in a new git worktree: i
    - If missing, create one:
      - `GH_PROMPT_DISABLED=1 GIT_TERMINAL_PROMPT=0 gh pr create --head "$(git branch --show-current)" --base "{base_branch}" --title "[codex] {feature summary}" --body-file {body_file}`
    - The PR body must summarize the feature, important implementation details, validation run, and the worktree path.
-6. Fix PR checks until mergeable:
+6. Fix PR checks until they pass:
    - Check status with `gh pr checks`.
+   - Wait for required PR checks to reach terminal success before attempting merge or merge-queue entry.
+   - If checks are pending, wait and re-check instead of enabling auto-merge as a substitute for passing checks.
    - For failed GitHub Actions jobs, inspect logs via the run ID from the details URL:
      - `gh run view <run_id> --log`
    - For locally actionable failures, implement fixes in the same worktree, commit, push, and re-check.
-   - Do not merge while required checks are failing, pending, or blocked unless branch protection explicitly queues auto-merge.
+   - If no checks are configured, state that clearly and proceed based on local validation.
+   - Do not merge, enable auto-merge, or enter the merge queue while required checks are failing, pending, or blocked.
 7. Merge or queue the PR:
    - Use squash merge by default:
      - `gh pr merge --squash --delete-branch`
-   - If branch protection requires auto-merge or a merge queue, use the appropriate `gh pr merge --auto ...` mode and stop once GitHub confirms the PR is queued or auto-merge is enabled.
+   - If branch protection requires a merge queue, enqueue the PR only after required PR checks are passing. Use the appropriate `gh pr merge --auto ...` or repository-standard queue command, then verify GitHub reports the PR is queued or already merged.
+   - Do not treat a bare auto-merge request as success when checks are still pending or when GitHub has not accepted the PR into the merge queue.
    - Do not wait for merge-queue completion, base-branch propagation, post-merge checks, deployment jobs, or production rollout.
    - Capture the PR handoff state:
      - `gh pr view <number> --json state,mergedAt,mergeCommit,mergeStateStatus,autoMergeRequest,url --jq '{state, mergedAt, mergeCommit, mergeStateStatus, autoMergeRequest, url}'`
-   - Continue once the PR is either merged or accepted into the merge queue / auto-merge path.
+   - Continue once the PR is either merged or successfully accepted into the merge queue.
 8. Pull the original checkout only when the PR merged immediately:
    - Check the original checkout before changing it:
      - `git -C "$repo_root" status --short`
      - `git -C "$repo_root" branch --show-current`
-   - If the PR was queued or auto-merge was enabled but not merged yet, do not switch or pull the original checkout. Report that it was left at its current branch and SHA because the merge has not landed yet.
+   - If the PR was queued but not merged yet, do not switch or pull the original checkout. Report that it was left at its current branch and SHA because the merge has not landed yet.
    - If the original checkout is clean and not on the base branch, switch it to the base branch:
      - `git -C "$repo_root" switch "{base_branch}"`
    - Pull the original checkout so it contains the merged work:
@@ -93,7 +97,7 @@ description: "Use for $worktree-feature or feature work in a new git worktree: i
    - Worktree path.
    - Whether the worktree was removed successfully.
    - PR number and URL.
-   - PR handoff state: merged, queued, or auto-merge enabled.
+   - PR handoff state: merged or queued.
    - Merge commit SHA if the PR merged immediately.
    - Checks and local validation run.
    - Whether the original checkout was pulled successfully or intentionally left unchanged because the PR is still queued.
@@ -105,5 +109,6 @@ description: "Use for $worktree-feature or feature work in a new git worktree: i
 - Do not overwrite or remove an existing worktree unless it is clearly the clean worktree for this task.
 - Do not force-push or rewrite history unless the user explicitly asks.
 - Do not bypass branch protections, required reviews, merge queues, or required status checks.
-- Do not wait for production deployment, production health checks, post-merge checks, or merge-queue completion after GitHub has accepted the PR into the queue / auto-merge path.
+- Do not use auto-merge to avoid waiting for required PR checks. Required checks must pass before merge or queue handoff.
+- Do not wait for production deployment, production health checks, post-merge checks, or merge-queue completion after GitHub has accepted the PR into the queue.
 - Do not leave the feature worktree dirty at handoff.
