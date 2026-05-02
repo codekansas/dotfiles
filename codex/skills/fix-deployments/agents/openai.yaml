@@ -1,4 +1,4 @@
 interface:
   display_name: "Fix Deployments"
   short_description: "Repair deployments in safe order"
-  default_prompt: "Use $fix-deployments to inspect the repo's GitHub deployment environments, fix them from lowest-risk to highest-risk, and verify each one becomes healthy before moving on."
+  default_prompt: "Use $fix-deployments to repair deployment environments in risk order, merging follow-up fixes until the default branch checks and environments are healthy."
