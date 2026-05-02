@@ -1,6 +1,6 @@
 ---
 name: "fix-deployments"
-description: "Repair broken GitHub deployments/environments; patch and verify each environment in risk order."
+description: "Repair deployments and default-branch checks; keep merging fixes until healthy."
 ---
 
 ## Prerequisites
@@ -12,6 +12,7 @@ description: "Repair broken GitHub deployments/environments; patch and verify ea
 ## Naming Conventions
 
 - Fix branch when starting on the default branch: `codex/fix-deployments-{description}`.
+- Follow-up fix branches after a merged-but-still-broken default branch: `codex/fix-deployments-{description}-{n}`.
 - Commit message: `fix deployment: {environment} {description}`.
 - PR title when creating one: `[codex] fix deployment: {environment}`.
 
@@ -22,6 +23,7 @@ description: "Repair broken GitHub deployments/environments; patch and verify ea
    - `git status -sb`
    - `git branch --show-current`
    - `gh pr view --json number,state,headRefName,baseRefName,mergeStateStatus,url` when a PR already exists
+   - Resolve the repository default branch. In repositories where the default branch is `master`, this is the master status-check flow.
 2. Detect stale branch state before fixing anything:
    - Upstream deleted or unset: `git rev-parse --abbrev-ref --symbolic-full-name @{u}` fails, or `git ls-remote --exit-code --heads origin $(git branch --show-current)` fails.
    - Current branch PR already merged: `gh pr view --json state,mergedAt --jq '.state'` returns `MERGED`.
@@ -59,12 +61,34 @@ description: "Repair broken GitHub deployments/environments; patch and verify ea
 7. Re-evaluate the same environment after each push:
    - `gh pr checks`
    - Re-check the environment's deployment status, workflow run, and health checks.
-   - Continue iterating until the current environment is healthy at the intended ref.
-8. Only after the current environment is healthy, move to the next one:
+   - Continue iterating until the current environment is healthy at the intended ref and the PR's required checks are passing.
+8. Merge the current repair PR:
+   - Do not merge while required PR checks are failing, pending, or blocked.
+   - Use the repository's normal merge path, respecting required reviews, branch protection, rulesets, deployment approvals, and merge queues.
+   - Prefer squash merge unless the repository uses another standard mode:
+     - `gh pr merge --squash --delete-branch`
+   - If branch protection requires auto-merge or a merge queue, use the appropriate `gh pr merge --auto ...` mode only after required PR checks are passing.
+   - Capture the merged PR number and merge commit SHA when available.
+9. Verify the default branch checks after every merge:
+   - Fetch the default branch and resolve its current SHA:
+     - `git fetch origin "{default_branch}"`
+     - `default_sha=$(git rev-parse "origin/{default_branch}")`
+   - Inspect GitHub Actions runs and commit checks for `default_sha`:
+     - `gh run list --branch "{default_branch}" --commit "$default_sha" --json databaseId,workflowName,status,conclusion,url,headSha,createdAt`
+     - `gh api repos/{owner}/{repo}/commits/$default_sha/check-runs`
+     - `gh api repos/{owner}/{repo}/commits/$default_sha/status`
+   - Wait for expected default-branch checks to reach terminal success.
+   - If any required or relevant default-branch check fails, debug it before reporting success:
+     - Inspect failing workflow logs with `gh run view <run_id> --log`.
+     - Create a fresh follow-up fix branch from `origin/{default_branch}`.
+     - Patch the failure, open a new PR, wait for PR checks, merge it, and re-run this default-branch verification.
+   - Keep repeating follow-up fix PRs until the default branch's status checks are passing.
+10. Only after the current environment is healthy and the default branch checks are passing, move to the next environment:
    - If the next environment requires merge or promotion, use the repo's existing deployment flow to advance it only after the lower environment is healthy.
-   - Repeat steps 4-8 for each remaining environment, ending with the highest-risk environment.
-9. Final verification:
+   - Repeat steps 4-10 for each remaining environment, ending with the highest-risk environment.
+11. Final verification:
    - Confirm every discovered environment is healthy in the final order processed.
+   - Confirm the final `origin/{default_branch}` SHA has passing status checks.
    - Report which fixes were applied per environment, which PR or branch carried the changes, and any remaining manual approvals or provider-side blockers.
 
 ## Guardrails
@@ -72,6 +96,7 @@ description: "Repair broken GitHub deployments/environments; patch and verify ea
 - Do not skip a broken lower environment to patch a higher environment first unless the repo explicitly states those environments are independent and the user asks for that exception.
 - Do not assume environment names or order; prefer repo-defined promotion flow, then fall back to the default heuristic.
 - Do not claim success just because a PR check is green; explicitly confirm each environment's deployment and health.
+- Do not claim success while `master` / the repository default branch has failing, pending-too-long, or missing required status checks.
 - Do not bypass branch protections, required approvals, merge queues, or deployment approvals.
 - Do not hardcode tokens, API keys, or provider secrets into generated scripts or workflow edits.
 - Do not force-push or rewrite history unless the user explicitly asks.
