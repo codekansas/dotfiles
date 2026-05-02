@@ -1,6 +1,6 @@
 ---
 name: "worktree-feature"
-description: "Use for $worktree-feature or feature work in a new git worktree: implement, pass checks, merge/queue, clean up."
+description: "Use for $worktree-feature or feature work in a new git worktree: implement, pass checks, actually merge/queue, clean up."
 ---
 
 ## Prerequisites
@@ -62,15 +62,16 @@ description: "Use for $worktree-feature or feature work in a new git worktree: i
    - For locally actionable failures, implement fixes in the same worktree, commit, push, and re-check.
    - If no checks are configured, state that clearly and proceed based on local validation.
    - Do not merge, enable auto-merge, or enter the merge queue while required checks are failing, pending, or blocked.
+   - Passing checks are a prerequisite, not the handoff point. Do not stop after checks pass.
 7. Merge or queue the PR:
    - Use squash merge by default:
      - `gh pr merge --squash --delete-branch`
    - If branch protection requires a merge queue, enqueue the PR only after required PR checks are passing. Use the appropriate `gh pr merge --auto ...` or repository-standard queue command, then verify GitHub reports the PR is queued or already merged.
-   - Do not treat a bare auto-merge request as success when checks are still pending or when GitHub has not accepted the PR into the merge queue.
+   - Do not treat "merge when ready", a bare auto-merge request, or passing status checks as success. The PR must be either actually merged or explicitly accepted into the merge queue.
    - Do not wait for merge-queue completion, base-branch propagation, post-merge checks, deployment jobs, or production rollout.
    - Capture the PR handoff state:
      - `gh pr view <number> --json state,mergedAt,mergeCommit,mergeStateStatus,autoMergeRequest,url --jq '{state, mergedAt, mergeCommit, mergeStateStatus, autoMergeRequest, url}'`
-   - Continue once the PR is either merged or successfully accepted into the merge queue.
+   - Continue only after `state` is `MERGED`, or after the merge/queue command and PR state show that GitHub accepted the PR into the merge queue. `autoMergeRequest` by itself is not sufficient.
 8. Pull the original checkout only when the PR merged immediately:
    - Check the original checkout before changing it:
      - `git -C "$repo_root" status --short`
@@ -110,5 +111,6 @@ description: "Use for $worktree-feature or feature work in a new git worktree: i
 - Do not force-push or rewrite history unless the user explicitly asks.
 - Do not bypass branch protections, required reviews, merge queues, or required status checks.
 - Do not use auto-merge to avoid waiting for required PR checks. Required checks must pass before merge or queue handoff.
+- Do not hand off just because checks are passing, tests are running, or "merge when ready" was enabled. Finish by merging the PR or confirming it entered the merge queue.
 - Do not wait for production deployment, production health checks, post-merge checks, or merge-queue completion after GitHub has accepted the PR into the queue.
 - Do not leave the feature worktree dirty at handoff.

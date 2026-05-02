@@ -1,4 +1,4 @@
 interface:
   display_name: "Worktree Feature"
   short_description: "Build features in isolated worktrees"
-  default_prompt: "Use $worktree-feature to create a repo-task worktree, implement the feature there, wait for PR checks to pass, merge or queue it, then remove the worktree."
+  default_prompt: "Use $worktree-feature to create a repo-task worktree, implement the feature there, wait for PR checks to pass, actually merge or queue it, then remove the worktree."
