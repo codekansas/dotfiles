@@ -1,4 +1,4 @@
-model = "gpt-5.4"
+model = "gpt-5.5"
 model_reasoning_effort = "xhigh"
 approval_policy = "on-request"
 personality = "pragmatic"
@@ -19,6 +19,13 @@ search_tool = true
 shell_snapshot = true
 unified_exec = true
 use_linux_sandbox_bwrap = true
+terminal_resize_reflow = true
+memories = true
+goals = true
+prevent_idle_sleep = true
 
 [sandbox_workspace_write]
 network_access = true
+
+[tui.model_availability_nux]
+"gpt-5.5" = 4
