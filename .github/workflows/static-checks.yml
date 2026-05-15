@@ -1,0 +1,27 @@
+name: Static Checks
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  python:
+    name: Python
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+
+      - name: Set up Python
+        run: uv python install 3.12
+
+      - name: Ruff
+        run: uv run --python 3.12 --extra dev ruff check dotfiles tests
+
+      - name: Ty
+        run: uv run --python 3.12 --extra dev ty check dotfiles tests

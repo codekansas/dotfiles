@@ -10,6 +10,12 @@ vim/plugins
 # Python
 *.py[co]
 __pycache__
+.venv
+.pytest_cache
+*.egg-info
+build
+dist
+uv.lock
 
 # Jupyter
 jupyter/jupyter_notebook_config.json

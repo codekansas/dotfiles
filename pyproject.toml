@@ -1,30 +1,69 @@
-[tool.black]
+[project]
+name = "codekansas-dotfiles"
+description = "First-party installer for this dotfiles repository."
+authors = [
+    { name = "Ben" },
+]
+license = "MIT"
+readme = "README.md"
+requires-python = ">=3.12"
+dynamic = ["version"]
+dependencies = [
+    "PyYAML>=6.0.2",
+    "python-crontab>=3.2.0",
+]
 
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "ruff",
+    "ty",
+    "types-PyYAML",
+]
+
+[project.scripts]
+dotfiles-install = "dotfiles.cli:main"
+
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["dotfiles*"]
+
+[tool.setuptools.package-data]
+dotfiles = ["py.typed"]
+
+[tool.setuptools.dynamic]
+version = { attr = "dotfiles.__version__" }
+
+[tool.black]
 line-length = 120
-target-version = ["py310"]
+target-version = ["py312"]
 include = '\.pyi?$'
 
 [tool.pytest.ini_options]
-
 addopts = "-rx -rf -x -q --full-trace"
 testpaths = ["tests"]
 
 [tool.ruff]
+line-length = 120
+target-version = "py312"
 
+[tool.ruff.lint]
 select = ["E", "F", "I", "W"]
 ignore = ["E712", "E731"]
-line-length = 120
 dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
-target-version = "py310"
 
-[tool.ruff.per-file-ignores]
-
+[tool.ruff.lint.per-file-ignores]
 "__init__.py" = ["E402", "F401", "F403", "F811"]
 
-[tool.ruff.mccabe]
+[tool.ruff.lint.mccabe]
+max-complexity = 18
 
-max-complexity = 10
-
-[tool.ruff.isort]
-
+[tool.ruff.lint.isort]
 combine-as-imports = true

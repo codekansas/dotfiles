@@ -3,17 +3,7 @@
 # Gets project-specific aliases.
 source ~/.shell/aliases.sh
 
-cleanup_logfile=/tmp/${USER}_slurm_cleanup_$(date +'%Y-%m-%d').log
-
-# Removes old slurm log directories.
-if [ -d "$SLURM_LOG_DIR" ]; then
-    find "$SLURM_LOG_DIR/" \
-        -mindepth 1 \
-        -type f \
-        -mtime +7 | xargs -I {} -P 8 rm -r {} 2>> $cleanup_logfile
-else
-    echo "Missing slurm log directory: '$SLURM_LOG_DIR'"
-fi
+cleanup_logfile=/tmp/${USER}_cleanup_$(date +'%Y-%m-%d').log
 
 # Removes empty log directories.
 if [ -d "$LOG_DIR" ]; then
@@ -45,4 +35,3 @@ if [ -s $cleanup_logfile ]; then
 else
     rm $cleanup_logfile
 fi
-
