@@ -8,10 +8,12 @@ Repo for managing my dotfiles across several environments.
 git clone git@github.com:codekansas/dotfiles.git && cd dotfiles && ./install
 ```
 
+`./install` defaults to the `local` profile and installs everything. Use `./install devbox` for shared development machines where local scheduled jobs and package-manager changes should be skipped.
+
 ## Related
 
 - I borrowed a lot of this repo from [here](https://github.com/mikejqzhang/dotfiles)
-- It's based on DotBot [here](https://github.com/anishathalye/dotbot)
+- Installation is handled by the first-party Python package in this repo.
 
 ## Documentation
 
@@ -87,20 +89,6 @@ Delete a script (with tab completion):
 
 ```bash
 tdelete <script-name>
-```
-
-### slurm
-
-Show all my current Slurm jobs:
-
-```bash
-squeueme
-```
-
-Safely cancel all my current Slurm jobs:
-
-```bash
-scancelme
 ```
 
 ### nvidia

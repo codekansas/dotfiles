@@ -46,7 +46,6 @@ case $OSTYPE in
     "darwin"*)
         alias ls='ls -G'
 
-        export SLURM_LOG_DIR=${HOME}/Experiments/.Slurm
         export LOG_DIR=${HOME}/Experiments/Logs
         export EVAL_DIR=${HOME}/Experiments/Evaluation
         export DATA_DIR=${HOME}/Experiments/Data
@@ -59,7 +58,6 @@ case $OSTYPE in
     "linux-gnu"*)
         alias ls='ls --color=always'
 
-        export SLURM_LOG_DIR=${HOME}/Experiments/Slurm
         export LOG_DIR=${HOME}/Experiments/Logs
         export EVAL_DIR=${HOME}/Experiments/Evaluation
         export DATA_DIR=${HOME}/Experiments/Data
@@ -138,9 +136,6 @@ alias now='date +"%T"'
 # paths
 alias rp='realpath'
 
-# sortable time format
-export SLURM_TIME_FORMAT='%D (%a) %T'
-
 # kill stopped jobs
 alias kill-stopped='kill -9 `jobs -ps`'
 
@@ -149,33 +144,6 @@ alias killall-py='killall -u ${USER} -n python'
 
 # show a warning if startup takes longer than this
 export SLOW_STARTUP_WARNING_MS=1000
-
-qq() {
-    local strings=$(
-        squeue --format="%.8i %.12P %30j %.10T %.12M %100N" $@ \
-        | awk '{$6=substr($6, length($6)-35)}1' \
-        | rev \
-        | awk '{$1=substr($1, length($1)-35)}1' \
-        | rev
-    )
-    echo "$strings" | column -t
-}
-
-alias qm='qq --me'
-
-spartme() {
-    if [[ $# -ne 1 ]]; then
-        echo "Changes all existing jobs to a partition"
-        echo "Usage: spartme <partition>"
-    fi
-    partition=$1
-    jobids=$(squeue -u $USER -h -t PD -o %i)
-    numjobs=$(echo $jobids | wc -w)
-    echo "Changing $numjobs jobs to $partition partition"
-    for i in ${jobids[@]}; do
-        scontrol update jobid=$i partition=$partition
-    done
-}
 
 portps() {
     if [[ $# -ne 1 ]]; then
@@ -187,38 +155,6 @@ portps() {
     fi
 }
 
-sdate() {
-    if [[ $# -ne 1  ]]; then
-        echo "Usage: sdate <time-string>"
-        return 1
-    else
-        echo $(date +"%Y-%m-%d-%T" -d "$1")
-        return 0
-    fi
-}
-
-shelp() {
-    echo "Example slurm commands:
-
-    $(blue)shist$(no_color) --starttime=\$(sdate '$(green)7 days ago$(no_color)') --endtime=\$(sdate '$(red)1 hour ago$(no_color)')
-    $(blue)shist$(no_color) --starttime=\$(sdate '$(green)24 hours ago$(no_color)') --endtime=\$(sdate '$(red)1 hour ago$(no_color)')
-    $(blue)shist$(no_color) --starttime=\$(sdate '$(green)1 hour ago$(no_color)') --endtime=\$(sdate '$(red)now$(no_color)')
-"
-}
-
-shist() {
-    sacct --format='Start%25,End%25,JobID,JobName%30,Partition,State%20' --user $USER $@ | awk 'NR<3{print $0;next}{print$0| "sort -r"}'| less
-}
-
-slog() {
-    if [[ $# -ne 1 ]]; then
-        echo "Usage: slog <job-id>"
-        return 1
-    fi
-    local job_id=$1; shift
-    echo $(slurm-get-job-path $job_id --silent)
-}
-
 plog() {
     if [[ $# -ne 1 ]]; then
         echo "Usage: plog <process-id>"
@@ -226,153 +162,6 @@ plog() {
     fi
     local process_id=$1; shift
     echo $(log-dir-from-proc-id $process_id --silent)
-}
-
-sjson() {
-    if [[ $# -ne 2 ]]; then
-        echo "Usage: sjson <job-id> <json-field>"
-        return 1
-    fi
-    local log_dir=$(slog $1)
-    local json_field=$2
-    if [[ -n $log_dir ]]; then
-        jq -r $json_field ${log_dir}/slurm_info.json
-    else
-        echo "Failed to get log directory for job ID $1"
-        return 1
-    fi
-}
-
-sjsons() {
-    if [[ $# -lt 1 ]]; then
-        echo "Usage: sjsons <json-field> (<job-id> ...)"
-        return 1
-    fi
-    local json_field=$1; shift
-
-    local job_ids=()
-    if [[ $# -eq 0 ]]; then
-        while IFS= read -r line; do
-            job_ids+=("$line")
-        done < <(squeue -u "$USER" -h -t R -o %i)
-    else
-        job_ids=("$@")
-    fi
-
-    for job_id in ${job_ids[@]}; do
-        sjson $job_id $json_field
-    done
-}
-
-scomments() {
-    sjsons '[.[-1].job_id, .[-1].job.task_key, .[-1].comment] | @json' $@
-}
-
-scommentsmediawiki() {
-    if [[ $# -ne 0 ]] && [[ $# -ne 1 ]]; then
-        echo "Usage: scommentsmediawiki (<trg-task>)"
-        return 1
-    fi
-    local trg_task=$1; shift
-    echo "{| class="wikitable""
-    echo "! Job ID"
-    if [[ -z "$trg_task" ]]; then
-        echo "! Task"
-    fi
-    echo "! Comment"
-    job_ids=()
-    while IFS= read -r line; do
-        local job_id=$(echo $line | jq -r '.[0]')
-        local task=$(echo $line | jq -r '.[1]')
-        local comment=$(echo $line | jq -r '.[2]')
-        if [[ "$trg_task" == "" ]]; then
-            echo "|-"
-            echo "| $job_id"
-            echo "| $task"
-            echo "| $comment"
-            job_ids+=("$job_id")
-        elif [[ "$trg_task" == "$task" ]]; then
-            echo "|-"
-            echo "| $job_id"
-            echo "| $comment"
-            job_ids+=("$job_id")
-        fi
-    done < <(scomments $@)
-    echo "|}"
-    echo ""
-    echo '<syntaxhighlight lang="text">'
-    echo "stbd ${job_ids[@]}"
-    echo '</syntaxhighlight>'
-}
-
-sl() {
-    local log_dir=$(slog $@)
-    if [[ -n $log_dir ]]; then
-        less +F ${log_dir}/slurm/*.slurm
-    else
-        echo "Failed to get log directory for job ID $1"
-        return 1
-    fi
-}
-
-st() {
-    local log_dir=$(slog $@)
-    if [[ -n $log_dir ]]; then
-        for f in ${log_dir}/slurm/*.slurm; do
-            echo "\n$(basename $f)\n"
-            tail --lines 10 $f | sed 's/^/  /'
-        done
-    else
-        echo "Failed to get log directory for job ID $1"
-        return 1
-    fi
-}
-
-stl() {
-    st $@ | less
-}
-
-stbd() {
-    local job_ids=()
-    if [[ $# -eq 0 ]]; then
-        while IFS= read -r line; do
-            job_ids+=("$line")
-        done < <(squeue -u "$USER" -h -t R -o %i)
-    else
-        job_ids=("$@")
-    fi
-
-    local tmp_tbd_dir=$(mktemp -d -t tbd-XXXXXXXX)
-    local has_dir=0
-    for job_id in ${job_ids[@]}; do
-        local log_dir=$(slog $job_id)
-        local tbd_root=${log_dir}/tensorboard/
-        if [[ -d $tbd_root ]]; then
-            echo "-> ${tbd_root}"
-            ln -s ${tbd_root} ${tmp_tbd_dir}/${job_id}
-            has_dir=1
-        else
-            echo "Failed to get tensorboard directory for job ID $job_id"
-        fi
-    done
-
-    if [[ $has_dir -eq 0 ]]; then
-        echo "No log directories found"
-        return 1
-    fi
-
-    local cmd="tensorboard serve --logdir ${tmp_tbd_dir}"
-    if [[ -n $TENSORBOARD_PORT ]]; then
-        cmd="${cmd} --port ${TENSORBOARD_PORT}"
-    fi
-    if [[ $TENSORBOARD_BIND_ALL -eq 1 ]]; then
-        cmd="${cmd} --bind_all"
-    fi
-
-    echo "Running '$cmd'"
-    eval $cmd
-
-    rm -r $tmp_tbd_dir
 }
 
 export GROUPED_TENSORBOARD_PORT=6005
@@ -877,7 +666,7 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0  ] && echo terminal || ech
 
 export TMP_SCRIPT_ROOT=$HOME/.tmp-scripts/
 
-(mkdir -p $TMP_SCRIPT_ROOT $SLURM_LOG_DIR $LOG_DIR $EVAL_DIR $DATA_DIR $DATA_CACHE_DIR $MODEL_DIR $STAGE_DIR &)
+(mkdir -p $TMP_SCRIPT_ROOT $LOG_DIR $EVAL_DIR $DATA_DIR $DATA_CACHE_DIR $MODEL_DIR $STAGE_DIR &)
 
 _print_available_scripts() {
     find $TMP_SCRIPT_ROOT -type f | cut -c${#TMP_SCRIPT_ROOT}- | sed 's:/*::'
@@ -1113,60 +902,6 @@ uv-env() {
 # Use UV instead of regular PIP.
 alias pip='uv pip'
 alias pip3='uv pip'
-
-# ---------------
-# Tools for Slurm
-# ---------------
-
-# The user should override this in their local file.
-export SLURM_GPUNODE_PARTITION=missing
-export SLURM_GPUNODE_NUM_GPUS=1
-export SLURM_GPUNODE_CPUS_PER_GPU=8
-export SLURM_CPUNODE_PARTITION=missing
-export SLURM_CPUNODE_NUM_CPUS=8
-export SLURM_XPUNODE_SHELL=$SHELL
-
-gpunode() {
-    if [[ $# -ne 0 ]] && [[ $# -ne 1 ]]; then
-        echo "Usage: gpunode (<num-gpus>)"
-        return 1
-    fi
-    local num_gpus=${1:-$SLURM_GPUNODE_NUM_GPUS}
-
-    # First, queries Slurm to see if there is an active job.
-    # If so, attach to that job ID instead of creating a new job.
-    # Query is based on the job name "gpunode".
-    local job_id=$(squeue -u $USER -h -t R -o %i -n gpunode)
-    if [[ -n $job_id ]]; then
-        echo "Attaching to job ID $job_id"
-        srun \
-            --jobid=$job_id \
-            --partition=$SLURM_GPUNODE_PARTITION \
-            --gpus=$num_gpus \
-            --cpus-per-gpu=$SLURM_GPUNODE_CPUS_PER_GPU \
-            --pty $SLURM_XPUNODE_SHELL
-        return 0
-    fi
-
-    echo "Creating new job"
-    srun \
-        --partition=$SLURM_GPUNODE_PARTITION \
-        --gpus=$num_gpus \
-        --cpus-per-gpu=$SLURM_GPUNODE_CPUS_PER_GPU \
-        --interactive \
-        --job-name=gpunode \
-        --pty $SLURM_XPUNODE_SHELL
-}
-
-cpunode() {
-    echo "Creating new job"
-    srun \
-        --partition=$SLURM_CPUNODE_PARTITION \
-        --cpus-per-task=$SLURM_CPUNODE_NUM_CPUS \
-        --interactive \
-        --job-name=cpunode \
-        --pty $SLURM_XPUNODE_SHELL
-}
 
 # ----------------
 # Tools for `make`
@@ -1547,7 +1282,6 @@ relink-directories() {
         ${dataset_dir}/cache
 
     mkdir -p \
-        ${checkpoints_dir}/slurm \
         ${checkpoints_dir}/logs \
         ${checkpoints_dir}/evaluation \
         ${checkpoints_dir}/models \
@@ -1563,12 +1297,6 @@ relink-directories() {
         echo "Linking ${DATA_CACHE_DIR} to ${dataset_dir}/cache"
         [[ -d ${DATA_CACHE_DIR} ]] && rm -r ${DATA_CACHE_DIR}
         ln -s ${dataset_dir}/cache ${DATA_CACHE_DIR}
-    fi
-
-    if [[ ! -d ${SLURM_LOG_DIR} ]] || [[ ! -L ${SLURM_LOG_DIR} ]]; then
-        echo "Linking ${SLURM_LOG_DIR} to ${checkpoints_dir}/slurm"
-        [[ -d ${SLURM_LOG_DIR} ]] && rm -r ${SLURM_LOG_DIR}
-        ln -s ${checkpoints_dir}/slurm ${SLURM_LOG_DIR}
     fi
 
     if [[ ! -d ${LOG_DIR} ]] || [[ ! -L ${LOG_DIR} ]]; then

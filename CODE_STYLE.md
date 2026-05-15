@@ -30,9 +30,9 @@ When observed and recommended guidance conflict, use judgment:
 The repository has a few strong traits that should shape almost every edit:
 
 - The root is intentionally flat because many entries map directly to files in `$HOME`, such as `zshrc`, `gitconfig`, `vimrc`, and `tmux.conf`.
-- Installation is driven by DotBot through [`install`](./install) and [`install.conf.yaml`](./install.conf.yaml). The link map is part of the repository's public structure, not incidental glue.
+- Installation is driven by the first-party Python package through [`install`](./install) and [`install.conf.yaml`](./install.conf.yaml). The link map is part of the repository's public structure, not incidental glue.
 - Shell configuration is a first-class part of the repo. `shell/`, `bash/`, `zsh/`, `cron/`, and top-level startup files are not peripheral.
-- Several large areas are vendored or submodule-backed: `dotbot/`, `dotbot-crontab/`, `vim_runtime/`, `vim/bundle/`, `tmux/plugins/`, `zsh/plugins/`, and parts of `third-party/`.
+- Several large areas are vendored or submodule-backed: `vim_runtime/`, `vim/bundle/`, `tmux/plugins/`, `zsh/plugins/`, and parts of `third-party/`.
 - Python and TypeScript exist mainly to support utilities, templates, and automation, not to form a single monorepo application.
 
 The repository should continue to feel hand-built and intentional. Avoid turning it into a framework or a generalized platform unless there is a very strong reason.
@@ -78,8 +78,6 @@ Recommended rule:
 
 The following areas are not normal first-party style sources:
 
-- `dotbot/`
-- `dotbot-crontab/`
 - `vim_runtime/`
 - `vim/bundle/`
 - `tmux/plugins/`
@@ -105,7 +103,7 @@ Observed patterns:
 - Link destinations are declared explicitly and grouped by tool or area.
 - `create` and `relink` are enabled globally.
 - install-time shell commands are concise and operational rather than abstracted away.
-- cron setup is declared in DotBot config rather than hidden in ad hoc scripts.
+- cron setup is declared in the install config rather than hidden in ad hoc scripts.
 
 Rules:
 
@@ -113,7 +111,7 @@ Rules:
 - Keep the link map readable. Group related entries together and preserve the existing shape of the file.
 - Prefer explicit link entries over clever indirection.
 - If a file should not be installed automatically, do not add it to the link map just because it exists in the repo.
-- Installer logic belongs in DotBot config or the root `install` entrypoint, not scattered across unrelated startup files.
+- Installer logic belongs in the `dotfiles/` package, the install config, or the root `install` entrypoint, not scattered across unrelated startup files.
 
 Do not make the bootstrap story harder to inspect than it already is.
 
@@ -188,7 +186,7 @@ Use these as the primary style sources for new Python:
 - [`python/template/pyproject.toml`](./python/template/pyproject.toml)
 - the package-first recommendations in the repository prompt and this document
 
-Do not infer Python style from vendored code in `dotbot/` or `dotbot-crontab/`.
+Do not infer Python style from vendored or submodule-backed code.
 
 ### Structure
 
@@ -337,7 +335,7 @@ Validation in this repo should match the kind of artifact being changed.
 
 - verify that `install.conf.yaml` still reads clearly
 - check that new link paths are correct on both repo and destination sides
-- if practical, run the relevant DotBot path rather than assuming the mapping is correct
+- if practical, run the installer path rather than assuming the mapping is correct
 
 This repo does not need maximal test coverage. It does need honest, targeted validation.
 

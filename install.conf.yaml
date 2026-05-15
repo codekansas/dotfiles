@@ -3,6 +3,14 @@
       create: true
       relink: true
 
+- profiles:
+    local:
+      description: Install everything for a local workstation.
+    devbox:
+      description: Install dotfiles without local scheduled jobs or package-manager changes.
+      skip:
+        - crontab
+
 - clean: ["~", "~/.config"]
 
 - create:
@@ -28,7 +36,6 @@
     ~/.scripts:
     ~/.pdbrc:
     ~/.shell:
-    ~/.slurm:
     ~/.bash:
     ~/.bashrc:
     ~/.bash_profile:
@@ -92,16 +99,18 @@
     ~/.ssh/config.d: ssh/config.d
 
 - shell:
-    - [git submodule update --init --recursive, Installing submodules]
+    - [
+        "git config --file .gitmodules --get-regexp path | awk '{print $2}' | xargs git submodule update --init --recursive --",
+        Installing submodules,
+      ]
     - [if command -v zsh ; then ~/.zsh/oh-my-zsh.sh ; fi, Installing oh-my-zsh]
     - [
         mkdir -p ~/.ssh/sockets && chmod 700 ~/.ssh/sockets,
         Creating sockets folder,
       ]
-    - [
-        if command -v brew ; then brew bundle --file=~/.dotfiles/Brewfile & ; fi,
-        Installing Homebrew packages,
-      ]
+    - command: if command -v brew ; then brew bundle --file=~/.dotfiles/Brewfile & ; fi
+      description: Installing Homebrew packages
+      profiles: [local]
     - [
         if command -v tmux && tmux info &> /dev/null ; then tmux source ~/.tmux.conf && ~/.tmux/plugins/tpm/bin/install_plugins ; fi,
         Installing Tmux,

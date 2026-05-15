@@ -8,9 +8,6 @@
 *.o
 *.so
 
-# Slurm
-slurm_snapshot_code
-
 # Logs
 *.log
 *.sql

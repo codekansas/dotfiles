@@ -1,19 +1,74 @@
 #!/usr/bin/env bash
 
-set -e
+set -euo pipefail
 
-CONFIG="install.conf.yaml"
-DOTBOT_DIR="dotbot"
-
-DOTBOT_BIN="bin/dotbot"
 BASEDIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+CONFIG="${BASEDIR}/install.conf.yaml"
+MIN_PYTHON_MAJOR=3
+MIN_PYTHON_MINOR=12
 
 cd "${BASEDIR}"
-git -C "${DOTBOT_DIR}" submodule sync --quiet --recursive
-git submodule update --init --recursive "${DOTBOT_DIR}"
 
-"${BASEDIR}/${DOTBOT_DIR}/${DOTBOT_BIN}" \
-    -d "${BASEDIR}" \
-    -c "${CONFIG}" \
-    --plugin-dir dotbot-crontab \
-    "${@}"
+find_uv() {
+    if [[ -n "${UV:-}" && -x "${UV}" ]]; then
+        printf '%s\n' "${UV}"
+        return 0
+    fi
+
+    if command -v uv >/dev/null 2>&1; then
+        command -v uv
+        return 0
+    fi
+
+    local candidate
+    for candidate in \
+        "${HOME:-}/.local/bin/uv" \
+        "${HOME:-}/.cargo/bin/uv" \
+        /opt/homebrew/bin/uv \
+        /usr/local/bin/uv; do
+        if [[ -x "${candidate}" ]]; then
+            printf '%s\n' "${candidate}"
+            return 0
+        fi
+    done
+    return 1
+}
+
+if UV_BIN="$(find_uv)"; then
+    exec "${UV_BIN}" run --python "${MIN_PYTHON_MAJOR}.${MIN_PYTHON_MINOR}" --project "${BASEDIR}" dotfiles-install -d "${BASEDIR}" -c "${CONFIG}" "$@"
+fi
+
+python_is_supported() {
+    local python_bin="$1"
+    "${python_bin}" -c "import sys; raise SystemExit(sys.version_info[:2] != (${MIN_PYTHON_MAJOR}, ${MIN_PYTHON_MINOR}))"
+}
+
+find_python() {
+    if [[ -n "${PYTHON:-}" ]] && python_is_supported "${PYTHON}"; then
+        printf '%s\n' "${PYTHON}"
+        return 0
+    fi
+
+    local candidate
+    for candidate in python3.12 python3; do
+        if command -v "${candidate}" >/dev/null 2>&1 && python_is_supported "${candidate}"; then
+            command -v "${candidate}"
+            return 0
+        fi
+    done
+    return 1
+}
+
+if ! PYTHON_BIN="$(find_python)"; then
+    echo "Could not find uv or Python ${MIN_PYTHON_MAJOR}.${MIN_PYTHON_MINOR}; install uv or set PYTHON." >&2
+    exit 1
+fi
+VENV="${DOTFILES_VENV:-${BASEDIR}/.venv}"
+
+if [[ ! -x "${VENV}/bin/python" ]]; then
+    "${PYTHON_BIN}" -m venv "${VENV}"
+fi
+
+"${VENV}/bin/python" -m pip install --quiet --upgrade pip
+"${VENV}/bin/python" -m pip install --quiet --editable "${BASEDIR}"
+exec "${VENV}/bin/dotfiles-install" -d "${BASEDIR}" -c "${CONFIG}" "$@"
