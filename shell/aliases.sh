@@ -142,6 +142,9 @@ alias kill-stopped='kill -9 `jobs -ps`'
 # kill python jobs
 alias killall-py='killall -u ${USER} -n python'
 
+# bolte cli
+alias b='bolte'
+
 # show a warning if startup takes longer than this
 export SLOW_STARTUP_WARNING_MS=1000
 
