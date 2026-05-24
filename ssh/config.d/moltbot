@@ -1,6 +1,0 @@
-# .ssh/config.d/gpu
-
-# Moltbot host machine
-Host yuno-gasai
-    Hostname 100.100.228.55
-    User benjaminbolte
