@@ -1230,13 +1230,19 @@ alias cargo='load-cargo && \cargo'
 
 load-uv() {
     unalias uv 2> /dev/null
+    pathadd PATH ${HOME}/.local/bin
+    export PATH="${HOME}/.local/bin:${PATH}"
+    pathclean PATH
     if [[ -d ${HOME}/.cargo/bin/ ]]; then
         pathadd PATH ${HOME}/.cargo/bin/
     fi
     if ! command -v uv &> /dev/null; then
         echo "Installing UV"
-        curl -LsSf https://astral.sh/uv/install.sh | sh
+        curl -LsSf https://astral.sh/uv/install.sh | env UV_INSTALL_DIR="${HOME}/.local/bin" UV_NO_MODIFY_PATH=1 sh
     fi
+    pathadd PATH ${HOME}/.local/bin
+    export PATH="${HOME}/.local/bin:${PATH}"
+    pathclean PATH
     if [[ -d ${HOME}/.cargo/bin/ ]]; then
         pathadd PATH ${HOME}/.cargo/bin/
     fi
