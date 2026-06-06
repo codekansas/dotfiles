@@ -101,16 +101,16 @@ smi
 
 ### tmux
 
-Create a named `tmux` session:
+Create or attach to a `tmux` session named after the current directory:
 
 ```bash
-tmuxn <name>
+tms
 ```
 
-Attach to `tmux` as an iTerm2 window (with tab completion for session name):
+Create or attach to a named `tmux` session:
 
 ```bash
-tmuxc <name>
+tm <name>
 ```
 
 ### ssh

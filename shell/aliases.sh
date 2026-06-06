@@ -395,6 +395,15 @@ tm() {
     return 0
 }
 
+tms() {
+    local session_name=$(basename "$PWD")
+    if ! tmux has-session -t "=${session_name}" 2>/dev/null; then
+        tmux ${TMUX_ATTACH_ARGS} new-session -s "$session_name" "$@"
+    else
+        tmux ${TMUX_ATTACH_ARGS} attach -t "=${session_name}" "$@"
+    fi
+}
+
 # filter top for process regex
 topc() {
     if [[ $# -ne 1 ]]; then
