@@ -1,0 +1,3 @@
+# Read-only profile for inspection, review, and planning without file writes.
+approval_policy = "on-request"
+sandbox_mode = "read-only"

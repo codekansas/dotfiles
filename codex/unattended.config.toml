@@ -1,0 +1,7 @@
+# Sandboxed automation profile for long-running repo work where prompts would
+# block progress, while still keeping writes scoped to the workspace.
+approval_policy = "never"
+sandbox_mode = "workspace-write"
+
+[sandbox_workspace_write]
+network_access = true

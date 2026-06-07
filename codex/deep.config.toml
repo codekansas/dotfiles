@@ -1,0 +1,10 @@
+# High-effort profile for hard implementation, debugging, and review work.
+model = "gpt-5.5"
+model_reasoning_effort = "xhigh"
+approval_policy = "on-request"
+personality = "pragmatic"
+sandbox_mode = "workspace-write"
+service_tier = "fast"
+
+[sandbox_workspace_write]
+network_access = true

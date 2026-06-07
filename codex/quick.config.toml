@@ -1,0 +1,10 @@
+# Lower-latency profile for small edits, command checks, and narrow questions.
+model = "gpt-5.5"
+model_reasoning_effort = "medium"
+approval_policy = "on-request"
+personality = "pragmatic"
+sandbox_mode = "workspace-write"
+service_tier = "fast"
+
+[sandbox_workspace_write]
+network_access = true

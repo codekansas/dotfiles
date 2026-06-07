@@ -1,9 +1,15 @@
+# Default local workstation profile.
+#
+# This mirrors the durable runtime settings from ~/.codex/config.toml while
+# leaving machine-generated project trust, marketplace caches, and desktop MCP
+# wiring in the live config.
 model = "gpt-5.5"
 model_reasoning_effort = "xhigh"
 approval_policy = "on-request"
 personality = "pragmatic"
 sandbox_mode = "workspace-write"
 suppress_unstable_features_warning = true
+service_tier = "fast"
 
 [features]
 apply_patch_freeform = true
@@ -23,6 +29,8 @@ terminal_resize_reflow = true
 memories = true
 goals = true
 prevent_idle_sleep = true
+js_repl = false
+chronicle = true
 
 [sandbox_workspace_write]
 network_access = true

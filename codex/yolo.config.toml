@@ -1,0 +1,3 @@
+# Full-access automation profile for trusted local maintenance only.
+approval_policy = "never"
+sandbox_mode = "danger-full-access"

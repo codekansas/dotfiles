@@ -11,7 +11,7 @@
       skip:
         - crontab
 
-- clean: ["~", "~/.config"]
+- clean: ["~", "~/.config", "~/.codex"]
 
 - create:
     - ~/.tmux/plugins
@@ -42,7 +42,9 @@
     ~/.profile:
     ~/.cron:
     ~/.cron-local/bin: cron-local/bin
-    ~/.codex/config_template.toml: codex/config_template.toml
+    ~/.codex:
+      path: codex/*.config.toml
+      glob: true
     ~/.codex/AGENTS.md: codex/AGENTS.md
     ~/.codex/skills/address-pr-comments: codex/skills/address-pr-comments
     ~/.codex/skills/batch: codex/skills/batch
