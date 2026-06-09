@@ -20,6 +20,7 @@
     - ~/.ipython/profile_default
     - ~/.jupyter
     - ~/.codex/skills
+    - ~/.codex/rules
 
 - link:
     ~/.dotfiles: ""
@@ -46,6 +47,9 @@
       path: codex/*.config.toml
       glob: true
     ~/.codex/AGENTS.md: codex/AGENTS.md
+    ~/.codex/rules/default.rules:
+      path: codex/rules/default.rules
+      force: true
     ~/.codex/skills/address-pr-comments: codex/skills/address-pr-comments
     ~/.codex/skills/batch: codex/skills/batch
     ~/.codex/skills/code-cleanup: codex/skills/code-cleanup
