@@ -2,6 +2,7 @@
 model = "gpt-5.5"
 model_reasoning_effort = "medium"
 approval_policy = "on-request"
+approvals_reviewer = "auto_review"
 personality = "pragmatic"
 sandbox_mode = "workspace-write"
 service_tier = "fast"
