@@ -347,6 +347,7 @@
   "workbench.editor.revealIfOpen": true,
   "workbench.editor.closeEmptyGroups": false,
   "workbench.editor.closeOnFileDelete": true,
+  "workbench.secondarySideBar.defaultVisibility": "hidden",
   "workbench.editorAssociations": {
     "*.ipynb": "jupyter-notebook",
   },
@@ -378,7 +379,9 @@
   "window.zoomLevel": -1,
 
   /* Chat */
-  "chat.agent.enabled": true,
+  "chat.disableAIFeatures": true,
+  "chat.agent.enabled": false,
+  "chatgpt.openOnStartup": false,
 
   /* Editor */
   "editor.inlineSuggest.enabled": true,
