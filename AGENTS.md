@@ -1,5 +1,10 @@
 # Global Guidelines
 
+## General
+
+- Always communicate with the user concisely, using advanced, specific vocabulary. Assume the reader has a sophisticated, postgraduate vocabulary.
+- Prefer equations and visuals to prose when communicating ideas.
+
 ## Javascript
 
 ### Framework Preferences
