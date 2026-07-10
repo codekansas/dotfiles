@@ -144,6 +144,9 @@ prefix_rule(pattern=["swift", "test"], decision="auto_review")
 prefix_rule(pattern=["swift", "format"], decision="auto_review")
 prefix_rule(pattern=["xcodebuild"], decision="auto_review")
 
+# System
+prefix_rule(pattern=["ps", "ax", "-o", "pid=,command="], decision="allow")
+
 # Bolte CLI
 prefix_rule(pattern=["bolte", "wiki"], decision="allow")
 prefix_rule(pattern=["bolte", "path"], decision="allow")
