@@ -377,9 +377,6 @@
   "security.workspace.trust.untrustedFiles": "open",
   "git.openRepositoryInParentFolders": "never",
   "window.zoomLevel": -1,
-
-  /* Chat */
-  "chat.disableAIFeatures": true,
   "chat.agent.enabled": false,
   "chatgpt.openOnStartup": false,
 

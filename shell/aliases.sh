@@ -125,6 +125,22 @@ alias update-vscode="brew upgrade --cask visual-studio-code"
 alias install-agy="brew install --cask antigravity"
 alias update-agy="brew upgrade --cask antigravity"
 
+# list usb devices
+lsusb() {
+    ioreg -p IOUSB -l -w 0 | perl -ne '
+        if (/^[ |]*\+-o (.+?)@.*<class IOUSBHostDevice/) {
+            emit(); $name=$1; $vendor=$product=undef
+        }
+        $vendor=$1  if defined($name) && /"idVendor" = (\d+)/;
+        $product=$1 if defined($name) && /"idProduct" = (\d+)/;
+        END { emit() }
+        sub emit {
+            printf "%04x:%04x  %s\n", $vendor, $product, $name
+            if defined $name && defined $vendor && defined $product
+        }
+    '
+}
+
 export EXTENSION_LIST_URL='https://gist.github.com/codekansas/7248380bdf07d6eac42274a4e6f62166/raw'
 alias install-vscode-extensions="curl -L $EXTENSION_LIST_URL | xargs -n 1 code --install-extension"
 alias install-cursor-extensions="curl -L $EXTENSION_LIST_URL | xargs -n 1 cursor --install-extension"
