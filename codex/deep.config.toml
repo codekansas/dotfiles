@@ -1,6 +1,6 @@
 # High-effort profile for hard implementation, debugging, and review work.
-model = "gpt-5.5"
-model_reasoning_effort = "xhigh"
+model = "gpt-5.6-sol"
+model_reasoning_effort = "ultra"
 approval_policy = "on-request"
 approvals_reviewer = "auto_review"
 personality = "pragmatic"

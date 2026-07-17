@@ -3,8 +3,8 @@
 # This mirrors the durable runtime settings from ~/.codex/config.toml while
 # leaving machine-generated project trust, marketplace caches, and desktop MCP
 # wiring in the live config.
-model = "gpt-5.5"
-model_reasoning_effort = "xhigh"
+model = "gpt-5.6"
+model_reasoning_effort = "medium"
 approval_policy = "on-request"
 approvals_reviewer = "auto_review"
 personality = "pragmatic"
@@ -35,6 +35,3 @@ chronicle = true
 
 [sandbox_workspace_write]
 network_access = true
-
-[tui.model_availability_nux]
-"gpt-5.5" = 4

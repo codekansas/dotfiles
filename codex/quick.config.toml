@@ -1,5 +1,5 @@
 # Lower-latency profile for small edits, command checks, and narrow questions.
-model = "gpt-5.5"
+model = "gpt-5.6-terra"
 model_reasoning_effort = "medium"
 approval_policy = "on-request"
 approvals_reviewer = "auto_review"
