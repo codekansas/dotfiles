@@ -5,7 +5,6 @@ approval_policy = "on-request"
 approvals_reviewer = "auto_review"
 personality = "pragmatic"
 sandbox_mode = "workspace-write"
-service_tier = "fast"
 
 [sandbox_workspace_write]
 network_access = true
